@@ -1,0 +1,182 @@
+body {
+    background-color: #0D1B2E;
+}
+
+/* NAVBAR */
+.header {
+    width: 100vw;
+    padding: 2.5vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    background: transparent;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 4vw;
+    background: #1A3358;
+    border-radius: 100px;
+    padding: 1.5vh 3vw;
+    box-shadow: 0 0.3vh 2vh rgba(0, 0, 0, 0.06);
+}
+
+.navbar a {
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.6vh;
+    font-weight: 400;
+    color: #6E87A2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: #1A3358;
+}
+
+.navbar a:hover {
+    color: #f5a623;
+}
+
+
+/* DASHBOARD */
+
+.dashboard {
+    margin-top: 12vh;
+    padding: 2vh 3vw;
+}
+
+
+.dashTitulo h1 {
+    color: white;
+    font-size: 3vh;
+}
+
+.dashTitulo b {
+    color: #F5BA5A;
+}
+
+
+.kpis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3vh;
+    gap: 1vw;
+}
+
+.kpis div {
+    width: 18%;
+    height: 12vh;
+    background: #112240;
+    border-radius: 1vh;
+    padding: 1.5vh;
+}
+
+.kpis p {
+    color: #8FA6C1;
+    font-size: 1.7vh;
+}
+
+.kpis h2 {
+    color: white;
+    margin-top: 1vh;
+}
+
+
+.graficos {
+    display: flex;
+    gap: 2vw;
+    margin-top: 4vh;
+}
+
+.graficos h3 {
+    margin-top: 0;
+}
+
+.listaEventos {
+    width: 20%;
+    height: 50vh;
+    background: #112240;
+    border-radius: 1vh;
+    padding: 2vh;
+}
+
+.listaTopo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+}
+
+.tituloEventos span {
+    color: #6E87A2;
+    font-size: 1.5vh;
+}
+
+.tituloEventos h3 {
+    margin: 0;
+}
+
+.eventosOpcoes {
+    display: flex;
+}
+
+.eventosOpcoes button {
+    background: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.eventosOpcoes button:hover {
+    background: #1A3358;
+}
+
+.editarEvento, .excluirEvento {
+    display: flex;
+    background-color: aquamarine;
+    border-radius: 3px;
+    width: 2vw;
+    height: 4vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.editarEvento {
+    margin-right: 0.5vw;
+}
+
+.evento {
+    background: #1A3358;
+    margin-top: 1vh;
+    padding: 0.4vh;
+    padding-left: 0.7vw;
+    border-radius: 0.8vh;
+    color: white;
+    font-size: 1.4vh;
+}
+
+.evento span {
+    color: #C9A84C;
+}
+
+.graficoLinha {
+    width: 40%;
+    height: 50vh;
+    background: #112240;
+    border-radius: 1vh;
+    padding: 2vh;
+}
+
+
+.mapaCalor {
+    width: 40%;
+    height: 50vh;
+    background: #112240;
+    border-radius: 1vh;
+    padding: 2vh;
+}
+
+.graficos h3 {
+    color: white;
+}
