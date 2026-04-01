@@ -1,0 +1,40 @@
+body {
+    background-color: #0D1B2E;
+}
+
+/* NAVBAR */
+.header {
+    width: 100vw;
+    padding: 2.5vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    background: transparent;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 4vw;
+    background: #1A3358;
+    border-radius: 100px;
+    padding: 1.5vh 3vw;
+    box-shadow: 0 0.3vh 2vh rgba(0, 0, 0, 0.06);
+}
+
+.navbar a {
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.6vh;
+    font-weight: 400;
+    color: #6E87A2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: #1A3358;
+}
+
+.navbar a:hover {
+    color: #f5a623;
+}
