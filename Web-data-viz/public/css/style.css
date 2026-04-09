@@ -79,6 +79,15 @@ body {
     color: #f5a623;
 }
 
+.navbar a.active {
+    color: #1A3358;
+    background: #F5BA5A;
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-weight: 700;
+    transition: color .18s, background .18s;
+}
+
 /* BANNER */
 .banner {
     height: 55vh;
@@ -310,7 +319,7 @@ body {
 
 .carrossel {
     position: relative;
-    height: 40vh;
+    height: 44vh;
 }
 
 .carrossel-slide {
@@ -320,6 +329,7 @@ body {
     grid-template-columns: 1fr 1fr;
     opacity: 0;
     pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
 .carrossel-slide.ativo {
@@ -330,38 +340,42 @@ body {
 .carrossel-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;    
-    object-position: center;    
+    object-fit: cover;
+    object-position: center;
     display: block;
 }
 
 .carrossel-info {
     background: #000e3a;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4vh 2.5vw;
+    padding: 2vh 4vw 6vh;
+    gap: 0;
 }
 
 .carrossel-info-card {
     display: flex;
     flex-direction: column;
-    gap: 1.5vh;
-    text-align: center; 
+    gap: 1.4vh;
+    text-align: center;
+    max-width: 380px;
+    width: 100%;
 }
 
 .carrossel-tag {
     font-family: 'Syne', sans-serif;
-    font-size: 1.3vh;
+    font-size: 1.5vh;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #f5a623;
 }
 
 .carrossel-titulo {
     font-family: 'Syne', sans-serif;
-    font-size: 2.5vh;
+    font-size: 3.2vh;
     font-weight: 800;
     color: white;
     line-height: 1.3;
@@ -369,18 +383,18 @@ body {
 
 .carrossel-texto {
     font-family: 'Roboto', sans-serif;
-    font-size: 1.7vh;
+    font-size: 1.9vh;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.65);
-    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
 }
 
 .carrossel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 5vh;
-    height: 5vh;
+    width: 4.5vh;
+    height: 4.5vh;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.9);
@@ -390,7 +404,8 @@ body {
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 0.3vh 1.5vh rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.3vh 1.5vh rgba(0, 0, 0, 0.2);
+    transition: background 0.2s, transform 0.2s;
 }
 
 .carrossel-btn:hover {
@@ -404,27 +419,27 @@ body {
 
 .carrossel-dots {
     position: absolute;
-    bottom: 1.5vh;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 2vh;
+    right: 3vw;
     display: flex;
-    gap: 1vw;
+    gap: 8px;
     z-index: 10;
 }
 
 .carrossel-dot {
-    width: 1vh;
-    height: 1vh;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.35);
     cursor: pointer;
     padding: 0;
+    transition: background 0.2s, transform 0.2s;
 }
 
 .carrossel-dot--active {
     background: #f5a623;
-    transform: scale(1.25);
+    transform: scale(1.3);
 }
 
 /*   SEÇÃO: A MELHOR FASE */
@@ -608,19 +623,28 @@ body {
     font-weight: 300;
 }
 
-/*  RESPONSIVO — max-width: 900px */
+/* ── RESPONSIVO: TABLET (≤ 900px) ── */
 @media (max-width: 900px) {
 
     /* Navbar */
-    .navbar {
-        gap: 3vw;
-        padding: 1.5vh 4vw;
+    .header {
+        padding: 1.5vh 3vw;
     }
 
-    .navbar a:nth-child(2),
-    .navbar a:nth-child(3),
-    .navbar a:nth-child(4) {
-        display: none;
+    .navbar {
+        gap: 2vw;
+        padding: 1.2vh 3vw;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        max-width: 94vw;
+        scrollbar-width: none;
+    }
+
+    .navbar::-webkit-scrollbar { display: none; }
+
+    .navbar a {
+        font-size: 1.4vh;
+        white-space: nowrap;
     }
 
     /* Banner */
@@ -629,12 +653,12 @@ body {
     }
 
     .banner-titulo {
-        font-size: 7vh;
+        font-size: 6vh;
     }
 
     .banner-texto {
         font-size: 1.8vh;
-        width: 70vw;
+        width: 75vw;
     }
 
     /* Por que criamos */
@@ -669,7 +693,7 @@ body {
         font-size: 3.5vh;
     }
 
-    /* Carrossel — empilha imagem em cima do texto */
+    /* Carrossel */
     .destinos-container {
         max-width: 90vw;
     }
@@ -726,5 +750,105 @@ body {
     .footer-nav {
         flex-wrap: wrap;
         gap: 2vw;
+    }
+}
+
+/* ── RESPONSIVO: MOBILE (≤ 600px) ── */
+@media (max-width: 600px) {
+
+    /* Navbar */
+    .navbar {
+        gap: 4vw;
+        padding: 1vh 4vw;
+    }
+
+    .navbar a {
+        font-size: 12px;
+    }
+
+    .navbar a.active {
+        padding: 5px 12px;
+    }
+
+    .navbar-logo img {
+        height: 26px;
+    }
+
+    /* Banner */
+    .banner {
+        height: 40vh;
+    }
+
+    .banner-titulo {
+        font-size: 5vh;
+    }
+
+    .banner-texto {
+        font-size: 14px;
+        width: 88vw;
+    }
+
+    /* Por que criamos */
+    .porque {
+        padding: 6vh 0;
+    }
+
+    .porque-titulo {
+        font-size: 3vh;
+    }
+
+    .porque-card {
+        flex-direction: column;
+        gap: 2vh;
+    }
+
+    /* Solução — 1 coluna */
+    .solucao-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .solucao-card--destaque {
+        grid-column: 1;
+    }
+
+    .solucao-titulo {
+        font-size: 3vh;
+    }
+
+    /* Carrossel */
+    .carrossel-slide {
+        grid-template-rows: 20vh auto;
+    }
+
+    .destinos-titulo {
+        font-size: 3vh;
+    }
+
+    /* Melhor fase — 1 coluna */
+    .melhor-fase-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .melhor-fase-card--destaque {
+        grid-column: 1;
+    }
+
+    .melhor-fase-titulo {
+        font-size: 3vh;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 4vh;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        gap: 1.5vh;
+    }
+
+    .footer-socials {
+        justify-content: flex-start;
     }
 }

@@ -3,9 +3,13 @@ const fields = [
   "email",
   "nascimento",
   "telefone",
-  "endereco",
   "cep",
+  "longradouro",
+  "numero",
+  "complemento",
+  "bairro",
   "cidade",
+  "estado",
 ];
 let original = {};
 let toastTimer = null;
@@ -76,7 +80,7 @@ function saveProfile() {
   const email = document.getElementById("email").value.trim();
   const nasc = document.getElementById("nascimento").value;
   const telefone = document.getElementById("telefone").value.trim();
-  const endereco = document.getElementById("endereco").value.trim();
+  const longradouro = document.getElementById("longradouro").value.trim();
   const cep = document.getElementById("cep").value.trim();
   const cidade = document.getElementById("cidade").value.trim();
 
@@ -126,14 +130,21 @@ function saveProfile() {
     }
   }
 
-  if (!endereco) {
-    setError("endereco", "Endereço é obrigatório.");
+  if (!longradouro) {
+    setError("longradouro", "Logradouro é obrigatório.");
     valid = false;
   }
+
+  // ── Validação de CEP aprimorada
+  const cepDigits = cep.replace(/\D/g, "");
   if (!cep) {
     setError("cep", "CEP é obrigatório.");
     valid = false;
+  } else if (cepDigits.length !== 8) {
+    setError("cep", "CEP inválido (deve ter 8 dígitos).");
+    valid = false;
   }
+
   if (!cidade) {
     setError("cidade", "Cidade é obrigatória.");
     valid = false;
@@ -202,12 +213,77 @@ function showToast(msg, isError) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
 }
 
+// ── Máscara do CEP
 document.getElementById("cep").addEventListener("input", function () {
   let v = this.value.replace(/\D/g, "").slice(0, 8);
   if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
   if (!this.value.includes("SP")) this.value = v;
 });
 
+// ── Integração ViaCEP: dispara ao sair do campo (blur)
+document.getElementById("cep").addEventListener("blur", async function () {
+  const cepDigits = this.value.replace(/\D/g, "");
+
+  if (cepDigits.length !== 8) return;
+
+  // Feedback visual de carregamento
+  this.disabled = true;
+  this.style.opacity = "0.6";
+
+  try {
+    const response = await fetch(
+      `https://viacep.com.br/ws/${cepDigits}/json/`
+    );
+
+    if (!response.ok) throw new Error("Erro na requisição");
+
+    const data = await response.json();
+
+    if (data.erro) {
+      setError("cep", "CEP não encontrado.");
+      return;
+    }
+
+    // Preenche campos automaticamente
+    if (data.logradouro) {
+      document.getElementById("longradouro").value = data.logradouro;
+    }
+    if (data.bairro) {
+      document.getElementById("bairro").value = data.bairro;
+    }
+    if (data.localidade) {
+      document.getElementById("cidade").value = data.localidade;
+    }
+    if (data.uf) {
+      document.getElementById("estado").value = data.uf;
+    }
+
+    // Trava os campos preenchidos pelo ViaCEP
+    ["longradouro", "bairro", "cidade", "estado"].forEach((id) => {
+      const el = document.getElementById(id);
+      el.readOnly = true;
+      el.classList.add("readonly-viacep");
+    });
+
+    // Limpa número e complemento para o usuário preencher
+    document.getElementById("numero").value = "";
+    document.getElementById("complemento").value = "";
+
+    clearError("cep");
+    onInput(); // atualiza badge de alterações
+
+    // Foca no campo número para o usuário completar
+    document.getElementById("numero").focus();
+  } catch (e) {
+    setError("cep", "Erro ao buscar CEP. Tente novamente.");
+  } finally {
+    // Remove feedback visual de carregamento
+    this.disabled = false;
+    this.style.opacity = "";
+  }
+});
+
+// ── Máscara do telefone
 document.getElementById("telefone").addEventListener("input", function () {
   let v = this.value.replace(/\D/g, "").slice(0, 11);
   if (v.length >= 11)

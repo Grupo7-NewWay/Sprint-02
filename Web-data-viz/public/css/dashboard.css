@@ -39,6 +39,28 @@ body {
     color: #f5a623;
 }
 
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    padding: 0 !important;
+    background: none !important;
+}
+
+.navbar-logo img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+}
+
+.navbar a.active {
+    color: #1A3358;
+    background: #F5BA5A;
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-weight: 700;
+    transition: color .18s, background .18s;
+}
+
 
 /* DASHBOARD */
 
@@ -179,4 +201,105 @@ body {
 
 .graficos h3 {
     color: white;
+}
+
+/* ── RESPONSIVO: TABLET (≤ 900px) ── */
+@media (max-width: 900px) {
+
+    /* Navbar */
+    .navbar {
+        gap: 2vw;
+        padding: 1.2vh 3vw;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        max-width: 94vw;
+        scrollbar-width: none;
+    }
+
+    .navbar::-webkit-scrollbar { display: none; }
+
+    .navbar a {
+        font-size: 1.4vh;
+        white-space: nowrap;
+    }
+
+    /* KPIs — 3 por linha */
+    .kpis {
+        flex-wrap: wrap;
+        gap: 2vw;
+    }
+
+    .kpis div {
+        width: calc(33.33% - 2vw);
+        min-width: 120px;
+    }
+
+    /* Gráficos — empilha */
+    .graficos {
+        flex-direction: column;
+        gap: 2vh;
+    }
+
+    .listaEventos,
+    .graficoLinha,
+    .mapaCalor {
+        width: 100%;
+        height: 30vh;
+    }
+}
+
+/* ── RESPONSIVO: MOBILE (≤ 600px) ── */
+@media (max-width: 600px) {
+
+    /* Navbar */
+    .navbar {
+        gap: 4vw;
+        padding: 1vh 4vw;
+    }
+
+    .navbar a {
+        font-size: 12px;
+    }
+
+    .navbar a.active {
+        padding: 5px 12px;
+    }
+
+    .navbar-logo img {
+        height: 26px;
+    }
+
+    /* Dashboard */
+    .dashboard {
+        margin-top: 14vh;
+        padding: 2vh 4vw;
+    }
+
+    .dashTitulo h1 {
+        font-size: 2.5vh;
+    }
+
+    /* KPIs — 2 por linha */
+    .kpis {
+        flex-wrap: wrap;
+        gap: 3vw;
+    }
+
+    .kpis div {
+        width: calc(50% - 3vw);
+        height: auto;
+        min-height: 10vh;
+    }
+
+    /* Botões de evento */
+    .editarEvento,
+    .excluirEvento {
+        width: 28px;
+        height: 28px;
+    }
+
+    .evento {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
 }
