@@ -6,7 +6,7 @@ var validEmail = false;
 var validTel = false;
 var validCnpj = false;
 
-function cnpj(value) {
+function formatarCnpj(value) {
     value = value.replace(/\D/g, "");
     value = value.replace(/(\d{2})(\d)/, "$1.$2");
     value = value.replace(/(\d{2}\.\d{3})(\d)/, "$1.$2");
@@ -17,10 +17,10 @@ function cnpj(value) {
 
 maskCnpj.addEventListener("input", function (event) {
     const cleanedInput = event.target.value.replace(/\D/g, "");
-    event.target.value = cnpj(cleanedInput);
+    event.target.value = formatarCnpj(cleanedInput);
 });
 
-function telefone(value) {
+function formatarTelefone(value) {
     value = value.replace(/\D/g, "");
     value = value.replace(/(\d{2})(\d)/, "($1) $2");
     value = value.replace(/(\(\d{2}\) \d{5})(\d)/, "$1-$2");
@@ -29,7 +29,7 @@ function telefone(value) {
 
 maskTel.addEventListener("input", function (event) {
     const cleanedInput = event.target.value.replace(/\D/g, "");
-    event.target.value = telefone(cleanedInput);
+    event.target.value = formatarTelefone(cleanedInput);
 });
 
 const emailInput = document.getElementById("input_email");
@@ -100,5 +100,7 @@ function register() {
 
         
             
-        
+      // Quando adicionar integração ao node, adicionar: 
+      // const cnpjLimpo = cnpj.replace(/\D/g, '');
+      // const telefoneLimpo = tel.replace(/\D/g, ''); 
 }
