@@ -1,62 +1,41 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+create database newway;
 
-/*
-comandos para mysql server
-*/
+use newway;
 
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+create table agencia(
+idAgencia int primary key auto_increment,
+nomeAgencia varchar(255) not null,
+cnpj varchar(14) not null unique,
+telefone varchar(15) not null unique,
+email varchar(255) not null unique,
+senha varchar(255) not null,
+dataCadastro datetime default current_timestamp,
+dataAtualizacao datetime default current_timestamp on update current_timestamp
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+create table endereco(
+idEndereco int primary key auto_increment,
+cep varchar(8) not null,
+logradouro varchar(255) not null,
+numero varchar(10) not null,
+complemento varchar(255),
+bairro varchar(255) not null,
+cidade varchar(255) not null,
+estado char(2) not null,
+idAgencia int not null, -- Coloquei a FK aqui porque se fosse ao contrário, uma agência ia ter um único endereço, e a informação do endereço passa a existir sem a agência (na vida real faz sentido, mas como dados a serem gravados para uma agência, deixa de fazer).
+	constraint fk_endereco_agencia
+		foreign key (idAgencia) 
+			references agencia(idAgencia),
+dataCadastro datetime default current_timestamp,
+dataAtualizacao datetime default current_timestamp on update current_timestamp
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+create table logs(
+idLogs int primary key auto_increment,
+dataLog datetime default current_timestamp, -- Data é uma palavra reservada no mysql, cuidado
+descricao varchar(300),
+idAgencia int not null, -- Mesma coisa da tabela endereço, de nada adianta a existência de um log sem que uma agência exista, por isso a inversão da posição da FK.
+	constraint fk_logs_agencia
+		foreign key (idAgencia)
+			references agencia(idAgencia)
 );
-
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
-);
-
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
-);
-
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
