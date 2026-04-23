@@ -46,7 +46,7 @@
         <span class="field-error" id="password-error"></span>
       </div>
 
-      <button class="create-button" type="button" id="create-button" onclick="register()">
+      <button class="create-button" type="button" id="create-button" onclick="cadastrar()">
         Criar conta
       </button>
 
@@ -90,3 +90,43 @@
   <script src="./js/cadastro.js"></script>
 </body>
 </html>
+
+<script>
+  function cadastrar() {
+
+    var nome = document.getElementById("input_agency").value;
+    var cnpj = document.getElementById("input_cnpj").value;
+    var telefone = document.getElementById("input_whatsapp").value;
+    var email = document.getElementById("input_email").value;
+    var senha = document.getElementById("input_password").value;
+
+
+    console.log("Dados capturados", nome, cnpj, telefone, email, senha);
+
+
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+          nomeServer: nome,
+          emailServer: email,
+          senhaServer: senha,
+          cnpjServer: cnpj,
+          telefoneServer: telefone
+      })
+    })
+    .then(function (resposta){
+      console.log("Resposta:", resposta);
+      return resposta.json();
+    })
+    .then(function (dados) {
+      console.log("SUCESSO", dados);
+      alert("Cadastro realizado");
+    })
+    .catch(function (erro){
+      console.log("ERRO:", erro)
+    })
+  }
+</script>
