@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,700;8..144,900&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,700;8..144,900&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="./css/cadastro.css" />
 </head>
 
@@ -86,9 +88,10 @@
       </li>
     </ul>
   </section>
-  
+
   <script src="./js/cadastro.js"></script>
 </body>
+
 </html>
 
 <script>
@@ -110,23 +113,29 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-          nomeServer: nome,
-          emailServer: email,
-          senhaServer: senha,
-          cnpjServer: cnpj,
-          telefoneServer: telefone
+        nomeServer: nome,
+        emailServer: email,
+        senhaServer: senha,
+        cnpjServer: cnpj,
+        telefoneServer: telefone
       })
     })
-    .then(function (resposta){
-      console.log("Resposta:", resposta);
-      return resposta.json();
+      .then(function (resposta) {
+        console.log("Resposta:", resposta);
+        return resposta.json().then(function (dados) {
+
+        if (resposta.ok) {
+          setTimeout(function () {
+            alert("Cadastro realizado");
+            window.location = "login.html";
+          }, 1000);
+        } else {
+          alert(dados.mensagem);
+        }
+      });
     })
-    .then(function (dados) {
-      console.log("SUCESSO", dados);
-      alert("Cadastro realizado");
-    })
-    .catch(function (erro){
-      console.log("ERRO:", erro)
-    })
-  }
+      .catch(function (erro) {
+        console.log("ERRO:", erro);
+      });
+}
 </script>

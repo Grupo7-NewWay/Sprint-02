@@ -20,10 +20,10 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                            res.json({
-                                id: resultadoAutenticar[0].idAgencia,
-                                email: resultadoAutenticar[0].email,
-                                nome: resultadoAutenticar[0].nomeAgencia
+                        res.json({
+                            id: resultadoAutenticar[0].idAgencia,
+                            email: resultadoAutenticar[0].email,
+                            nome: resultadoAutenticar[0].nomeAgencia
                         });
 
                     } else if (resultadoAutenticar.length == 0) {
@@ -48,8 +48,8 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var cnpj= req.body.cnpjServer;
-    var telefone= req.body.telefoneServer;
+    var cnpj = req.body.cnpjServer;
+    var telefone = req.body.telefoneServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -73,11 +73,24 @@ function cadastrar(req, res) {
             ).catch(
                 function (erro) {
                     console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
+                    if (erro.code === "ER_DUP_ENTRY") {
+
+                        if (erro.sqlMessage.includes("cnpj")) {
+                            return res.status(400).json({ mensagem: "CNPJ já cadastrado" });
+                        }
+
+                        if (erro.sqlMessage.includes("telefone")) {
+                            return res.status(400).json({ mensagem: "Telefone já cadastrado" });
+                        }
+
+                        if (erro.sqlMessage.includes("email")) {
+                            return res.status(400).json({ mensagem: "Email já cadastrado" });
+                        }
+
+                        return res.status(400).json({ mensagem: "Dados duplicados" });
+                    }
+
+                    res.status(500).json({ mensagem: "Erro interno no servidor" });
                 }
             );
     }

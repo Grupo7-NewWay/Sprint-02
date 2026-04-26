@@ -51,14 +51,14 @@
                 <form>
 
                     <label>E-mail</label>
-                    <input type="email" placeholder="contato@agencias.com.br">
+                    <input type="email" id="input_email" placeholder="contato@agencias.com.br">
 
                     <label>Senha</label>
-                    <input type="password">
+                    <input type="password" id="input_senha">
 
                     <a class="esqueceu-senha" onclick="mostrarReset()">Esqueci minha senha</a>
 
-                    <button type="submit">Entrar</button>
+                    <button type="button" onclick="entrar()">Entrar</button onclick>
 
                     <p class="registrar">
                         Ainda não tem conta?
@@ -81,7 +81,7 @@
                     <label>Digite seu e-mail</label>
                     <input type="email" placeholder="seuemail@email.com">
 
-                    <button type="submit">Enviar</button>
+                    <button type="button">Enviar</button>
 
                     <p class="resend">Não recebeu o e-mail? <a href="#">Reenviar</a></p>
 
@@ -103,6 +103,58 @@
 </html>
 
 <script>
+
+        function entrar() {
+
+        var email = document.getElementById("input_email").value;
+        var senha = document.getElementById("input_senha").value;
+
+        console.log("LOGIN: ", email);
+        console.log("SENHA: ", senha);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "dashboard.html";
+                    }, 1000);
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
 
     function mostrarReset() {
         document.getElementById("login-section").style.display = "none";
