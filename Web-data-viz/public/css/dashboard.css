@@ -147,6 +147,7 @@ body {
   opacity: 0.5;
 }
 .kpi-card__label {
+  font-family: "DM Mono", monospace;
   font-size: 11px;
   color: var(--muted);
   margin-bottom: 0.5rem;
