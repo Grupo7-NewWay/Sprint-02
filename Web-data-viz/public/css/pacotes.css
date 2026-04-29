@@ -1,5 +1,5 @@
 body {
-  background-color: #0d1b2e;
+  background-color: #0d1b2a;
 }
 
 /* NAVBAR */
@@ -83,8 +83,9 @@ body {
     white-space: nowrap;
   }
 }
+
 .pacotes {
-  margin-top: 10vh;
+  margin-top: 12vh;
   padding: 1vh 3vw;
 }
 
@@ -111,36 +112,11 @@ body {
   cursor: pointer;
 }
 
-/* KPIs */
-
-.kpisPacotes {
-  display: flex;
-  gap: 2vw;
-  margin-top: 0.5vh;
-}
-
-.kpisPacotes div {
-  width: 30%;
-  height: 7vh;
-  background: #132945;
-  border-radius: 1vh;
-  padding: 1.5vh;
-}
-
-.kpisPacotes p {
-  color: #8fa6c1;
-  margin: 0;
-}
-
-.kpisPacotes h2 {
-  color: white;
-}
-
 /* CONTEUDO */
 
 .conteudoPacotes {
   display: flex;
-  margin-top: 3vh;
+  margin-top: 4vh;
   gap: 2vw;
 }
 
@@ -151,7 +127,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2vh;
-  background-color: #1a3358;
+  background-color: #122236;
   border-radius: 1vh;
   max-height: 63vh;
   overflow: auto;
@@ -162,15 +138,9 @@ body {
   height: 20%;
   align-items: center;
   background: #132945;
-  border-radius: 1vh;
+  border-radius: 2vh;
   padding: 1.5vh;
   gap: 1vw;
-}
-
-.imgPacote {
-  width: 5vw;
-  height: 8vh;
-  background: #1a3358;
 }
 
 .infoPacote {
@@ -225,7 +195,7 @@ body {
 
 .formPacote {
   width: 40%;
-  background: #132945;
+  background: #122236; 
   border-radius: 1vh;
   padding: 2vh;
 }
@@ -239,25 +209,16 @@ body {
   color: #f5ba5a;
 }
 
-.imgUpload {
-  height: 10vh;
-  background: #1a3358;
-  margin: 2vh 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #8fa6c1;
-}
-
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 1.5vh;
+  margin-top: 3vh;
 }
 
 .inputs input,
 .inputs textarea {
-  background: #1a3358;
+  background: #132945;
   border: none;
   padding: 1vh;
   border-radius: 0.5vh;
@@ -267,6 +228,10 @@ body {
 .linha {
   display: flex;
   gap: 1vw;
+}
+
+.linha input {
+  width: 30vw;
 }
 
 .btnPublicar {

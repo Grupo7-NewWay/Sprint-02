@@ -18,7 +18,7 @@
       <nav class="navbar">
         <a href="dashboard.html">DASHBOARD</a>
         <a href="#" class="active">PACOTES</a>
-        <a href="Perfil.html">PERFIL</a>
+        <a href="perfil.html">PERFIL</a>
         <a href="login.html">SAIR</a>
         <a href="index.html" class="navbar-logo"
           ><img
@@ -34,23 +34,6 @@
       <div class="pacotesTitulo">
         <h1>Gestão de <b>Pacotes turísticos</b></h1>
         <button class="btnNovo">+ Novo pacote</button>
-      </div>
-
-      <div class="kpisPacotes">
-        <div class="kpiPacote1">
-          <p>KPI?</p>
-          <h2>1</h2>
-        </div>
-
-        <div class="kpiPacote2">
-          <p>KPI?</p>
-          <h2>2</h2>
-        </div>
-
-        <div class="kpiPacote3">
-          <p>KPI?</p>
-          <h2>3</h2>
-        </div>
       </div>
 
       <div class="conteudoPacotes">
@@ -147,16 +130,12 @@
         <div class="formPacote">
           <h2>Criar <b>Novo Pacote</b></h2>
 
-          <div class="imgUpload">
-            <p>Clique para selecionar imagem de capa</p>
-          </div>
-
           <div class="inputs">
             <input type="text" placeholder="Nome do pacote" />
 
             <div class="linha">
               <input type="text" placeholder="Categoria" />
-              <input type="text" placeholder="Destino" />
+              <input class="destino" type="text" placeholder="Destino" />
             </div>
 
             <div class="linha">
@@ -164,7 +143,7 @@
               <input type="text" placeholder="Preço" />
             </div>
 
-            <textarea placeholder="Descrição"></textarea>
+            <input placeholder="Descrição"></input>
 
             <div class="linha">
               <input type="text" placeholder="Vagas" />
