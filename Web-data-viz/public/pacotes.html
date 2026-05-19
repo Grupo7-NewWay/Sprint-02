@@ -131,31 +131,82 @@
           <h2>Criar <b>Novo Pacote</b></h2>
 
           <div class="inputs">
-            <input type="text" placeholder="Nome do pacote" />
+            <input id="ipt_nomePacote" type="text" placeholder="Nome do pacote" />
 
             <div class="linha">
-              <input type="text" placeholder="Categoria" />
-              <input class="destino" type="text" placeholder="Destino" />
+              <input id="ipt_categoria" type="text" placeholder="Categoria" />
+              <input id="ipt_destino" class="destino" type="text" placeholder="Destino" />
             </div>
 
             <div class="linha">
-              <input type="text" placeholder="Duração (dias)" />
-              <input type="text" placeholder="Preço" />
+              <input id="ipt_duracao" type="text" placeholder="Duração (dias)" />
+              <input id="ipt_preco" type="text" placeholder="Preço" />
             </div>
 
-            <input placeholder="Descrição"></input>
+            <input id="ipt_descricao" placeholder="Descrição"></input>
 
             <div class="linha">
-              <input type="text" placeholder="Vagas" />
-              <input type="text" placeholder="Data de início" />
+              <input id="ipt_vagas" type="text" placeholder="Vagas" />
+              <input id="ipt_dataInicio" type="text" placeholder="Data de início" />
             </div>
 
-            <input type="text" placeholder="Inclusões / Tags" />
+            <input id="ipt_tags" type="text" placeholder="Inclusões / Tags" />
 
-            <button class="btnPublicar">Publicar pacote</button>
+            <button class="btnPublicar" onclick="publicarPacote()">Publicar pacote</button>
           </div>
         </div>
       </div>
     </section>
   </body>
 </html>
+
+<script>
+  var nomePacote = ipt_nomePacote.value;
+  var categoria = ipt_categoria.value;
+  var destino = ipt_destino.value;
+  var duracao = ipt_duracao.value;
+  var preco = ipt_preco.value;
+  var descricao = ipt_descricao.value;
+  var vagas = ipt_vagas.value;
+  var dataInicio = ipt_dataInicio.value;
+  var tags = ipt_tags.value;
+
+  function publicarPacote() {
+    if (nomePacote == null || nomePacote.isBlank()) {
+      alert("O nome não pode estar vazio!")
+      return;
+    }
+    if (categoria == null || categoria.isBlank()) {
+      alert("A categoria não pode estar vazia!")
+      return;
+    }
+    if (destino == null || destino.isBlank()) {
+      alert("O destino não pode estar vazio!")
+      return;
+    }
+    if (duracao == null || duracao.isBlank()) {
+      alert("A duração não pode estar vazia!")
+      return;
+    }
+    if (preco == null || preco.isBlank()) {
+      alert("O preço não pode estar vazio!")
+      return;
+    }
+    if (descricao == null || descricao.isBlank()) {
+      alert("A descrição não pode estar vazia!")
+      return;
+    }
+    if (vagas == null || vagas.isBlank() || vagas < 0) {
+      alert("O número de vagas não pode estar vazio ou menor que 0!")
+      return;
+    }
+    if (dataInicio == null || dataInicio.isBlank()) {
+      alert("A data de início não pode estar vazia!")
+      return;
+    }
+
+    
+  }
+
+
+</script>
