@@ -190,11 +190,48 @@ function renderMonthlySalesChart() {
   });
 }
 
-/* === INIT === */
+
+function carregarTopRegiao() {
+  fetch("/dashboard/top-regiao")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar top região");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados || dados.length === 0) return;
+      var el = document.getElementById("kpi-top-regiao");
+      if (el) el.textContent = dados[0].municipio;
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar top região:", erro);
+    });
+}
+
+function carregarPermanenciaMedia() {
+  fetch("/dashboard/permanencia-media")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar permanência média");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-permanencia-media");
+      if (el) el.textContent = dados.permanenciaMedia + " Dias";
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar permanência média:", erro);
+    });
+}
+
+
 function initDashboard() {
   colorMapByData();
   bindMapInteractions();
   renderMonthlySalesChart();
+  carregarTopRegiao();
+  carregarPermanenciaMedia();
 }
 
 initDashboard();
