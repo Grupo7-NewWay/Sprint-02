@@ -19,4 +19,8 @@ router.get("/permanencia-media", function (req, res) {
     dashboardController.buscarPermanenciaMedia(req, res);
 });
 
+router.get("/gasto-medio", function (req, res) {
+    dashboardController.buscarGastoMedio(req, res);
+});
+
 module.exports = router;

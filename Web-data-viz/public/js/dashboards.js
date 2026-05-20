@@ -226,12 +226,30 @@ function carregarPermanenciaMedia() {
 }
 
 
+function carregarGastoMedio() {
+  fetch("/dashboard/gasto-medio")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar gasto médio");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-gasto-medio");
+      if (el) el.textContent = "R$ " + dados.gastoMedio.toLocaleString("pt-BR");
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar gasto médio:", erro);
+    });
+}
+
 function initDashboard() {
   colorMapByData();
   bindMapInteractions();
   renderMonthlySalesChart();
   carregarTopRegiao();
   carregarPermanenciaMedia();
+  carregarGastoMedio();
 }
 
 initDashboard();

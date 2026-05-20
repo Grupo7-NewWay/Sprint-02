@@ -48,6 +48,22 @@ function buscarEventosProximos(req, res) {
     });
 }
 
+function buscarGastoMedio(req, res) {
+    console.log("Recuperando gasto médio do turista");
+
+    dashboardModel.buscarGastoMedio().then(function (resultado) {
+        if (resultado.length > 0 && resultado[0].gastoMedio !== null) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar gasto médio.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function buscarPermanenciaMedia(req, res) {
     console.log("Recuperando permanência média");
 
@@ -68,5 +84,6 @@ module.exports = {
     buscarTopRegiao,
     buscarEventosPorTipo,
     buscarEventosProximos,
-    buscarPermanenciaMedia
+    buscarPermanenciaMedia,
+    buscarGastoMedio
 }

@@ -38,9 +38,19 @@ function buscarEventosProximos() {
     return database.executar(instrucaoSql);
 }
 
+function buscarGastoMedio() {
+    var instrucaoSql = `
+        SELECT ROUND(AVG(v.valor / v.qtdVenda)) as gastoMedio
+        FROM vendas v
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function buscarPermanenciaMedia() {
     var instrucaoSql = `
-        SELECT ROUND(AVG(pac.duracao), 1) as permanenciaMedia
+        SELECT ROUND(AVG(pac.duracao)) as permanenciaMedia
         FROM vendas v
         JOIN pacote pac ON v.idPacote = pac.idPacote
     `;
@@ -53,5 +63,6 @@ module.exports = {
     buscarTopRegiao,
     buscarEventosPorTipo,
     buscarEventosProximos,
-    buscarPermanenciaMedia
+    buscarPermanenciaMedia,
+    buscarGastoMedio
 }
