@@ -7,9 +7,9 @@ public class ConexaoBD {
     public static Connection conectar() {
         try {
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/newway",
-                    "root",
-                    "Th@18012903Lari#lari"
+                    "jdbc:mysql://127.0.0.1:3306/newway",
+                    "adminnewway",
+                    "urubu100"
             );
         } catch (Exception e) {
             throw new RuntimeException("Erro ao conectar no banco", e);

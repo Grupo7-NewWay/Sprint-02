@@ -12,19 +12,69 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String caminho = ".////eventos_2026.xlsx";
+
+            if (args.length == 0) {
+                throw new RuntimeException("Informe o caminho do Excel");
+            }
+
+            String caminho1= args[0];
+            String caminho2= args[0];
+
+            LeitorExcel leitorExcel = new LeitorExcel();
+            List<Eventos> eventosExtraidos = leitorExcel.extrairEventos(caminho1);
+            List<Chegadas> chegadasExtraidos = leitorExcel.extrairChegadas(caminho2);
+
+            AwsCredentialsProvider credentials = DefaultCredentialsProvider.create();
+
+            S3Provider provider = new S3Provider(credentials);
+            S3Client s3Client = provider.getS3Client();
+
+            String bucketName = "bucket-new-way";
+
+            try {
+                s3Client.createBucket(CreateBucketRequest.builder()
+                        .bucket(bucketName)
+                        .build());
+            } catch (Exception e) {
+                System.out.println("Bucket já existe");
+            }
+
+            Path filePath1 = Paths.get(caminho1);
+            Path filePath2 = Paths.get(caminho2);
+
+            s3Client.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key("eventos_2026.xlsx")
+                            .build(),
+                    RequestBody.fromFile(filePath1)
+            );
+
+            s3Client.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key("perfil.xlsx")
+                            .build(),
+                    RequestBody.fromFile(filePath2)
+            );
+
+            System.out.println("Upload finalizado");
+
+            s3Client.close();
+
+        /*String caminho = ".////eventos_2026.xlsx";
 
         LeitorExcel leitorExcel = new LeitorExcel();
         List<Eventos> eventosExtraidos = leitorExcel.extrairEventos(caminho);
 
-
-        //
         AwsCredentialsProvider credentials = DefaultCredentialsProvider.create();
 
         S3Provider provider = new S3Provider(credentials);
@@ -34,7 +84,11 @@ public class Main {
                 .bucket("bucket-new-way")
                 .build();
 
-        s3Client.createBucket(createBucketRequest);
+        try {
+            s3Client.createBucket(createBucketRequest);
+        } catch (BucketAlreadyOwnedByYouException e) {
+            System.out.println("Bucket já existe. Continuando Execução");
+        }
 
         List<Bucket> buckets = s3Client.listBuckets().buckets();
         for (Bucket bucket : buckets) {
@@ -50,14 +104,19 @@ public class Main {
             System.out.println("Objeto: " + object.key());
         }
 
-        File file = new File("C:\\Users\\SPTech\\Aula-Linguagem-Programa-o\\apache-poi-eventos\\eventos_2026.xlsx");
+        Path filePath = Paths.get(System.getProperty("user.dir"), "eventos_2026.xlsx");
 
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket("bucket-new-way")
-                .key(file.getName())
-                .build();
+        if (!Files.exists(filePath)) {
+            throw new RuntimeException("Arquivo não encontrado: " + filePath);
+        }
 
-        s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
+        s3Client.putObject(
+                PutObjectRequest.builder()
+                        .bucket("bucket-new-way")
+                        .key("eventos_2026.xlsx")
+                        .build(),
+                RequestBody.fromFile(filePath)
+        );
 
         List<S3Object> objects2 = s3Client.listObjects(listObjects).contents();
         for (S3Object object : objects2) {
@@ -80,6 +139,8 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
+         */
 
         /*
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()

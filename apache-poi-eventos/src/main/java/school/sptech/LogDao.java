@@ -36,28 +36,22 @@ public class LogDao {
         public void salvar(String tipo, String descricao) {
 
             //System.out.println("[" + tipo + "] " + descricao);
-            System.out.println("INSERT INTO logs VALUES ("
-                    + tipo + ", "
-                    + LocalDateTime.now() + ", "
-                    + descricao + ", 1)");
-
-            String sqlLogs = """
-            INSERT INTO logs (tipo, dateTimeLog, descricao, idAgencia)
-            VALUES (?, ?, ?, ?)
-        """;
+            String sql = "INSERT INTO logs (tipo, dateTimeLog, descricao, idAgencia) VALUES (?, ?, ?, ?)";
 
             try (Connection con = ConexaoBD.conectar();
-                 PreparedStatement ps = con.prepareStatement(sqlLogs)) {
+                 PreparedStatement ps = con.prepareStatement(sql)) {
 
                 ps.setString(1, tipo);
-                ps.setObject(2, LocalDateTime.now());
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
                 ps.setString(3, descricao);
                 ps.setInt(4, 1);
 
                 ps.executeUpdate();
 
-            } catch (Exception e) {
-                System.out.println("Erro ao salvar log no banco" + e.getMessage());
+                System.out.println("Log salvo com sucesso!");
+
+            } catch (SQLException ex) {
+                System.out.println("ERRO ao salvar log no banco: " + ex.getMessage());
             }
         }
 }
