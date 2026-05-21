@@ -190,11 +190,102 @@ function renderMonthlySalesChart() {
   });
 }
 
-/* === INIT === */
+
+function carregarTopRegiao() {
+  fetch("/dashboard/top-regiao")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar top região");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados || dados.length === 0) return;
+      var el = document.getElementById("kpi-top-regiao");
+      if (el) el.textContent = dados[0].municipio;
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar top região:", erro);
+    });
+}
+
+function carregarPermanenciaMedia() {
+  fetch("/dashboard/permanencia-media")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar permanência média");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-permanencia-media");
+      if (el) el.textContent = dados.permanenciaMedia + " Dias";
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar permanência média:", erro);
+    });
+}
+
+
+function carregarGastoMedio() {
+  fetch("/dashboard/gasto-medio")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar gasto médio");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-gasto-medio");
+      if (el) el.textContent = "R$ " + dados.gastoMedio.toLocaleString("pt-BR");
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar gasto médio:", erro);
+    });
+}
+
+function carregarTaxaConversao() {
+  fetch("/dashboard/taxa-conversao")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar taxa de conversão");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-taxa-conversao");
+      if (el) el.textContent = dados.taxaConversao.toLocaleString("pt-BR") + "%";
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar taxa de conversão:", erro);
+    });
+}
+
+function carregarTotalMensalVisitas() {
+  fetch("/dashboard/total-mensal-visitas")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar total mensal de visitas");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-total");
+      if (el) el.textContent = dados.totalVisitas.toLocaleString("pt-BR");
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar total mensal de visitas:", erro);
+    });
+}
+
 function initDashboard() {
   colorMapByData();
   bindMapInteractions();
   renderMonthlySalesChart();
+  carregarTopRegiao();
+  carregarPermanenciaMedia();
+  carregarGastoMedio();
+  carregarTaxaConversao();
+  carregarTotalMensalVisitas();
 }
 
 initDashboard();

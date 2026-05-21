@@ -1,161 +1,74 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pacotes - New Way</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="css/pacotes.css" />
     <link rel="icon" type="image/x-icon" href="assets/imgs/logoNeway.png" />
-  </head>
+</head>
 
-  <body>
-    <!--NAVBAR  -->
+<body onload="carregarPacotes()">
+    <!--NAVBAR -->
     <header class="header">
-      <nav class="navbar">
-        <a href="dashboard.html">DASHBOARD</a>
-        <a href="#" class="active">PACOTES</a>
-        <a href="perfil.html">PERFIL</a>
-        <a href="login.html">SAIR</a>
-        <a href="index.html" class="navbar-logo"
-          ><img
-            src="assets/imgs/logoNeway.png"
-            alt="New Way"
-            height="32"
-            style="display: block"
-        /></a>
-      </nav>
+        <nav class="navbar">
+            <a href="dashboard.html">DASHBOARD</a>
+            <a href="#" class="active">PACOTES</a>
+            <a href="perfil.html">PERFIL</a>
+            <a href="login.html">SAIR</a>
+            <a href="index.html" class="navbar-logo"><img src="assets/imgs/logoNeway.png" alt="New Way" height="32"
+                    style="display: block" /></a>
+        </nav>
     </header>
 
     <section class="pacotes">
-      <div class="pacotesTitulo">
-        <h1>Gestão de <b>Pacotes turísticos</b></h1>
-        <button class="btnNovo">+ Novo pacote</button>
-      </div>
-
-      <div class="conteudoPacotes">
-        <div class="listaPacotes">
-          <div class="cardPacote">
-            <div class="imgPacote"></div>
-
-            <div class="infoPacote">
-              <h3>Nome do pacote</h3>
-              <span class="categoria">Categoria</span>
-              <p>20 dias em florianópolis</p>
-            </div>
-
-            <div class="dadosPacote">
-              <span>Cidade - Estado</span>
-              <span>Dias</span>
-              <span>Vagas</span>
-            </div>
-
-            <div class="precoPacote">
-              <h3>R$ 2.490</h3>
-            </div>
-
-            <div class="acoesPacote">
-              <a href="#">Editar</a>
-              <a href="#">Excluir</a>
-            </div>
-          </div>
-
-          <div class="cardPacote">
-            <div class="imgPacote"></div>
-            <div class="infoPacote">
-              <h3>Amazônia Profunda</h3>
-              <span class="categoria">Ecoturismo</span>
-              <p>7 dias pela floresta amazônica...</p>
-            </div>
-            <div class="dadosPacote">
-              <span>Manaus, AM</span>
-              <span>7 dias</span>
-              <span>18 vagas</span>
-            </div>
-            <div class="precoPacote">
-              <h3>R$ 3.890</h3>
-            </div>
-            <div class="acoesPacote">
-              <a href="#">Editar</a>
-              <a href="#">Excluir</a>
-            </div>
-          </div>
-
-          <div class="cardPacote">
-            <div class="imgPacote"></div>
-            <div class="infoPacote">
-              <h3>Praias de Salvador</h3>
-              <span class="categoria">Turismo</span>
-              <p>14 dias nas praias de Salvador</p>
-            </div>
-            <div class="dadosPacote">
-              <span>Salvador, BA</span>
-              <span>14 dias</span>
-              <span>20 vagas</span>
-            </div>
-            <div class="precoPacote">
-              <h3>R$ 5.640</h3>
-            </div>
-            <div class="acoesPacote">
-              <a href="#">Editar</a>
-              <a href="#">Excluir</a>
-            </div>
-          </div>
-
-          <div class="cardPacote">
-            <div class="imgPacote"></div>
-            <div class="infoPacote">
-              <h3>Praias de Salvador</h3>
-              <span class="categoria">Turismo</span>
-              <p>14 dias nas praias de Salvador</p>
-            </div>
-            <div class="dadosPacote">
-              <span>Salvador, BA</span>
-              <span>14 dias</span>
-              <span>20 vagas</span>
-            </div>
-            <div class="precoPacote">
-              <h3>R$ 5.640</h3>
-            </div>
-            <div class="acoesPacote">
-              <a href="#">Editar</a>
-              <a href="#">Excluir</a>
-            </div>
-          </div>
+        <div class="pacotesTitulo">
+            <h1>Gestão de <b>Pacotes turísticos</b></h1>
+            <button class="btnNovo">+ Novo pacote</button>
         </div>
 
-        <div class="formPacote">
-          <h2>Criar <b>Novo Pacote</b></h2>
+        <div class="conteudoPacotes">
 
-          <div class="inputs">
-            <input type="text" placeholder="Nome do pacote" />
-
-            <div class="linha">
-              <input type="text" placeholder="Categoria" />
-              <input class="destino" type="text" placeholder="Destino" />
+            <div class="listaPacotes" id="listaPacotes">
+                <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
 
-            <div class="linha">
-              <input type="text" placeholder="Duração (dias)" />
-              <input type="text" placeholder="Preço" />
+
+            <div class="formPacote">
+                <h2>Criar <b>Novo Pacote</b></h2>
+
+                <div class="inputs">
+                    <input id="ipt_nomePacote" type="text" placeholder="Nome do pacote" />
+
+                    <div class="linha">
+                        <input id="ipt_categoria" type="text" placeholder="Categoria" />
+                        <input id="ipt_destino" class="destino" type="text" placeholder="Destino" />
+                    </div>
+
+                    <div class="linha">
+                        <input id="ipt_duracao" type="number" placeholder="Duração (dias)" />
+                        <input id="ipt_preco" type="number" placeholder="Preço" />
+                    </div>
+
+                    <input id="ipt_descricao" placeholder="Descrição"></input>
+
+                    <div class="linha">
+                        <input id="ipt_vagas" type="number" placeholder="Vagas" />
+                        <input id="ipt_dataInicio" type="text" placeholder="Data de início" />
+                    </div>
+
+                    <button class="btnPublicar" onclick="publicarPacote()">Publicar pacote</button>
+                </div>
             </div>
-
-            <input placeholder="Descrição"></input>
-
-            <div class="linha">
-              <input type="text" placeholder="Vagas" />
-              <input type="text" placeholder="Data de início" />
-            </div>
-
-            <input type="text" placeholder="Inclusões / Tags" />
-
-            <button class="btnPublicar">Publicar pacote</button>
-          </div>
         </div>
-      </div>
+        </div>
     </section>
-  </body>
+</body>
+
 </html>
+
+<script src="./js/pacotes.js"></script>

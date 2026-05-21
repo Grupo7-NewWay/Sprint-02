@@ -39,23 +39,23 @@
       <section class="kpi-grid" aria-label="Indicadores principais">
         <article class="kpi-card">
           <p class="kpi-card__label">Permanência média</p>
-          <h2 class="kpi-card__value">7 Dias</h2>
+          <h2 class="kpi-card__value" id="kpi-permanencia-media">—</h2>
         </article>
         <article class="kpi-card">
           <p class="kpi-card__label">Gasto médio turista</p>
-          <h2 class="kpi-card__value">R$ 2.840</h2>
+          <h2 class="kpi-card__value" id="kpi-gasto-medio">—</h2>
         </article>
         <article class="kpi-card">
           <p class="kpi-card__label">Taxa de conversão</p>
-          <h2 class="kpi-card__value">34,7%</h2>
+          <h2 class="kpi-card__value" id="kpi-taxa-conversao">—</h2>
         </article>
         <article class="kpi-card">
-          <p class="kpi-card__label">Top região</p>
-          <h2 class="kpi-card__value">Sudeste</h2>
+          <p class="kpi-card__label">Top Município</p>
+          <h2 class="kpi-card__value" id="kpi-top-regiao">—</h2>
         </article>
         <article class="kpi-card kpi-card--highlight">
-          <p class="kpi-card__label">Pacotes vendidos</p>
-          <h2 class="kpi-card__value" id="kpi-total">18.430</h2>
+          <p class="kpi-card__label">Total mensal de visitas</p>
+          <h2 class="kpi-card__value" id="kpi-total">—</h2>
         </article>
       </section>
 
@@ -90,13 +90,13 @@
 
         <!-- Monthly Sales Line Chart -->
         <article class="card line-chart-card">
-          <h3 class="card__title">Pacotes vendidos por mês</h3>
+          <h3 class="card__title">Pacotes vendidos nos últimos 12 meses</h3>
           <canvas id="chartPacotes"></canvas>
         </article>
 
         <!-- Brazil Sales Heatmap -->
         <article class="card map-card">
-          <h3 class="card__title">Vendas por estado</h3>
+          <h3 class="card__title">Visitas por estado</h3>
           <div class="map-card__inner">
             <svg
               id="brazil-map"
@@ -391,7 +391,7 @@
               <span id="lmin">0</span>
               <div class="map-legend__bar"></div>
               <span id="lmax">0</span>
-              <span class="map-legend__unit">pacotes</span>
+              <span class="map-legend__unit">visitas</span>
             </div>
           </div>
         </article>
