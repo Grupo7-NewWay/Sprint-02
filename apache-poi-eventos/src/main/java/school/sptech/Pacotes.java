@@ -9,10 +9,10 @@ public class Pacotes {
         private Integer fk_pacote_perfil;
         private Integer fk_pacote_localizacao;
         private Integer fk_pacote_evento;
-        private LocalDateTime dataCadastro;
-        private LocalDateTime dataAtualizacao;
+        private LocalDate dataCadastro;
+        private LocalDate dataAtualizacao;
 
-    public Pacotes(String nomePacote, Integer qtdDisponivel, Integer fk_pacote_perfil, Integer fk_pacote_localizacao, Integer fk_pacote_evento, LocalDateTime dataCadastro, LocalDateTime dataAtualizacao) {
+    public Pacotes(String nomePacote, Integer qtdDisponivel, Integer fk_pacote_perfil, Integer fk_pacote_localizacao, Integer fk_pacote_evento, LocalDate dataCadastro, LocalDate dataAtualizacao) {
         this.nomePacote = nomePacote;
         this.qtdDisponivel = qtdDisponivel;
         this.fk_pacote_perfil = fk_pacote_perfil;
@@ -42,11 +42,11 @@ public class Pacotes {
         return fk_pacote_evento;
     }
 
-    public LocalDateTime getDataCadastro() {
+    public LocalDate getDataCadastro() {
         return dataCadastro;
     }
 
-    public LocalDateTime getDataAtualizacao() {
+    public LocalDate getDataAtualizacao() {
         return dataAtualizacao;
     }
 

@@ -8,9 +8,9 @@ public class Chegadas {
     private Integer qtdChegadas;
     private LocalDate dataChegada;
     private Integer qtdChegadaMes;
-    private String fk_chegada_localizacao;
+    private Integer fk_chegada_localizacao;
 
-    public Chegadas(String paisOrigem, String viaAcesso, Integer qtdChegadas, LocalDate dataChegada, Integer qtdChegadaMes, String fk_chegada_localizacao) {
+    public Chegadas(String paisOrigem, String viaAcesso, Integer qtdChegadas, LocalDate dataChegada, Integer qtdChegadaMes, Integer fk_chegada_localizacao) {
         this.paisOrigem = paisOrigem;
         this.viaAcesso = viaAcesso;
         this.qtdChegadas = qtdChegadas;
@@ -39,7 +39,7 @@ public class Chegadas {
         return qtdChegadaMes;
     }
 
-    public String getFk_chegada_localizacao() {
+    public Integer getFk_chegada_localizacao() {
         return fk_chegada_localizacao;
     }
 
