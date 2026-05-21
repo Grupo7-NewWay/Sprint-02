@@ -45,7 +45,7 @@ public class Main {
 
             AwsCredentialsProvider credentials = DefaultCredentialsProvider.create();
 
-            S3Provider provider = new S3Provider(credentials);
+            S3Provider provider = new S3Provider();
             S3Client s3Client = provider.getS3Client();
 
             String bucketName = "bucket-new-way";
