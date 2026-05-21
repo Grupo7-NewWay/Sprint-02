@@ -23,4 +23,12 @@ router.get("/gasto-medio", function (req, res) {
     dashboardController.buscarGastoMedio(req, res);
 });
 
+router.get("/taxa-conversao", function (req, res) {
+    dashboardController.buscarTaxaConversao(req, res);
+});
+
+router.get("/total-mensal-visitas", function (req, res) {
+    dashboardController.buscarTotalMensalVisitas(req, res);
+});
+
 module.exports = router;

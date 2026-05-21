@@ -80,10 +80,44 @@ function buscarPermanenciaMedia(req, res) {
     });
 }
 
+function buscarTaxaConversao(req, res) {
+    console.log("Recuperando taxa de conversão");
+
+    dashboardModel.buscarTaxaConversao().then(function (resultado) {
+        if (resultado.length > 0 && resultado[0].taxaConversao !== null) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar taxa de conversão.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarTotalMensalVisitas(req, res) {
+    console.log("Recuperando total mensal de visitas");
+
+    dashboardModel.buscarTotalMensalVisitas().then(function (resultado) {
+        if (resultado.length > 0 && resultado[0].totalVisitas !== null) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar total mensal de visitas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     buscarTopRegiao,
     buscarEventosPorTipo,
     buscarEventosProximos,
     buscarPermanenciaMedia,
-    buscarGastoMedio
+    buscarGastoMedio,
+    buscarTaxaConversao,
+    buscarTotalMensalVisitas
 }

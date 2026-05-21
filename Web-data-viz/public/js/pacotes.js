@@ -161,9 +161,8 @@ function publicarPacote() {
                 console.log("Resposta:", resposta);
                 return resposta.json().then(function (dados) {
                     if (resposta.ok) {
-                        setTimeout(function () {
-                            alert("Pacote publicado com sucesso!");
-                        }, 1000);
+                        alert("Pacote publicado com sucesso!");
+                        carregarPacotes();
                     } else {
                         alert(dados.mensagem);
                     }
@@ -172,7 +171,6 @@ function publicarPacote() {
             .catch(function (erro) {
                 console.log("ERRO:", erro);
             });
-        carregarPacotes();
     }
 
 carregarPacotes();

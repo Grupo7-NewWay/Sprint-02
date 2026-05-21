@@ -243,6 +243,40 @@ function carregarGastoMedio() {
     });
 }
 
+function carregarTaxaConversao() {
+  fetch("/dashboard/taxa-conversao")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar taxa de conversão");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-taxa-conversao");
+      if (el) el.textContent = dados.taxaConversao.toLocaleString("pt-BR") + "%";
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar taxa de conversão:", erro);
+    });
+}
+
+function carregarTotalMensalVisitas() {
+  fetch("/dashboard/total-mensal-visitas")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar total mensal de visitas");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      var el = document.getElementById("kpi-total");
+      if (el) el.textContent = dados.totalVisitas.toLocaleString("pt-BR");
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar total mensal de visitas:", erro);
+    });
+}
+
 function initDashboard() {
   colorMapByData();
   bindMapInteractions();
@@ -250,6 +284,8 @@ function initDashboard() {
   carregarTopRegiao();
   carregarPermanenciaMedia();
   carregarGastoMedio();
+  carregarTaxaConversao();
+  carregarTotalMensalVisitas();
 }
 
 initDashboard();

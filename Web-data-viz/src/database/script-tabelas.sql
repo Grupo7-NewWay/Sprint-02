@@ -342,3 +342,10 @@ INSERT INTO vendas (dataVenda, valor, qtdVenda, idAgencia, idPacote) VALUES
   ('2026-09-28', 2100.00, 2, 1, 5),
   ('2026-10-14', 4800.00, 3, 1, 1),
   ('2026-11-03', 2500.00, 1, 1, 2);
+
+  INSERT INTO eventos (nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado) VALUES
+('Expo Turismo Maio',     'São Paulo',       '2026-05-03', '2026-05-05', 'Feira de Negócios', 25000),
+('Festival Cultural SP',  'São Paulo',       '2026-05-10', '2026-05-11', 'Cultural',          18000),
+('Maratona Rio',          'Rio de Janeiro',  '2026-05-15', '2026-05-15', 'Esportivo',         12000),
+('Festa Junina Antecip.', 'Fortaleza',       '2026-05-24', '2026-05-25', 'Festa Tradicional', 30000);
+

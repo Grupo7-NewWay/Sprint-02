@@ -59,10 +59,33 @@ function buscarPermanenciaMedia() {
     return database.executar(instrucaoSql);
 }
 
+function buscarTaxaConversao() {
+    var instrucaoSql = `
+        SELECT ROUND((SUM(v.qtdVenda) / SUM(p.vagas)) * 100, 1) as taxaConversao
+        FROM vendas v
+        JOIN pacote p ON v.idPacote = p.idPacote
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarTotalMensalVisitas() {
+    var instrucaoSql = `
+        SELECT SUM(publicoEsperado) as totalVisitas
+        FROM eventos
+        WHERE MONTH(dtInicial) = MONTH(CURDATE())
+          AND YEAR(dtInicial) = YEAR(CURDATE())
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarTopRegiao,
     buscarEventosPorTipo,
     buscarEventosProximos,
     buscarPermanenciaMedia,
-    buscarGastoMedio
+    buscarGastoMedio,
+    buscarTaxaConversao,
+    buscarTotalMensalVisitas
 }
