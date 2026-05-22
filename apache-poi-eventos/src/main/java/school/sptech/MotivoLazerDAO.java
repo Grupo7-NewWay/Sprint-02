@@ -44,7 +44,7 @@ public class MotivoLazerDAO {
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, ml.getTipoMotivoLazer());
+            ps.setString(1, ml.getTipo());
             ps.setObject(2, ml.getPorcentagem());
             ps.setObject(3, ml.getFk_lazer_motivo());
             ps.executeUpdate();
