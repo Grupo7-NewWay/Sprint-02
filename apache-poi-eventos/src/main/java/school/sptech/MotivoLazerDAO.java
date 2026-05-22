@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LazerDAO {
+public class MotivoLazerDAO {
 
     public void criarTabela() {
-        String sql = "create table lazer" +
-                "    (idLazer int primary key auto_increment," +
-                "    tipoLazer varchar(255) not null," +
+        String sql = "create table motivolazer" +
+                "    (idMotivoLazer int primary key auto_increment," +
+                "    tipoMotivoLazer varchar(255) not null," +
                 "    porcentagem int not null," +
                 "    idMotivo int not null," +
                 "    constraint fk_lazer_motivo" +
@@ -30,11 +30,11 @@ public class LazerDAO {
     }
 
 
-    public void salvar(Lazer l) {
+    public void salvar(MotivoLazer ml) {
 
         String sql = """
             INSERT INTO lazer
-            (tipoLazer, porcentagem, fk_lazer_motivo)
+            (tipoMotivoLazer, porcentagem, fk_lazer_motivo)
             VALUES (?, ?, ?)
         """
 
@@ -44,9 +44,9 @@ public class LazerDAO {
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, l.getTipoLazer());
-            ps.setObject(2, l.getPorcentagem());
-            ps.setObject(3, l.getFk_lazer_motivo());
+            ps.setString(1, ml.getTipoMotivoLazer());
+            ps.setObject(2, ml.getPorcentagem());
+            ps.setObject(3, ml.getFk_lazer_motivo());
             ps.executeUpdate();
 
         } catch (Exception ex) {

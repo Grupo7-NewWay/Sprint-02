@@ -3,10 +3,10 @@ package school.sptech;
 public class Perfil {
 
     private Motivo motivo;
-    private Lazer lazer;
+    private MotivoLazer motivolazer;
     private Hospedagem hospedagem;
     private Gasto gasto;
-    private Grupo grupo;
+    private GrupoTuristico grupoTuristico;
     private GrupoIdade grupoIdade;
     private Fonte fonte;
     private ServicoAgencia servicoAgencia;
@@ -14,20 +14,20 @@ public class Perfil {
 
     public Perfil(
             Motivo motivo,
-            Lazer lazer,
+            MotivoLazer motivolazer,
             Hospedagem hospedagem,
             Gasto gasto,
-            Grupo grupo,
+            GrupoTuristico grupoTuristico,
             GrupoIdade grupoIdade,
             Fonte fonte,
             ServicoAgencia servicoAgencia,
             Permanencia permanencia
     ) {
         this.motivo = motivo;
-        this.lazer = lazer;
+        this.motivolazer = motivolazer;
         this.hospedagem = hospedagem;
         this.gasto = gasto;
-        this.grupo = grupo;
+        this.grupoTuristico = grupoTuristico;
         this.grupoIdade = grupoIdade;
         this.fonte = fonte;
         this.servicoAgencia = servicoAgencia;
@@ -38,8 +38,8 @@ public class Perfil {
         return motivo;
     }
 
-    public Lazer getLazer() {
-        return lazer;
+    public MotivoLazer getMotivoLazer() {
+        return motivolazer;
     }
 
     public Hospedagem getHospedagem() {
@@ -50,8 +50,8 @@ public class Perfil {
         return gasto;
     }
 
-    public Grupo getGrupo() {
-        return grupo;
+    public GrupoTuristico getGrupoTuristico() {
+        return grupoTuristico;
     }
 
     public GrupoIdade getGrupoIdade() {
@@ -74,10 +74,10 @@ public class Perfil {
     public String toString() {
         return "Perfil{" +
                 "motivo=" + motivo +
-                ", lazer=" + lazer +
+                ", motivolazer=" + motivolazer +
                 ", hospedagem=" + hospedagem +
                 ", gasto=" + gasto +
-                ", grupo=" + grupo +
+                ", grupoTuristico=" + grupoTuristico +
                 ", grupoIdade=" + grupoIdade +
                 ", fonte=" + fonte +
                 ", servicoAgencia=" + servicoAgencia +

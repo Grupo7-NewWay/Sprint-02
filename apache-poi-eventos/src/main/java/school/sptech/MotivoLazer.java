@@ -1,18 +1,18 @@
 package school.sptech;
 
-public class Lazer {
-    private String tipoLazer;
+public class MotivoLazer {
+    private String tipoMotivoLazer;
     private Integer porcentagem;
     private Integer fk_lazer_motivo;
 
-    public Lazer(String tipoLazer, Integer porcentagem, Integer fk_lazer_motivo) {
-        this.tipoLazer = tipoLazer;
+    public MotivoLazer(String tipoMotivoLazer, Integer porcentagem, Integer fk_lazer_motivo) {
+        this.tipoMotivoLazer = tipoMotivoLazer;
         this.porcentagem = porcentagem;
         this.fk_lazer_motivo = fk_lazer_motivo;
     }
 
-    public String getTipoLazer() {
-        return tipoLazer;
+    public String getTipoMotivoLazer() {
+        return tipoMotivoLazer;
     }
 
     public Integer getPorcentagem() {
@@ -26,7 +26,7 @@ public class Lazer {
     @Override
     public String toString() {
         return "Lazer{" +
-                "tipoLazer='" + tipoLazer + '\'' +
+                "tipoLazer='" + tipoMotivoLazer + '\'' +
                 ", porcentagem=" + porcentagem +
                 ", fk_lazer_motivo=" + fk_lazer_motivo +
                 '}';

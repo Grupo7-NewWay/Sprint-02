@@ -8,7 +8,6 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -355,11 +354,11 @@ public class LeitorExcel {
         }
     }
 
-    public List<Grupo> extrairGrupo(String caminhoArquivo) {
+    public List<GrupoTuristico> extrairGrupoTuristico(String caminhoArquivo) {
 
-        List<Grupo> grupoExtraidos = new ArrayList<>();
+        List<GrupoTuristico> grupoTuristicoExtraidos = new ArrayList<>();
         LogDao logDao = new LogDao();
-        GrupoDAO grupoDAO = new GrupoDAO();
+        GrupoTuristicoDAO grupoTuristicoDAO = new GrupoTuristicoDAO();
 
         System.out.println("Arquivo existe? " + new java.io.File(caminhoArquivo).exists());
 
@@ -398,36 +397,36 @@ public class LeitorExcel {
                     continue;
                 }
 
-                Grupo grupo = new Grupo(
+                GrupoTuristico grupoTuristico = new GrupoTuristico(
                         tipo,
                         porcentagem
                 );
 
-                grupoExtraidos.add(grupo);
+                grupoTuristicoExtraidos.add(grupoTuristico);
 
                 if (!warns.isEmpty()) {
                     logDao.salvar(
                             "WARN",
                             "Linha " + linha + " com avisos: " + String.join(" | ", warns)
                     );
-                    grupoDAO.salvar(grupo);
+                    grupoTuristicoDAO.salvar(grupoTuristico);
                 } else {
                     logDao.salvar(
                             "INFO",
                             "Linha " + linha + " processada com sucesso"
                     );
-                    grupoDAO.salvar(grupo);
+                    grupoTuristicoDAO.salvar(grupoTuristico);
                 }
             }
 
             System.out.println("Leitura finalizada");
 
-            return grupoExtraidos;
+            return grupoTuristicoExtraidos;
 
         } catch (Exception e) {
             logDao.salvar("ERROR", "Erro ao ler Excel: " + e.getMessage());
             e.printStackTrace();
-            return grupoExtraidos;
+            return grupoTuristicoExtraidos;
         }
     }
 
@@ -583,11 +582,11 @@ public class LeitorExcel {
         }
     }
 
-    public List<Lazer> extrairLazer(String caminhoArquivo) {
+    public List<MotivoLazer> extrairLazer(String caminhoArquivo) {
 
-        List<Lazer> lazerExtraidos = new ArrayList<>();
+        List<MotivoLazer> lazerExtraidos = new ArrayList<>();
         LogDao logDao = new LogDao();
-        LazerDAO lazerDAO = new LazerDAO();
+        MotivoLazerDAO motivoLazerDAO = new MotivoLazerDAO();
 
         System.out.println("Arquivo existe? " + new java.io.File(caminhoArquivo).exists());
 
@@ -631,26 +630,26 @@ public class LeitorExcel {
                     continue;
                 }
 
-                Lazer lazer = new Lazer(
+                MotivoLazer motivolazer = new MotivoLazer(
                         tipoLazer,
                         porcentagem,
                         fk_lazer_motivo
                 );
 
-                lazerExtraidos.add(lazer);
+                lazerExtraidos.add(motivolazer);
 
                 if (!warns.isEmpty()) {
                     logDao.salvar(
                             "WARN",
                             "Linha " + linha + " com avisos: " + String.join(" | ", warns)
                     );
-                    lazerDAO.salvar(lazer);
+                    motivoLazerDAO.salvar(motivolazer);
                 } else {
                     logDao.salvar(
                             "INFO",
                             "Linha " + linha + " processada com sucesso"
                     );
-                    lazerDAO.salvar(lazer);
+                    motivoLazerDAO.salvar(motivolazer);
                 }
             }
 

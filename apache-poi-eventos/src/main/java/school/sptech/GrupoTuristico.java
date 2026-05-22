@@ -1,36 +1,26 @@
 package school.sptech;
 
-public abstract class Grupo {
+public class GrupoTuristico extends Grupo{
     private String tipo;
     private Integer porcentagem;
 
-    public Grupo(String tipo, Integer porcentagem) {
+    public GrupoTuristico(String tipo, Integer porcentagem, String tipo1, Integer porcentagem1) {
+        super(tipo, porcentagem);
+        this.tipo = tipo1;
+        this.porcentagem = porcentagem1;
+    }
+
+    public GrupoTuristico(String tipo, Integer porcentagem) {
         this.tipo = tipo;
         this.porcentagem = porcentagem;
-    }
-
-    public Grupo() {
-
-    }
-
-    public void salvarGrupo() {
-
     }
 
     public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public Integer getPorcentagem() {
         return porcentagem;
-    }
-
-    public void setPorcentagem(Integer porcentagem) {
-        this.porcentagem = porcentagem;
     }
 
     @Override
