@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class GrupoDAO {
+public class GrupoTuristicoDAO {
 
     public void criarTabela(){
 
@@ -26,7 +26,7 @@ public class GrupoDAO {
         }
     }
 
-    public void salvar(Grupo gr) {
+    public void salvar(GrupoTuristico grtu) {
 
         String sql = """
             INSERT INTO grupo
@@ -40,8 +40,8 @@ public class GrupoDAO {
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, gr.getTipo());
-            ps.setObject(2, gr.getPorcentagem());
+            ps.setString(1, grtu.getTipo());
+            ps.setObject(2, grtu.getPorcentagem());
             ps.executeUpdate();
 
         } catch (Exception ex) {
