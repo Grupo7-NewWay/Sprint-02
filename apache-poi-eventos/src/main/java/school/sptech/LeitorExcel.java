@@ -2,14 +2,17 @@ package school.sptech;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.reflect.Array.getDouble;
 
 public class LeitorExcel {
 
@@ -134,7 +137,7 @@ public class LeitorExcel {
                 String viaAcesso = getString(row, 3);
                 Integer qtdChegadas = getInteger(row, 13);
                 Integer qtdChegadasMes = getInteger(row, 18);
-                Integer fk_chegada_localizacao = getInteger(row, 18);
+                Integer fk_chegada_localizacao = AmbienteConfig.getFkChegadaLocalizacao();
 
                 if (paisOrigem == null || paisOrigem.isBlank()) {
                     warns.add("País de origem inválido");
@@ -300,14 +303,14 @@ public class LeitorExcel {
                 boolean erroCritico = false;
 
                 String tipo = getString(row, 1);
-                Integer porcentagem = getInteger(row, 3);
+                Double valor = getDouble(row, 3);
 
                 if (tipo == null || tipo.isBlank()) {
                     warns.add("Tipo de gasto inválido");
                 }
 
-                if (porcentagem == null || porcentagem <= 0) {
-                    warns.add("Porcentagem de gasto inválido");
+                if (valor == null || valor <= 0) {
+                    warns.add("Valor de gasto inválido");
                 }
 
                 if (erroCritico) {
@@ -320,7 +323,7 @@ public class LeitorExcel {
 
                 Gasto gasto = new Gasto(
                         tipo,
-                        porcentagem
+                        valor
                 );
 
                 gastoExtraidos.add(gasto);
@@ -351,11 +354,11 @@ public class LeitorExcel {
         }
     }
 
-    public List<Grupo> extrairGrupo(String caminhoArquivo) {
+    public List<GrupoTuristico> extrairGrupoTuristico(String caminhoArquivo) {
 
-        List<Grupo> grupoExtraidos = new ArrayList<>();
+        List<GrupoTuristico> grupoTuristicoExtraidos = new ArrayList<>();
         LogDao logDao = new LogDao();
-        GrupoDAO grupoDAO = new GrupoDAO();
+        GrupoTuristicoDAO grupoTuristicoDAO = new GrupoTuristicoDAO();
 
         System.out.println("Arquivo existe? " + new java.io.File(caminhoArquivo).exists());
 
@@ -394,36 +397,36 @@ public class LeitorExcel {
                     continue;
                 }
 
-                Grupo grupo = new Grupo(
+                GrupoTuristico grupoTuristico = new GrupoTuristico(
                         tipo,
                         porcentagem
                 );
 
-                grupoExtraidos.add(grupo);
+                grupoTuristicoExtraidos.add(grupoTuristico);
 
                 if (!warns.isEmpty()) {
                     logDao.salvar(
                             "WARN",
                             "Linha " + linha + " com avisos: " + String.join(" | ", warns)
                     );
-                    grupoDAO.salvar(grupo);
+                    grupoTuristicoDAO.salvar(grupoTuristico);
                 } else {
                     logDao.salvar(
                             "INFO",
                             "Linha " + linha + " processada com sucesso"
                     );
-                    grupoDAO.salvar(grupo);
+                    grupoTuristicoDAO.salvar(grupoTuristico);
                 }
             }
 
             System.out.println("Leitura finalizada");
 
-            return grupoExtraidos;
+            return grupoTuristicoExtraidos;
 
         } catch (Exception e) {
             logDao.salvar("ERROR", "Erro ao ler Excel: " + e.getMessage());
             e.printStackTrace();
-            return grupoExtraidos;
+            return grupoTuristicoExtraidos;
         }
     }
 
@@ -579,11 +582,11 @@ public class LeitorExcel {
         }
     }
 
-    public List<Lazer> extrairLazer(String caminhoArquivo) {
+    public List<MotivoLazer> extrairLazer(String caminhoArquivo) {
 
-        List<Lazer> lazerExtraidos = new ArrayList<>();
+        List<MotivoLazer> lazerExtraidos = new ArrayList<>();
         LogDao logDao = new LogDao();
-        LazerDAO lazerDAO = new LazerDAO();
+        MotivoLazerDAO motivoLazerDAO = new MotivoLazerDAO();
 
         System.out.println("Arquivo existe? " + new java.io.File(caminhoArquivo).exists());
 
@@ -605,7 +608,7 @@ public class LeitorExcel {
 
                 String tipoLazer = getString(row, 1);
                 Integer porcentagem = getInteger(row, 3);
-                Integer fk_lazer_motivo = getInteger(row, 3);
+                Integer fk_lazer_motivo = AmbienteConfig.getFkLazerMotivo();
 
                 if (tipoLazer == null || tipoLazer.isBlank()) {
                     warns.add("Tipo de lazer inválido");
@@ -627,26 +630,26 @@ public class LeitorExcel {
                     continue;
                 }
 
-                Lazer lazer = new Lazer(
+                MotivoLazer motivolazer = new MotivoLazer(
                         tipoLazer,
                         porcentagem,
                         fk_lazer_motivo
                 );
 
-                lazerExtraidos.add(lazer);
+                lazerExtraidos.add(motivolazer);
 
                 if (!warns.isEmpty()) {
                     logDao.salvar(
                             "WARN",
                             "Linha " + linha + " com avisos: " + String.join(" | ", warns)
                     );
-                    lazerDAO.salvar(lazer);
+                    motivoLazerDAO.salvar(motivolazer);
                 } else {
                     logDao.salvar(
                             "INFO",
                             "Linha " + linha + " processada com sucesso"
                     );
-                    lazerDAO.salvar(lazer);
+                    motivoLazerDAO.salvar(motivolazer);
                 }
             }
 
@@ -841,9 +844,9 @@ public class LeitorExcel {
 
                 String nomePacote = getString(row, 1);
                 Integer qtdDisponivel = getInteger(row, 3);
-                Integer fk_pacote_perfil = getInteger(row, 3);
-                Integer fk_pacote_localizacao = getInteger(row, 3);
-                Integer fk_pacote_evento = getInteger(row, 3);
+                Integer fk_pacote_perfil = AmbienteConfig.getFkPacotePerfil();
+                Integer fk_pacote_localizacao = AmbienteConfig.getFkPacoteLocalizacao();
+                Integer fk_pacote_evento = AmbienteConfig.getFkPacoteEvento();
 
                 if (nomePacote == null || nomePacote.isBlank()) {
                     warns.add("Nome do pacote inválido");
@@ -940,13 +943,13 @@ public class LeitorExcel {
                 boolean erroCritico = false;
 
                 String tipo = getString(row, 1);
-                Integer porcentagem = getInteger(row, 3);
+                Integer qtdDias = getInteger(row, 3);
 
                 if (tipo == null || tipo.isBlank()) {
                     warns.add("Tipo de permanência inválido");
                 }
 
-                if (porcentagem == null || porcentagem <= 0) {
+                if (qtdDias == null || qtdDias <= 0) {
                     warns.add("Porcentagem de permanência inválida");
                 }
 
@@ -960,7 +963,7 @@ public class LeitorExcel {
 
                 Permanencia permanencia = new Permanencia(
                         tipo,
-                        porcentagem
+                        qtdDias
                 );
 
                 permanenciaExtraidos.add(permanencia);
@@ -1113,5 +1116,13 @@ public class LeitorExcel {
             warns.add(campo + " inválida (" + cell + ")");
             return null;
         }
+    }
+
+    private InputStream lerDoS3(String bucket, String chave) {
+        S3Client s3 = S3Client.create();
+        return s3.getObject(GetObjectRequest.builder()
+                .bucket(bucket)
+                .key(chave)
+                .build());
     }
 }

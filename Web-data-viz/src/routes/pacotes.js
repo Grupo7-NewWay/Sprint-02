@@ -22,3 +22,4 @@ router.delete("/deletarPacote/:idPacote", function (req, res) {
 });
 
 module.exports = router;
+

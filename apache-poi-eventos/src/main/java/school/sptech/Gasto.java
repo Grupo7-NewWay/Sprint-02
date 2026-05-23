@@ -2,26 +2,26 @@ package school.sptech;
 
 public class Gasto {
     private String tipo;
-    private Integer porcentagem;
+    private Double valor;
 
-    public Gasto(String tipo, Integer porcentagem) {
+    public Gasto(String tipo, Double valor) {
         this.tipo = tipo;
-        this.porcentagem = porcentagem;
+        this.valor = valor;
     }
 
     public String getTipo() {
         return tipo;
     }
 
-    public Integer getPorcentagem() {
-        return porcentagem;
+    public Double getValor() {
+        return valor;
     }
 
     @Override
     public String toString() {
         return "Gasto{" +
                 "tipo='" + tipo + '\'' +
-                ", porcentagem=" + porcentagem +
+                ", valor=" + valor +
                 '}';
     }
 }

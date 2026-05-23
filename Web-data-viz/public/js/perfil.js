@@ -1,3 +1,42 @@
+var isPrimeiroAcesso = false;
+
+function ativarBloqueio() {
+  isPrimeiroAcesso = true;
+  document.getElementById("modalPrimeiroAcesso").classList.add("open");
+
+  document.querySelectorAll(".navbar a:not(.active)").forEach(function (link) {
+    link.addEventListener("click", bloquearNavegacao);
+  });
+
+  window.addEventListener("beforeunload", bloquearUnload);
+}
+
+function desativarBloqueio() {
+  isPrimeiroAcesso = false;
+  sessionStorage.removeItem("PRIMEIRO_ACESSO");
+
+  document.querySelectorAll(".navbar a:not(.active)").forEach(function (link) {
+    link.removeEventListener("click", bloquearNavegacao);
+  });
+
+  window.removeEventListener("beforeunload", bloquearUnload);
+}
+
+function fecharPopupBoasVindas() {
+  document.getElementById("modalPrimeiroAcesso").classList.remove("open");
+  document.getElementById("nome").focus();
+}
+
+function bloquearNavegacao(e) {
+  e.preventDefault();
+  showToast("Complete seu cadastro antes de continuar.", true);
+}
+
+function bloquearUnload(e) {
+  e.preventDefault();
+  e.returnValue = "";
+}
+
 const fields = [
   "nome",
   "email",
@@ -20,7 +59,54 @@ function snapshot() {
     original[id] = el ? el.value : "";
   });
 }
-snapshot();
+
+function preencherCard(nome, email, nascimento, cidade) {
+  const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  document.getElementById("displayName").textContent  = nome  || "";
+  document.getElementById("displayEmail").textContent = email || "";
+  document.getElementById("displayCity").textContent  = cidade || "";
+  document.getElementById("avatarEl").textContent     = nome ? nome.charAt(0).toUpperCase() : "?";
+  if (nascimento) {
+    const d = new Date(nascimento + "T00:00:00");
+    document.getElementById("displayBirth").textContent =
+      `${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+  }
+}
+
+function carregarPerfil() {
+  var id = sessionStorage.getItem("ID_USUARIO");
+  if (!id) return;
+
+  fetch("/usuarios/perfil/" + id)
+    .then(function (res) {
+      if (!res.ok) throw new Error("Perfil não encontrado");
+      return res.json();
+    })
+    .then(function (dados) {
+      document.getElementById("nome").value         = dados.nomeAgencia  || "";
+      document.getElementById("email").value        = dados.email        || "";
+      document.getElementById("nascimento").value   = dados.dataNascimento ? dados.dataNascimento.split("T")[0] : "";
+      document.getElementById("telefone").value     = dados.telefone     || "";
+      document.getElementById("cep").value          = dados.cep          || "";
+      document.getElementById("longradouro").value  = dados.logradouro   || "";
+      document.getElementById("numero").value       = dados.numero       || "";
+      document.getElementById("complemento").value  = dados.complemento  || "";
+      document.getElementById("bairro").value       = dados.bairro       || "";
+      document.getElementById("cidade").value       = dados.cidade       || "";
+      if (dados.estado) document.getElementById("estado").value = dados.estado;
+
+      preencherCard(dados.nomeAgencia, dados.email, dados.dataNascimento ? dados.dataNascimento.split("T")[0] : null, dados.cidade);
+      snapshot();
+
+      var ehPrimeiro = sessionStorage.getItem("PRIMEIRO_ACESSO") === "true" || !dados.cep;
+      if (ehPrimeiro) ativarBloqueio();
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar perfil:", erro);
+    });
+}
+
+carregarPerfil();
 
 fields.forEach((id) => {
   const el = document.getElementById(id);
@@ -155,37 +241,40 @@ function saveProfile() {
     return;
   }
 
-  // ── Update display card
-  document.getElementById("displayName").textContent = nome;
-  document.getElementById("displayEmail").textContent = email;
-  document.getElementById("displayCity").textContent = cidade;
-  document.getElementById("avatarEl").textContent = nome
-    .charAt(0)
-    .toUpperCase();
+  var id = sessionStorage.getItem("ID_USUARIO");
+  if (!id) { showToast("Sessão expirada. Faça login novamente.", true); return; }
 
-  if (nasc) {
-    const d = new Date(nasc + "T00:00:00");
-    const months = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro",
-    ];
-    document.getElementById("displayBirth").textContent =
-      `${d.getDate()} de ${months[d.getMonth()]} de ${d.getFullYear()}`;
-  }
-
-  snapshot();
-  onInput();
-  showToast("Perfil atualizado com sucesso!", false);
+  fetch("/usuarios/perfil/" + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeAgencia:    nome,
+      email:          email,
+      telefone:       telefone,
+      dataNascimento: nasc || null,
+      cep:            cep,
+      logradouro:     longradouro,
+      numero:         document.getElementById("numero").value.trim(),
+      complemento:    document.getElementById("complemento").value.trim(),
+      bairro:         document.getElementById("bairro").value.trim(),
+      cidade:         cidade,
+      estado:         document.getElementById("estado").value
+    })
+  })
+    .then(function (res) {
+      if (!res.ok) return res.json().then(function (d) { throw new Error(d.mensagem); });
+      return res.json();
+    })
+    .then(function () {
+      preencherCard(nome, email, nasc, cidade);
+      snapshot();
+      onInput();
+      if (isPrimeiroAcesso) desativarBloqueio();
+      showToast("Perfil atualizado com sucesso!", false);
+    })
+    .catch(function (erro) {
+      showToast("Erro ao salvar: " + erro.message, true);
+    });
 }
 
 function cancelEdit() {
@@ -281,6 +370,45 @@ document.getElementById("cep").addEventListener("blur", async function () {
     this.disabled = false;
     this.style.opacity = "";
   }
+});
+
+function openDeleteModal() {
+  document.getElementById("deleteModal").classList.add("open");
+}
+
+function closeDeleteModal() {
+  document.getElementById("deleteModal").classList.remove("open");
+}
+
+function confirmDelete() {
+  var id = sessionStorage.getItem("ID_USUARIO");
+
+  if (!id) {
+    closeDeleteModal();
+    showToast("Sessão expirada. Faça login novamente.", true);
+    return;
+  }
+
+  fetch("/usuarios/excluir/" + id, { method: "DELETE" })
+    .then(function (res) {
+      if (!res.ok) return res.json().then(function (d) { throw new Error(d.mensagem); });
+      return res.json();
+    })
+    .then(function () {
+      closeDeleteModal();
+      sessionStorage.clear();
+      showToast("Conta excluída com sucesso.", false);
+      setTimeout(function () { window.location.href = "login.html"; }, 2000);
+    })
+    .catch(function (erro) {
+      closeDeleteModal();
+      showToast("Erro ao excluir conta: " + erro.message, true);
+    });
+}
+
+// ── Fecha modal ao clicar fora
+document.getElementById("deleteModal").addEventListener("click", function (e) {
+  if (e.target === this) closeDeleteModal();
 });
 
 // ── Máscara do telefone

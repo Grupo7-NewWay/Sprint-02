@@ -33,6 +33,21 @@
       </nav>
     </header>
 
+    <!-- Popup primeiro acesso -->
+    <div class="modal-overlay" id="modalPrimeiroAcesso">
+      <div class="modal modal--boas-vindas">
+        <div class="modal-icon modal-icon--gold"><i class="ph ph-hand-waving"></i></div>
+        <h2 class="modal-title">Bem-vindo(a) à plataforma!</h2>
+        <p class="modal-desc">Para começar a usar todos os recursos, complete as informações do seu perfil abaixo.</p>
+        <div class="modal-actions">
+          <button class="btn-save" onclick="fecharPopupBoasVindas()">
+            <i class="ph ph-arrow-right"></i>
+            Completar cadastro
+          </button>
+        </div>
+      </div>
+    </div>
+
     <main class="page">
       <!-- Profile header card -->
       <div class="profile-card" id="profileCard">
@@ -183,9 +198,29 @@
             Salvar alterações
           </button>
           <button class="btn-cancel" onclick="cancelEdit()">Cancelar</button>
+          <button class="btn-delete" onclick="openDeleteModal()">
+            <i class="ph ph-trash"></i>
+            Excluir conta
+          </button>
         </div>
       </div>
     </main>
+
+    <!-- Modal excluir conta -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal">
+        <div class="modal-icon"><i class="ph ph-warning"></i></div>
+        <h2 class="modal-title">Excluir conta?</h2>
+        <p class="modal-desc">Esta ação é irreversível. Todos os seus dados serão permanentemente removidos.</p>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+          <button class="btn-delete-confirm" onclick="confirmDelete()">
+            <i class="ph ph-trash"></i>
+            Sim, excluir
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="toast" id="toast">
       <span class="toast-icon"><i class="ph ph-check-circle"></i></span>

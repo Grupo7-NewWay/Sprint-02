@@ -3,19 +3,13 @@ package school.sptech;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
-import software.amazon.awssdk.services.s3.model.S3Object;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 public class Main {
 
@@ -31,10 +25,21 @@ public class Main {
             LeitorExcel leitorExcel = new LeitorExcel();
             List<Eventos> eventosExtraidos = leitorExcel.extrairEventos(caminho1);
             List<Chegadas> chegadasExtraidos = leitorExcel.extrairChegadas(caminho2);
+            List<Fonte> fonteExtraidos = leitorExcel.extrairFonte(caminho2);
+            List<Gasto> gastoExtraidos = leitorExcel.extrairGasto(caminho2);
+            List<GrupoTuristico> grupoTuristicoTuristicoExtraidos = leitorExcel.extrairGrupoTuristico(caminho2);
+            List<GrupoIdade> grupoIdadeExtraidos = leitorExcel.extrairGrupoIdade(caminho2);
+            List<Hospedagem> hospedagemExtraidos = leitorExcel.extrairHospedagem(caminho2);
+            List<MotivoLazer> lazerExtraidos = leitorExcel.extrairLazer(caminho2);
+            List<Localizacao> localizacaoExtraidos = leitorExcel.extrairLocalizacao(caminho2);
+            List<Motivo> motivoExtraidos = leitorExcel.extrairMotivo(caminho2);
+            List<Pacotes> pacotesExtraidos = leitorExcel.extrairPacotes(caminho2);
+            List<Permanencia> permanenciaExtraidos = leitorExcel.extrairPermanencia(caminho2);
+            List<ServicoAgencia> servicoAgenciaExtraidos = leitorExcel.extrairServicoAgencia(caminho2);
 
             AwsCredentialsProvider credentials = DefaultCredentialsProvider.create();
 
-            S3Provider provider = new S3Provider(credentials);
+            S3Provider provider = new S3Provider();
             S3Client s3Client = provider.getS3Client();
 
             String bucketName = "bucket-new-way";
@@ -61,7 +66,7 @@ public class Main {
             s3Client.putObject(
                     PutObjectRequest.builder()
                             .bucket(bucketName)
-                            .key("perfil.xlsx")
+                            .key("demanda_turistica_2021.xlsx")
                             .build(),
                     RequestBody.fromFile(filePath2)
             );
