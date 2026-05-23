@@ -38,34 +38,32 @@ function buscarEventosProximos() {
     return database.executar(instrucaoSql);
 }
 
-function buscarGastoMedio() {
+function buscarDuracaoMediaEvento() {
     var instrucaoSql = `
-        SELECT ROUND(AVG(v.valor / v.qtdVenda)) as gastoMedio
-        FROM vendas v
+        SELECT ROUND(AVG(DATEDIFF(dtTermino, dtInicial) + 1)) AS duracaoMedia
+        FROM eventos
     `;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarPermanenciaMedia() {
+function buscarMediaPublicoEvento() {
     var instrucaoSql = `
-        SELECT ROUND(AVG(pac.duracao)) as permanenciaMedia
-        FROM vendas v
-        JOIN pacote pac ON v.idPacote = pac.idPacote
+        SELECT ROUND(AVG(publicoEsperado)) AS mediaPublico
+        FROM eventos
     `;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarTaxaConversao() {
+function buscarMotivacaoPrincipal() {
     var instrucaoSql = `
-        SELECT ROUND((SUM(v.qtdVenda) / SUM(p.vagas)) * 100, 1) as taxaConversao
-        FROM vendas v
-        JOIN pacote p ON v.idPacote = p.idPacote
+        SELECT tipo AS motivacao
+        FROM motivo
+        ORDER BY porcentagem DESC
+        LIMIT 1
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -80,12 +78,41 @@ function buscarTotalMensalVisitas() {
     return database.executar(instrucaoSql);
 }
 
+function buscarHistoricoVisitas() {
+    var instrucaoSql = `
+        SELECT
+            YEAR(dtInicial)       AS ano,
+            MONTH(dtInicial)      AS numeroMes,
+            SUM(publicoEsperado)  AS totalVisitas
+        FROM eventos
+        WHERE dtInicial >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+        GROUP BY YEAR(dtInicial), MONTH(dtInicial)
+        ORDER BY YEAR(dtInicial), MONTH(dtInicial)
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarVisitasPorEstado() {
+    var instrucaoSql = `
+        SELECT uf, SUM(publicoEsperado) AS totalVisitas
+        FROM eventos
+        GROUP BY uf
+        ORDER BY totalVisitas DESC
+    `;
+    console.log("Executando a instrucao SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarTopRegiao,
     buscarEventosPorTipo,
     buscarEventosProximos,
-    buscarPermanenciaMedia,
-    buscarGastoMedio,
-    buscarTaxaConversao,
-    buscarTotalMensalVisitas
+    buscarTotalMensalVisitas,
+    buscarHistoricoVisitas,
+    buscarVisitasPorEstado,
+    buscarDuracaoMediaEvento,
+    buscarMediaPublicoEvento,
+    buscarMotivacaoPrincipal
 }

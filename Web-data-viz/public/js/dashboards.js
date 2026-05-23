@@ -29,10 +29,16 @@ var STATE_DATA = {
   BRTO: { name: "Tocantins",           uf: "TO", sales:  350 },
 };
 
-var MONTHLY_SALES = {
-  labels: ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
-  data:   [2000, 1500, 1800, 2200, 2600, 3100, 2800, 2400, 2900, 3500, 4200, 5000],
-};
+var HISTORICO_VISITAS_FALLBACK = (function () {
+  var mesesPt = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  var agora   = new Date();
+  var labels  = [];
+  for (var i = 5; i >= 0; i--) {
+    var d = new Date(agora.getFullYear(), agora.getMonth() - i, 1);
+    labels.push(mesesPt[d.getMonth()]);
+  }
+  return { labels: labels, data: [0, 0, 0, 0, 0, 0] };
+}());
 
 var MAP_COLOR_STOPS = [
   [18,  44,  74 ],
@@ -90,10 +96,32 @@ function colorMapByData() {
   });
 }
 
+function carregarVisitasPorEstado() {
+  fetch("/dashboard/visitas-por-estado")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar visitas por estado");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) return;
+      Object.keys(STATE_DATA).forEach(function (id) {
+        if (dados[id] !== undefined) {
+          STATE_DATA[id].sales = dados[id];
+        }
+      });
+      colorMapByData();
+      bindMapInteractions();
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar mapa:", erro);
+    });
+}
+
 function buildTooltipHTML(state, rank) {
   return '<strong class="tooltip__state">' + state.name + ' (' + state.uf + ')</strong>' +
     '<div class="tooltip__value">' + formatNumber(state.sales) +
-    '<span style="font-size:13px;font-weight:400;color:var(--muted)"> pacotes</span></div>' +
+    '<span style="font-size:13px;font-weight:400;color:var(--muted)"> visitas</span></div>' +
     '<div class="tooltip__rank">#' + rank + ' no ranking</div>';
 }
 
@@ -131,16 +159,22 @@ function bindMapInteractions() {
 }
 
 /* === LINE CHART === */
-function renderMonthlySalesChart() {
+var lineChartInstance = null;
+
+function criarGraficoLinha(labels, data) {
   var ctx = document.getElementById("chartPacotes").getContext("2d");
 
-  new Chart(ctx, {
+  if (lineChartInstance) {
+    lineChartInstance.destroy();
+  }
+
+  lineChartInstance = new Chart(ctx, {
     type: "line",
     data: {
-      labels:   MONTHLY_SALES.labels,
+      labels:   labels,
       datasets: [{
-        label:                     "Pacotes vendidos",
-        data:                      MONTHLY_SALES.data,
+        label:                     "Visitas",
+        data:                      data,
         borderColor:               "#F5BA5A",
         backgroundColor:           "rgba(245,186,90,0.08)",
         borderWidth:               2,
@@ -170,7 +204,7 @@ function renderMonthlySalesChart() {
           displayColors:   false,
           callbacks: {
             label: function(item) {
-              return formatNumber(item.raw) + " pacotes vendidos";
+              return formatNumber(item.raw) + " visitas";
             },
           },
         },
@@ -188,6 +222,48 @@ function renderMonthlySalesChart() {
       },
     },
   });
+}
+
+function atualizarGraficoLinha() {
+  fetch("/dashboard/historico-visitas")
+    .then(function (res) {
+      if (res.status === 204) return null;
+      if (!res.ok) throw new Error("Erro ao buscar histórico de visitas");
+      return res.json();
+    })
+    .then(function (dados) {
+      if (!dados) {
+        criarGraficoLinha(HISTORICO_VISITAS_FALLBACK.labels, HISTORICO_VISITAS_FALLBACK.data);
+        return;
+      }
+      criarGraficoLinha(dados.labels, dados.data);
+    })
+    .catch(function (erro) {
+      console.error("Erro ao carregar histórico de visitas:", erro);
+      criarGraficoLinha(HISTORICO_VISITAS_FALLBACK.labels, HISTORICO_VISITAS_FALLBACK.data);
+    });
+}
+
+function agendarProximaAtualizacaoSemestral() {
+  var agora = new Date();
+  var ano   = agora.getFullYear();
+  var mes   = agora.getMonth();
+
+  var proxima = mes < 6
+    ? new Date(ano, 6, 1)
+    : new Date(ano + 1, 0, 1);
+
+  var delay = proxima.getTime() - agora.getTime();
+
+  setTimeout(function () {
+    atualizarGraficoLinha();
+    agendarProximaAtualizacaoSemestral();
+  }, delay);
+}
+
+function renderMonthlySalesChart() {
+  atualizarGraficoLinha();
+  agendarProximaAtualizacaoSemestral();
 }
 
 
@@ -209,54 +285,53 @@ function carregarTopRegiao() {
 }
 
 function carregarPermanenciaMedia() {
-  fetch("/dashboard/permanencia-media")
+  fetch("/dashboard/duracao-media-evento")
     .then(function (res) {
       if (res.status === 204) return null;
-      if (!res.ok) throw new Error("Erro ao buscar permanência média");
+      if (!res.ok) throw new Error("Erro ao buscar duracao media");
       return res.json();
     })
     .then(function (dados) {
       if (!dados) return;
       var el = document.getElementById("kpi-permanencia-media");
-      if (el) el.textContent = dados.permanenciaMedia + " Dias";
+      if (el) el.textContent = dados.duracaoMedia + " Dias";
     })
     .catch(function (erro) {
-      console.error("Erro ao carregar permanência média:", erro);
+      console.error("Erro ao carregar duracao media:", erro);
     });
 }
 
-
 function carregarGastoMedio() {
-  fetch("/dashboard/gasto-medio")
+  fetch("/dashboard/media-publico-evento")
     .then(function (res) {
       if (res.status === 204) return null;
-      if (!res.ok) throw new Error("Erro ao buscar gasto médio");
+      if (!res.ok) throw new Error("Erro ao buscar media de publico");
       return res.json();
     })
     .then(function (dados) {
       if (!dados) return;
       var el = document.getElementById("kpi-gasto-medio");
-      if (el) el.textContent = "R$ " + dados.gastoMedio.toLocaleString("pt-BR");
+      if (el) el.textContent = dados.mediaPublico.toLocaleString("pt-BR");
     })
     .catch(function (erro) {
-      console.error("Erro ao carregar gasto médio:", erro);
+      console.error("Erro ao carregar media de publico:", erro);
     });
 }
 
 function carregarTaxaConversao() {
-  fetch("/dashboard/taxa-conversao")
+  fetch("/dashboard/motivacao-principal")
     .then(function (res) {
       if (res.status === 204) return null;
-      if (!res.ok) throw new Error("Erro ao buscar taxa de conversão");
+      if (!res.ok) throw new Error("Erro ao buscar motivacao principal");
       return res.json();
     })
     .then(function (dados) {
       if (!dados) return;
       var el = document.getElementById("kpi-taxa-conversao");
-      if (el) el.textContent = dados.taxaConversao.toLocaleString("pt-BR") + "%";
+      if (el) el.textContent = dados.motivacao;
     })
     .catch(function (erro) {
-      console.error("Erro ao carregar taxa de conversão:", erro);
+      console.error("Erro ao carregar motivacao principal:", erro);
     });
 }
 
@@ -278,8 +353,7 @@ function carregarTotalMensalVisitas() {
 }
 
 function initDashboard() {
-  colorMapByData();
-  bindMapInteractions();
+  carregarVisitasPorEstado();
   renderMonthlySalesChart();
   carregarTopRegiao();
   carregarPermanenciaMedia();

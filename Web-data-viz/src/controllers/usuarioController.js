@@ -96,7 +96,66 @@ function cadastrar(req, res) {
     }
 }
 
+function buscarPerfil(req, res) {
+    var id = parseInt(req.params.id);
+    if (!id || isNaN(id)) return res.status(400).json({ mensagem: "ID inválido." });
+
+    usuarioModel.buscarPerfil(id)
+        .then(function (resultado) {
+            if (resultado.length === 0) return res.status(404).json({ mensagem: "Usuário não encontrado." });
+            res.status(200).json(resultado[0]);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ mensagem: "Erro ao buscar perfil.", detalhe: erro.sqlMessage });
+        });
+}
+
+function atualizarPerfil(req, res) {
+    var id = parseInt(req.params.id);
+    if (!id || isNaN(id)) return res.status(400).json({ mensagem: "ID inválido." });
+
+    var { nomeAgencia, email, telefone, dataNascimento, cep, logradouro, numero, complemento, bairro, cidade, estado } = req.body;
+
+    usuarioModel.atualizarAgencia(id, nomeAgencia, email, telefone, dataNascimento)
+        .then(function () {
+            if (cep && logradouro && cidade) {
+                return usuarioModel.upsertEndereco(id, cep, logradouro, numero || '', complemento || '', bairro || '', cidade, estado || '');
+            }
+        })
+        .then(function () {
+            res.status(200).json({ mensagem: "Perfil atualizado com sucesso." });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ mensagem: "Erro ao atualizar perfil.", detalhe: erro.sqlMessage });
+        });
+}
+
+function excluir(req, res) {
+    var id = parseInt(req.params.id);
+
+    if (!id || isNaN(id)) {
+        return res.status(400).json({ mensagem: "ID inválido." });
+    }
+
+    usuarioModel.excluir(id)
+        .then(function (resultado) {
+            if (resultado.affectedRows === 0) {
+                return res.status(404).json({ mensagem: "Usuário não encontrado." });
+            }
+            res.status(200).json({ mensagem: "Conta excluída com sucesso." });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ mensagem: "Erro ao excluir conta.", detalhe: erro.sqlMessage });
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    buscarPerfil,
+    atualizarPerfil,
+    excluir
 }

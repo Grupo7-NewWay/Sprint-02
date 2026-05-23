@@ -155,7 +155,6 @@ body {
   letter-spacing: 0.05em;
 }
 .kpi-card__value {
-  font-family: "Syne", sans-serif;
   font-size: 22px;
   font-weight: 700;
   color: var(--text);

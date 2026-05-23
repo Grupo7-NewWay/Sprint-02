@@ -15,20 +15,28 @@ router.get("/eventos-proximos", function (req, res) {
     dashboardController.buscarEventosProximos(req, res);
 });
 
-router.get("/permanencia-media", function (req, res) {
-    dashboardController.buscarPermanenciaMedia(req, res);
+router.get("/duracao-media-evento", function (req, res) {
+    dashboardController.buscarDuracaoMediaEvento(req, res);
 });
 
-router.get("/gasto-medio", function (req, res) {
-    dashboardController.buscarGastoMedio(req, res);
+router.get("/media-publico-evento", function (req, res) {
+    dashboardController.buscarMediaPublicoEvento(req, res);
 });
 
-router.get("/taxa-conversao", function (req, res) {
-    dashboardController.buscarTaxaConversao(req, res);
+router.get("/motivacao-principal", function (req, res) {
+    dashboardController.buscarMotivacaoPrincipal(req, res);
 });
 
 router.get("/total-mensal-visitas", function (req, res) {
     dashboardController.buscarTotalMensalVisitas(req, res);
+});
+
+router.get("/historico-visitas", function (req, res) {
+    dashboardController.buscarHistoricoVisitas(req, res);
+});
+
+router.get("/visitas-por-estado", function (req, res) {
+    dashboardController.buscarVisitasPorEstado(req, res);
 });
 
 module.exports = router;
