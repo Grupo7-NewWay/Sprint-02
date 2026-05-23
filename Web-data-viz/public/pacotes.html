@@ -28,18 +28,16 @@
     <section class="pacotes">
         <div class="pacotesTitulo">
             <h1>Gestão de <b>Pacotes turísticos</b></h1>
-            <button class="btnNovo">+ Novo pacote</button>
         </div>
 
         <div class="conteudoPacotes">
 
             <div class="listaPacotes" id="listaPacotes">
-                <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
 
 
             <div class="formPacote">
-                <h2>Criar <b>Novo Pacote</b></h2>
+                <h2 id="tituloCriarPacote">Criar <b>Novo Pacote</b></h2>
 
                 <div class="inputs">
                     <input id="ipt_nomePacote" type="text" placeholder="Nome do pacote" />
@@ -61,7 +59,7 @@
                         <input id="ipt_dataInicio" type="text" placeholder="Data de início" />
                     </div>
 
-                    <button class="btnPublicar" onclick="publicarPacote()">Publicar pacote</button>
+                    <button id="btnPublicar" class="btnPublicar" onclick="salvarPacote()">Publicar pacote</button>
                 </div>
             </div>
         </div>

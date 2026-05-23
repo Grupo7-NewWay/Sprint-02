@@ -11,4 +11,14 @@ router.get("/carregarPacotes", function (req, res) {
     pacotesController.carregarPacotes(req, res);
 })
 
+router.put("/atualizarPacote/:idPacote", function (req, res) {
+    pacotesController.atualizarPacote(req, res);
+})
+
+router.delete("/deletarPacote/:idPacote", function (req, res) {
+
+    pacotesController.deletarPacote(req, res);
+
+});
+
 module.exports = router;
