@@ -18,7 +18,74 @@ function carregarPacotes() {
     return database.executar(instrucaoSql);
 }
 
+function atualizarPacote(
+    
+    idPacote,
+    nomePacote,
+    categoria,
+    destino,
+    duracao,
+    preco,
+    descricao,
+    vagas,
+    dataInicio
+
+) {
+
+    console.log(
+
+        "ACESSEI O PACOTES MODEL - atualizarPacote()"
+
+    );
+
+    var instrucaoSql = `
+
+        UPDATE pacote
+        SET
+
+            nomePacote = '${nomePacote}',
+            categoria = '${categoria}',
+            destino = '${destino}',
+            duracao = '${duracao}',
+            preco = '${preco}',
+            descricao = '${descricao}',
+            vagas = '${vagas}',
+            dataInicio = '${dataInicio}'
+
+        WHERE idPacote = ${idPacote};
+
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+
+}
+
+function deletarPacote(idPacote) {
+
+    console.log(
+
+        "ACESSEI O PACOTES MODEL - deletarPacote()"
+
+    );
+
+    var instrucaoSql = `
+
+        DELETE FROM pacote
+        WHERE idPacote = ${idPacote};
+
+    `;
+
+    console.log("Executando SQL: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+
+}
+
 module.exports = {
     publicarPacote,
-    carregarPacotes
+    carregarPacotes,
+    atualizarPacote,
+    deletarPacote
 }
