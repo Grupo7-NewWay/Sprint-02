@@ -1,6 +1,6 @@
 # Sprint-02
 
-# Neway — A rota mais inteligente para o seu negócio.
+# Newway — A rota mais inteligente para o seu negócio.
 
 A **Neway** nasceu da necessidade de ajudar agências de turismo a entender melhor seus clientes e identificar oportunidades reais dentro do mercado.  
 Apesar do crescimento do turismo no Brasil, apenas **23% dos viajantes utilizam pacotes oferecidos por agências**, e grande parte dessa perda ocorre por falta de dados organizados ou falta de uma visão clara sobre o comportamento dos viajantes.
