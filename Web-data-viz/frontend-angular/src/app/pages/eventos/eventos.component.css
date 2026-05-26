@@ -1,0 +1,26 @@
+@import url('../../../../../public/css/pacotes.css'); 
+@import url('../../../../../public/css/dashboard.css');
+
+.cardPacote button {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.cardPacote button:hover {
+    transform: scale(1.2);
+}
+
+input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+input[type="date"]:focus {
+    border-color: #bfa15f;
+    outline: none;
+}
