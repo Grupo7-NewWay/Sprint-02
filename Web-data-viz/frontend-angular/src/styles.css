@@ -6,8 +6,8 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
+  min-height: 85vh;
   background-color: #0d1b2a !important;
   color: #ffffff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "Syne", sans-serif;
 }
