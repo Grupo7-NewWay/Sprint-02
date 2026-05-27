@@ -15,7 +15,6 @@
 
     <div class="pacotesTitulo">
         <h1>Gestão de <b>Eventos Culturais</b></h1>
-        <button class="btnNovo" (click)="cancelarEdicao()">+ Novo Evento</button>
     </div>
 
     <div class="conteudoPacotes">
@@ -57,17 +56,17 @@
                 
                 <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px;">
                     <label style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #555;">Nome do Evento</label>
-                    <input type="text" [(ngModel)]="eventoForm.nome" placeholder="Ex: Carnaval de Salvador">
+                    <input type="text" name="nome" [(ngModel)]="eventoForm.nome" placeholder="Ex: Carnaval de Salvador">
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px;">
                     <label style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #555;">Localidade / Estado</label>
-                    <input type="text" [(ngModel)]="eventoForm.localidade" placeholder="Ex: Salvador, BA">
+                    <input type="text" name="localidade" [(ngModel)]="eventoForm.localidade" placeholder="Ex: Salvador, BA">
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 25px;">
                     <label style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #555;">Data do Evento</label>
-                    <input type="date" [(ngModel)]="eventoForm.data">
+                    <input type="text" name="data" [(ngModel)]="eventoForm.data">
                 </div>
 
                 <div style="display: flex; gap: 10px;">

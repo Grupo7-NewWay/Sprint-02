@@ -202,39 +202,6 @@ function salvarPacote() {
 
         publicarPacote();
 
-<<<<<<< HEAD
-=======
-        fetch("/pacotes/publicarPacote", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nomePacoteServer: nomePacote,
-                categoriaServer: categoria,
-                destinoServer: destino,
-                duracaoServer: duracao,
-                precoServer: preco,
-                descricaoServer: descricao,
-                vagasServer: vagas,
-                dataInicioServer: dataInicio
-            }),
-        })
-            .then(function (resposta) {
-                console.log("Resposta:", resposta);
-                return resposta.json().then(function (dados) {
-                    if (resposta.ok) {
-                        alert("Pacote publicado com sucesso!");
-                        carregarPacotes();
-                    } else {
-                        alert(dados.mensagem);
-                    }
-                });
-            })
-            .catch(function (erro) {
-                console.log("ERRO:", erro);
-            });
->>>>>>> main
     }
 
 }
