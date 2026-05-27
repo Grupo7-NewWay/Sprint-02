@@ -11,7 +11,7 @@ public class MotivoLazer {
         this.fk_lazer_motivo = fk_lazer_motivo;
     }
 
-    public String getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 

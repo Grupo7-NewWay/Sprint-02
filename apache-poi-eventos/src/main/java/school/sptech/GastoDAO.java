@@ -40,7 +40,7 @@ public class GastoDAO {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, g.getTipo());
-            ps.setObject(2, g.getPorcentagem());
+            ps.setObject(2, g.getValor());
             ps.executeUpdate();
 
         } catch (Exception ex) {

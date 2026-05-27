@@ -13,7 +13,7 @@ public class ChegadasDAO {
                 "    paisOrigem varchar(255) not null," +
                 "    viaAcesso varchar(255) not null," +
                 "    qtdChegadas int not null," +
-                "    dataChegada varchar(255) not null," +
+                "    dataChegada date not null," +
                 "    qtdChegadaMes int not null," +
                 "    idLocalizacao int not null," +
                 "    constraint fk_chegada_localizacao" +
