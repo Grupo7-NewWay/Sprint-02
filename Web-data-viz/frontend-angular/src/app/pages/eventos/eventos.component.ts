@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Evento } from '../../models/evento.model';
+import { HttpClient } from '@angular/common/http';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-eventos',
@@ -10,60 +12,163 @@ import { Evento } from '../../models/evento.model';
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css']
 })
-export class EventosComponent {
-  
-  listaEventos: Evento[] = [
-    { id: 1, nome: 'Carnaval', localidade: 'Salvador, BA', data: '2026-03-01' },
-    { id: 2, nome: 'Festa Junina', localidade: 'Campina Grande, PB', data: '2026-06-12' },
-    { id: 3, nome: 'Oktoberfest', localidade: 'Blumenau, SC', data: '2026-10-18' }
-  ];
+
+
+
+export class EventosComponent implements OnInit {
+
+  listaEventos: Evento[] = [];
 
   eventoForm: Evento = this.inicializarFormulario();
 
   modoEdicao = false;
 
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    this.carregarEventos();
+  }
+
   inicializarFormulario(): Evento {
     return { nome: '', localidade: '', data: '' };
   }
 
+  carregarEventos(): void {
+
+    this.http.get<Evento[]>(
+      'http://localhost:8080/eventos/carregarEventos'
+    )
+      .subscribe({
+
+        next: (resposta) => {
+
+          console.log("EVENTOS DO BANCO:");
+          console.log(resposta);
+
+          this.listaEventos = resposta;
+        },
+
+        error: (erro) => {
+          console.error(erro);
+        }
+
+      });
+
+  }
+
   salvarEvento(): void {
-    if (!this.eventoForm.nome || !this.eventoForm.localidade || !this.eventoForm.data) {
+
+    if (
+      !this.eventoForm.nome ||
+      !this.eventoForm.localidade ||
+      !this.eventoForm.data
+    ) {
+
       alert('Preencha todos os campos antes de enviar!');
       return;
     }
 
     if (this.modoEdicao) {
 
-      const index = this.listaEventos.findIndex(e => e.id === this.eventoForm.id);
-      if (index !== -1) {
-        this.listaEventos[index] = { ...this.eventoForm };
-      }
-      this.modoEdicao = false;
-    } else {
-      const novoId = this.listaEventos.length > 0 
-        ? Math.max(...this.listaEventos.map(e => e.id || 0)) + 1 
-        : 1;
-      
-      this.listaEventos.push({ ...this.eventoForm, id: novoId });
+      this.http.put(
+        `http://localhost:8080/eventos/atualizarEvento/${this.eventoForm.id}`,
+        {
+          nomeServer: this.eventoForm.nome,
+          localidadeServer: this.eventoForm.localidade,
+          dataServer: this.eventoForm.data
+        }
+      )
+        .subscribe({
+
+          next: () => {
+
+
+            this.cancelarEdicao();
+
+            alert('Evento atualizado com sucesso!');
+
+            this.carregarEventos();
+
+          },
+
+          error: (erro) => {
+            console.error(erro);
+          }
+
+        });
+
     }
 
-    this.eventoForm = this.inicializarFormulario();
+    else {
+
+      this.http.post(
+        'http://localhost:8080/eventos/publicarEvento',
+        {
+          nomeServer: this.eventoForm.nome,
+          localidadeServer: this.eventoForm.localidade,
+          dataServer: this.eventoForm.data
+        }
+      )
+        .subscribe({
+
+          next: () => {
+
+            alert('Evento criado com sucesso!');
+
+            this.cancelarEdicao();
+            this.carregarEventos();
+
+            this.eventoForm = this.inicializarFormulario();
+
+          },
+
+          error: (erro) => {
+            console.error(erro);
+          }
+
+        });
+
+    }
   }
 
   prepararEdicao(evento: Evento): void {
     this.modoEdicao = true;
-    this.eventoForm = { ...evento }; 
+    this.eventoForm = { ...evento };
   }
 
   deletarEvento(id?: number): void {
-    if (confirm('Tem certeza que deseja excluir esse evento?')) {
-      this.listaEventos = this.listaEventos.filter(e => e.id !== id);
-      
-      if (this.eventoForm.id === id) {
-        this.cancelarEdicao();
-      }
-    }
+
+  if (id === undefined) {
+    console.error("ID undefined no delete");
+    return;
   }
+
+  if (confirm('Tem certeza que deseja excluir esse evento?')) {
+
+    this.http.delete(
+      `http://localhost:8080/eventos/deletarEvento/${id}`
+    )
+    .subscribe({
+
+      next: () => {
+
+        alert('Evento deletado com sucesso!');
+
+        this.carregarEventos();
+
+        if (this.eventoForm.id === id) {
+          this.cancelarEdicao();
+        }
+      },
+
+      error: (erro) => {
+        console.error(erro);
+      }
+
+    });
+
+  }
+}
 
   cancelarEdicao(): void {
     this.modoEdicao = false;
