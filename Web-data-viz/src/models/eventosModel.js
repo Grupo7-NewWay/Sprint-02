@@ -10,11 +10,15 @@ function publicarEvento(
 
     var instrucaoSql = `
 
-        INSERT INTO evento (
+        INSERT INTO eventos (
 
-            nome,
-            localidade,
-            data
+            nomeEvento,
+            municipio,
+            uf,
+            dtInicial,
+            dtTermino,
+            tipoEvento,
+            publicoEsperado
 
         )
 
@@ -22,7 +26,11 @@ function publicarEvento(
 
             '${nome}',
             '${localidade}',
-            '${data}'
+            '',
+            '${data}',
+            '${data}',
+            '',
+            0
 
         );
 
@@ -39,10 +47,10 @@ function carregarEventos() {
     var instrucaoSql = `
         SELECT
             idEvento AS id,
-            nome,
-            localidade,
-            data
-        FROM evento;
+            nomeEvento AS nome,
+            municipio AS localidade,
+            dtInicial AS data
+        FROM eventos;
     `;
 
     console.log(instrucaoSql);
@@ -54,11 +62,12 @@ function carregarEventos() {
 function atualizarEvento(id, nome, localidade, data) {
 
     var instrucaoSql = `
-        UPDATE evento
+        UPDATE eventos
         SET
-            nome = '${nome}',
-            localidade = '${localidade}',
-            data = '${data}'
+            nomeEvento = '${nome}',
+            municipio = '${localidade}',
+            dtInicial = '${data}',
+            dtTermino = '${data}'
         WHERE idEvento = ${id};
     `;
 
@@ -70,7 +79,7 @@ function atualizarEvento(id, nome, localidade, data) {
 function deletarEvento(id) {
 
     var instrucaoSql = `
-        DELETE FROM evento
+        DELETE FROM eventos
         WHERE idEvento = ${id};
     `;
 

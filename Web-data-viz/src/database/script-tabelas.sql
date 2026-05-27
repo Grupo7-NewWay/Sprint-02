@@ -257,14 +257,7 @@ INSERT INTO vendas (dataVenda, valor, qtdVenda, idAgencia, idPacote) VALUES
   ('2026-01-15', 7500.00, 3, 1, 2),
   ('2026-02-05', 1900.00, 1, 1, 3),
   ('2026-02-20', 6000.00, 5, 1, 4),
-  ('2026-03-08', 3150.00, 3, 1, 5),
-  ('2026-03-18', 1600.00, 1, 1, 1),
-  ('2026-04-02', 2500.00, 1, 1, 2),
-  ('2026-04-10', 5400.00, 3, 1, 6),
-  ('2026-04-22', 3800.00, 2, 1, 3),
-  ('2026-05-10', 4800.00, 3, 1, 1),
-  ('2026-05-12', 4200.00, 3, 1, 7),
-  ('2026-05-25', 5000.00, 2, 1, 2);
+  ('2026-03-08', 3150.00, 3, 1, 5);
 
 -- ========================
 -- EVENTOS 2025 (historico)
@@ -283,72 +276,18 @@ INSERT INTO eventos (nomeEvento, municipio, uf, dtInicial, dtTermino, tipoEvento
   ('Anime Friends Sul',                 'Curitiba',         'PR', '2025-07-25', '2025-07-27', 'Entretenimento',      25000),
   ('Gramado em Gramado',                'Gramado',          'RS', '2025-08-15', '2025-08-24', 'Festival Musical',    50000),
   ('Carnaval de Salvador',              'Salvador',         'BA', '2025-03-01', '2025-03-05', 'Carnaval',           200000),
-  ('Forro Caju',                        'Aracaju',          'SE', '2025-06-20', '2025-06-30', 'Festa Tradicional',  200000),
-  ('Micareta de Feira',                 'Feira de Santana', 'BA', '2025-04-24', '2025-04-27', 'Carnaval',           500000),
-  ('Maceio Fest',                       'Maceio',           'AL', '2025-10-17', '2025-10-26', 'Festival Musical',   300000),
-  ('Festival Gastronomico Recife',      'Recife',           'PE', '2025-09-05', '2025-09-14', 'Gastronomia',         40000),
-  ('Festival Folklorico',               'Manaus',           'AM', '2025-06-27', '2025-07-06', 'Cultural',           150000),
-  ('Cirio de Nazare',                   'Belem',            'PA', '2025-10-12', '2025-10-12', 'Religioso',          200000),
-  ('Boi Bumba',                         'Parintins',        'AM', '2025-06-27', '2025-06-29', 'Festa Tradicional',  100000),
-  ('Expo Amazonia',                     'Manaus',           'AM', '2025-08-20', '2025-08-25', 'Feira de Negocios',   30000),
-  ('Festival de Opera',                 'Manaus',           'AM', '2025-04-01', '2025-04-30', 'Cultural',            10000),
-  ('Festa do Peao',                     'Barretos',         'SP', '2025-08-14', '2025-08-24', 'Rodeio',             100000),
-  ('Festival Gastronomico CG',          'Campo Grande',     'MS', '2025-09-12', '2025-09-21', 'Gastronomia',         50000),
-  ('Cavalgada de Brasilia',             'Brasilia',         'DF', '2025-07-05', '2025-07-06', 'Rodeio',              80000),
-  ('Expo Agronegocio',                  'Goiania',          'GO', '2025-05-20', '2025-05-25', 'Feira de Negocios',   60000),
-  ('Festival Cultura Brasil',           'Cuiaba',           'MT', '2025-06-01', '2025-06-07', 'Cultural',            20000),
-  ('Carnaval de Porto Seguro',          'Porto Seguro',     'BA', '2025-03-01', '2025-03-05', 'Carnaval',           400000),
-  ('Festival de Verao Salvador',        'Salvador',         'BA', '2025-01-17', '2025-01-18', 'Festival Musical',   100000),
-  ('Sao Joao de Amargosa',              'Amargosa',         'BA', '2025-06-20', '2025-06-24', 'Festa Tradicional',   80000),
-  ('Festival da Banana',                'Itaberaba',        'BA', '2025-07-10', '2025-07-15', 'Gastronomia',         20000),
-  ('Lavagem do Bonfim',                 'Salvador',         'BA', '2025-01-16', '2025-01-16', 'Religioso',           80000),
-  ('Carnaval do Recife',                'Recife',           'PE', '2025-03-01', '2025-03-05', 'Carnaval',           150000),
-  ('Festa de Sao Joao de Caruaru',      'Caruaru',          'PE', '2025-06-01', '2025-06-30', 'Festa Tradicional',   90000),
-  ('Festival Rec-Beat',                 'Recife',           'PE', '2025-02-28', '2025-03-04', 'Festival Musical',    40000),
-  ('Festa da Pitomba',                  'Bezerros',         'PE', '2025-07-01', '2025-07-07', 'Gastronomia',         15000),
-  ('Semana da Cultura Nordestina',      'Olinda',           'PE', '2025-10-20', '2025-10-26', 'Cultural',            35000),
-  ('Carnaval de Florianopolis',         'Florianopolis',    'SC', '2025-03-01', '2025-03-05', 'Carnaval',           150000),
-  ('Bloco da Barra',                    'Florianopolis',    'SC', '2025-03-01', '2025-03-03', 'Carnaval',            20000),
-  ('Bloco do Suvaco do Cristo',         'Florianopolis',    'SC', '2025-03-02', '2025-03-02', 'Carnaval',            15000),
-  ('Sumol Summer Fest',                 'Florianopolis',    'SC', '2025-01-10', '2025-01-11', 'Festival Musical',    40000),
-  ('Festival Mundo de Musica',          'Florianopolis',    'SC', '2025-02-14', '2025-02-15', 'Festival Musical',    25000),
-  ('Planeta Atlantida SC',              'Florianopolis',    'SC', '2025-02-07', '2025-02-08', 'Festival Musical',    80000),
-  ('Rock na Ilha',                      'Florianopolis',    'SC', '2025-04-05', '2025-04-06', 'Festival Musical',    30000),
-  ('Festival de Jazz e Blues',          'Florianopolis',    'SC', '2025-07-18', '2025-07-20', 'Festival Musical',    18000),
-  ('Floripa Music Week',                'Florianopolis',    'SC', '2025-10-08', '2025-10-12', 'Festival Musical',    22000),
-  ('Festival de Verao Floripa',         'Florianopolis',    'SC', '2025-01-24', '2025-01-25', 'Festival Musical',    35000),
-  ('Festival de Cinema de Floripa',     'Florianopolis',    'SC', '2025-04-07', '2025-04-13', 'Cultural',            12000),
-  ('Floripa Teatro Festival',           'Florianopolis',    'SC', '2025-05-15', '2025-05-25', 'Cultural',            10000),
-  ('Festival de Danca de Floripa',      'Florianopolis',    'SC', '2025-06-06', '2025-06-15', 'Cultural',            20000),
-  ('Arte na Praca',                     'Florianopolis',    'SC', '2025-09-20', '2025-09-28', 'Cultural',             8000),
-  ('Exposicao Acoriana',                'Florianopolis',    'SC', '2025-08-01', '2025-08-31', 'Cultural',             5000),
-  ('Festival Internacional de Arte',    'Florianopolis',    'SC', '2025-11-14', '2025-11-23', 'Cultural',            15000),
-  ('Festival Sabores da Ilha',          'Florianopolis',    'SC', '2025-09-05', '2025-09-07', 'Gastronomia',         18000),
-  ('Ostravaganza',                      'Florianopolis',    'SC', '2025-03-14', '2025-03-16', 'Gastronomia',         12000),
-  ('Festival do Camarao',               'Florianopolis',    'SC', '2025-07-25', '2025-07-27', 'Gastronomia',         10000),
-  ('Floripa Beer Fest',                 'Florianopolis',    'SC', '2025-10-17', '2025-10-19', 'Gastronomia',         20000),
-  ('Festival Gastronomico da Lagoa',    'Florianopolis',    'SC', '2025-11-07', '2025-11-09', 'Gastronomia',          8000),
-  ('Ironman Florianopolis',             'Florianopolis',    'SC', '2025-05-25', '2025-05-25', 'Esportivo',           15000),
-  ('Maratona de Florianopolis',         'Florianopolis',    'SC', '2025-04-27', '2025-04-27', 'Esportivo',           10000),
-  ('Floripa Surf Pro',                  'Florianopolis',    'SC', '2025-01-15', '2025-01-19', 'Esportivo',           20000),
-  ('Beach Tennis Open Floripa',         'Florianopolis',    'SC', '2025-02-21', '2025-02-23', 'Esportivo',            8000),
-  ('Corrida da Ilha',                   'Florianopolis',    'SC', '2025-08-10', '2025-08-10', 'Esportivo',            6000),
-  ('Campeonato Catarinense de Volei',   'Florianopolis',    'SC', '2025-09-12', '2025-09-14', 'Esportivo',           12000),
-  ('Floripa Tech Summit',               'Florianopolis',    'SC', '2025-06-20', '2025-06-21', 'Feira de Negocios',   10000),
-  ('Startup Weekend Floripa',           'Florianopolis',    'SC', '2025-08-22', '2025-08-24', 'Feira de Negocios',    3000),
-  ('Expo Turismo SC',                   'Florianopolis',    'SC', '2025-05-08', '2025-05-11', 'Feira de Negocios',   15000),
-  ('Summit de Inovacao Catarinense',    'Florianopolis',    'SC', '2025-10-03', '2025-10-04', 'Feira de Negocios',    8000),
-  ('Festa do Divino Espirito Santo',    'Florianopolis',    'SC', '2025-06-01', '2025-06-08', 'Religioso',           30000),
-  ('Festa Acoriana da Ilha',            'Florianopolis',    'SC', '2025-07-04', '2025-07-06', 'Festa Tradicional',   25000),
-  ('Festa de Nossa Sra do Desterro',    'Florianopolis',    'SC', '2025-08-15', '2025-08-15', 'Religioso',           20000),
-  ('Reveillon da Beira Mar',            'Florianopolis',    'SC', '2025-12-31', '2026-01-01', 'Festival Musical',   220000),
-  ('Reveillon da Jurere Internacional', 'Florianopolis',    'SC', '2025-12-31', '2026-01-01', 'Festival Musical',    90000),
-  ('Contagem Regressiva SP',            'Sao Paulo',        'SP', '2025-12-31', '2026-01-01', 'Festival Musical',    70000);
-
+  ('Forro Caju',                        'Aracaju',          'SE', '2025-06-20', '2025-06-30', 'Festa Tradicional',  200000);
 -- ========================
 -- EVENTOS 2026 - ultimos 6 meses (grafico de visitas)
 -- Totais por mes: Dez~380k | Jan~370k | Fev~405k | Mar~390k | Abr~360k | Mai~350k
 -- ========================
+
+INSERT INTO eventos (nomeEvento, municipio, uf, dtInicial, dtTermino, tipoEvento, publicoEsperado) VALUES
+  -- Dezembro 2025  ~380.000
+  ('Reveillon Rio de Janeiro',          'Rio de Janeiro',  'RJ', '2025-12-28', '2025-12-31', 'Festival Musical',  200000),
+  ('Natal Luz Gramado',                 'Gramado',         'RS', '2025-12-05', '2025-12-28', 'Cultural',           80000),
+  ('Festival de Verao Natal',           'Natal',           'RN', '2025-12-13', '2025-12-14', 'Festival Musical',   60000),
+  ('Feira de Natal SP',                 'Sao Paulo',       'SP', '2025-12-06', '2025-12-21', 'Cultural',           40000);
 
 INSERT INTO eventos (nomeEvento, municipio, uf, dtInicial, dtTermino, tipoEvento, publicoEsperado) VALUES
   -- Janeiro 2026  ~370.000

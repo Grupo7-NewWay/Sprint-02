@@ -64,22 +64,17 @@ function atualizarPacote(
 
 function deletarPacote(idPacote) {
 
-    console.log(
+    console.log("ACESSEI O PACOTES MODEL - deletarPacote()");
 
-        "ACESSEI O PACOTES MODEL - deletarPacote()"
-
-    );
-
-    var instrucaoSql = `
-
-        DELETE FROM pacote
-        WHERE idPacote = ${idPacote};
-
-    `;
-
-    console.log("Executando SQL: \n" + instrucaoSql);
-
-    return database.executar(instrucaoSql);
+    return database.executar(`DELETE FROM vendas WHERE idPacote = ${idPacote}`)
+        .then(function () {
+            return database.executar(`DELETE FROM pacotes_agencias WHERE idPacote = ${idPacote}`);
+        })
+        .then(function () {
+            var instrucaoSql = `DELETE FROM pacote WHERE idPacote = ${idPacote};`;
+            console.log("Executando SQL: \n" + instrucaoSql);
+            return database.executar(instrucaoSql);
+        });
 
 }
 

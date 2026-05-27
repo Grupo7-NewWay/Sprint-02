@@ -1,5 +1,15 @@
 var pacotesModel = require("../models/pacotesModel");
 
+function normalizarData(data) {
+    if (!data) return data;
+    if (data.includes('T')) return data.substring(0, 10);
+    if (data.includes('/')) {
+        var partes = data.split('/');
+        return `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+    }
+    return data;
+}
+
 function publicarPacote(req, res) {
     var nomePacote = req.body.nomePacoteServer;
     var categoria = req.body.categoriaServer;
@@ -8,7 +18,7 @@ function publicarPacote(req, res) {
     var preco = req.body.precoServer;
     var descricao = req.body.descricaoServer;
     var vagas = req.body.vagasServer;
-    var dataInicio = req.body.dataInicioServer;
+    var dataInicio = normalizarData(req.body.dataInicioServer);
 
     if (nomePacote == undefined) {
         res.status(400).send("O nome de pacote está undefined!");
@@ -46,11 +56,7 @@ function publicarPacote(req, res) {
 function carregarPacotes(req, res) {
 
     pacotesModel.carregarPacotes().then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
+        res.status(200).json(resultado);
     }).catch(function (erro) {
         console.log(erro);
         console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
@@ -70,7 +76,7 @@ function atualizarPacote(req, res) {
     var preco = req.body.preco;
     var descricao = req.body.descricao;
     var vagas = req.body.vagas;
-    var dataInicio = req.body.dataInicio;
+    var dataInicio = normalizarData(req.body.dataInicio);
 
     if (idPacote == undefined) {
         res.status(400).send("O id do pacote está undefined!");

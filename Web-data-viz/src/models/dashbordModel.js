@@ -3,7 +3,7 @@ var database = require("../database/config");
 function buscarTopRegiao() {
     var instrucaoSql = `
         SELECT municipio, COUNT(*) as totalEventos, SUM(publicoEsperado) as totalPublicoEsperado
-        FROM evento
+        FROM eventos
         GROUP BY municipio
         ORDER BY totalEventos DESC
         LIMIT 10
@@ -16,7 +16,7 @@ function buscarTopRegiao() {
 function buscarEventosPorTipo() {
     var instrucaoSql = `
         SELECT tipoEvento, COUNT(*) as totalEventos
-        FROM evento
+        FROM eventos
         GROUP BY tipoEvento
         ORDER BY totalEventos DESC
     `;
@@ -28,7 +28,7 @@ function buscarEventosPorTipo() {
 function buscarEventosProximos() {
     var instrucaoSql = `
         SELECT nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado
-        FROM evento
+        FROM eventos
         WHERE dtInicial >= CURDATE()
         ORDER BY dtInicial ASC
         LIMIT 10
@@ -41,7 +41,7 @@ function buscarEventosProximos() {
 function buscarDuracaoMediaEvento() {
     var instrucaoSql = `
         SELECT ROUND(AVG(DATEDIFF(dtTermino, dtInicial) + 1)) AS duracaoMedia
-        FROM evento
+        FROM eventos
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -50,7 +50,7 @@ function buscarDuracaoMediaEvento() {
 function buscarMediaPublicoEvento() {
     var instrucaoSql = `
         SELECT ROUND(AVG(publicoEsperado)) AS mediaPublico
-        FROM evento
+        FROM eventos
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -70,7 +70,7 @@ function buscarMotivacaoPrincipal() {
 function buscarTotalMensalVisitas() {
     var instrucaoSql = `
         SELECT SUM(publicoEsperado) as totalVisitas
-        FROM evento
+        FROM eventos
         WHERE MONTH(dtInicial) = MONTH(CURDATE())
           AND YEAR(dtInicial) = YEAR(CURDATE())
     `;
@@ -84,7 +84,7 @@ function buscarHistoricoVisitas() {
             YEAR(dtInicial)       AS ano,
             MONTH(dtInicial)      AS numeroMes,
             SUM(publicoEsperado)  AS totalVisitas
-        FROM evento
+        FROM eventos
         WHERE dtInicial >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
         GROUP BY YEAR(dtInicial), MONTH(dtInicial)
         ORDER BY YEAR(dtInicial), MONTH(dtInicial)
@@ -97,7 +97,7 @@ function buscarHistoricoVisitas() {
 function buscarVisitasPorEstado() {
     var instrucaoSql = `
         SELECT uf, SUM(publicoEsperado) AS totalVisitas
-        FROM evento
+        FROM eventos
         GROUP BY uf
         ORDER BY totalVisitas DESC
     `;

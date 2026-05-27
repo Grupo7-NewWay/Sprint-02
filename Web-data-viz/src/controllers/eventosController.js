@@ -1,5 +1,15 @@
 var eventosModel = require("../models/eventosModel");
 
+function normalizarData(data) {
+    if (!data) return data;
+    if (data.includes('T')) return data.substring(0, 10);
+    if (data.includes('/')) {
+        var partes = data.split('/');
+        return `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+    }
+    return data;
+}
+
 function publicarEvento(req, res) {
 
     console.log(req.body);
@@ -8,7 +18,7 @@ function publicarEvento(req, res) {
 
     var localidade = req.body.localidadeServer;
 
-    var data = req.body.dataServer;
+    var data = normalizarData(req.body.dataServer);
 
     if (nome == undefined) {
 
@@ -92,7 +102,7 @@ function atualizarEvento(req, res) {
 
     var nome = req.body.nomeServer;
     var localidade = req.body.localidadeServer;
-    var data = req.body.dataServer;
+    var data = normalizarData(req.body.dataServer);
 
     if (nome == undefined) {
         res.status(400).send("Nome undefined");
