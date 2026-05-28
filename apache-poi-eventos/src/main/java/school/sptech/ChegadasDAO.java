@@ -10,15 +10,7 @@ public class ChegadasDAO {
 
         String sql = "create table chegada" +
                 "    (idChegada int primary key auto_increment," +
-                "    paisOrigem varchar(255) not null," +
-                "    viaAcesso varchar(255) not null," +
-                "    qtdChegadas int not null," +
-                "    dataChegada date not null," +
-                "    qtdChegadaMes int not null," +
-                "    idLocalizacao int not null," +
-                "    constraint fk_chegada_localizacao" +
-                "        foreign key (idLocalizacao)" +
-                "            references localizacao(idLocalizacao)" +
+                "    ano varchar(255) not null" +
                 ")";
 
         try (Connection con = ConexaoBD.conectar();
@@ -37,8 +29,8 @@ public class ChegadasDAO {
 
         String sql = """
             INSERT INTO chegada
-            (paisOrigem, viaAcesso, qtdChegadas, dataChegada, qtdChegadasMes, fk_chegada_localizacao)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (ano)
+            VALUES (?)
         """
 
                 ;
@@ -47,12 +39,7 @@ public class ChegadasDAO {
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, c.getPaisOrigem());
-            ps.setObject(2, c.getViaAcesso());
-            ps.setObject(3, c.getQtdChegadas());
-            ps.setObject(4, c.getDataChegada());
-            ps.setObject(5, c.getQtdChegadaMes());
-            ps.setObject(6, c.getFk_chegada_localizacao());
+            ps.setObject(1, c.getAno());
             ps.executeUpdate();
 
         } catch (Exception ex) {

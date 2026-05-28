@@ -14,14 +14,15 @@ import java.util.List;
 public class Main {
 
                     public static void main(String[] args) throws IOException {
-                            if (args.length < 2) {
+                            if (args.length < 3) {
                                     throw new RuntimeException(
-                                            "Informe os dois arquivos de Excel"
+                                            "Informe os três arquivos de Excel"
                                     );
                             }
 
                             String caminhoEventos = args[0];
                             String caminhoDemanda = args[1];
+                            String caminhoChegadas = args[2];
 
 
                             S3Provider provider = new S3Provider();
@@ -76,6 +77,22 @@ public class Main {
                                     )
                             );
 
+
+                            Path filePathChegadas =
+                                    Paths.get(caminhoChegadas);
+
+                            s3Client.putObject(
+
+                                    PutObjectRequest.builder()
+                                            .bucket(bucketName)
+                                            .key("chegada_turistas.xlsx")
+                                            .build(),
+
+                                    RequestBody.fromFile(
+                                            filePathChegadas
+                                    )
+                            );
+
                             System.out.println(
                                     "Upload finalizado com sucesso!"
                             );
@@ -87,6 +104,7 @@ public class Main {
 
                             leitorExcel.extrairDemandaTuristica();
 
+                            leitorExcel.extrairChegadas();
 
                             s3Client.close();
 

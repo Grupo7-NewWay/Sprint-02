@@ -3,55 +3,20 @@ package school.sptech;
 import java.time.LocalDate;
 
 public class Chegadas {
-    private String paisOrigem;
-    private String viaAcesso;
-    private Integer qtdChegadas;
-    private LocalDate dataChegada;
-    private Integer qtdChegadaMes;
-    private Integer fk_chegada_localizacao;
+    private Integer ano;
 
-    public Chegadas(String paisOrigem, String viaAcesso, Integer qtdChegadas, LocalDate dataChegada, Integer qtdChegadaMes, Integer fk_chegada_localizacao) {
-        this.paisOrigem = paisOrigem;
-        this.viaAcesso = viaAcesso;
-        this.qtdChegadas = qtdChegadas;
-        this.dataChegada = dataChegada;
-        this.qtdChegadaMes = qtdChegadaMes;
-        this.fk_chegada_localizacao = fk_chegada_localizacao;
+    public Chegadas(Integer ano) {
+        this.ano = ano;
     }
 
-    public String getPaisOrigem() {
-        return paisOrigem;
-    }
-
-    public String getViaAcesso() {
-        return viaAcesso;
-    }
-
-    public Integer getQtdChegadas() {
-        return qtdChegadas;
-    }
-
-    public LocalDate getDataChegada() {
-        return dataChegada;
-    }
-
-    public Integer getQtdChegadaMes() {
-        return qtdChegadaMes;
-    }
-
-    public Integer getFk_chegada_localizacao() {
-        return fk_chegada_localizacao;
+    public Integer getAno() {
+        return ano;
     }
 
     @Override
     public String toString() {
         return "Chegadas{" +
-                "paisOrigem='" + paisOrigem + '\'' +
-                ", viaAcesso='" + viaAcesso + '\'' +
-                ", qtdChegadas=" + qtdChegadas +
-                ", dataChegada=" + dataChegada +
-                ", qtdChegadaMes=" + qtdChegadaMes +
-                ", fk_chegada_localizacao='" + fk_chegada_localizacao + '\'' +
+                "ano=" + ano +
                 '}';
     }
 }

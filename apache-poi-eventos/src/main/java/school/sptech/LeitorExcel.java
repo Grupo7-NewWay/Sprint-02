@@ -121,20 +121,11 @@ public class LeitorExcel {
 
         LogDao logDao = new LogDao();
 
-        ChegadasDAO chegadasDAO =
-                new ChegadasDAO();
-
         GastoDAO gastoDAO =
                 new GastoDAO();
 
         PermanenciaDAO permanenciaDAO =
                 new PermanenciaDAO();
-
-        LocalizacaoDAO localizacaoDAO =
-                new LocalizacaoDAO();
-
-        PacotesDAO pacotesDAO =
-                new PacotesDAO();
 
         try (
 
@@ -152,59 +143,43 @@ public class LeitorExcel {
                     "DEMANDA-SINTESE BRASIL_4.1"
             );
 
-            for (Row row : sheet) {
+            for (int i = 38; i <= 40; i++) {
 
-                if (row.getRowNum() == 0) continue;
+                Row row = sheet.getRow(i);
 
-                String paisOrigem =
-                        getString(row, 1);
-
-                String viaAcesso =
+                String tipo =
                         getString(row, 3);
 
-                LocalDate dataChegada =
-                        getData(row.getCell(9));
-
-                Integer qtdChegadas =
-                        getInteger(row, 13);
-
-                Integer qtdChegadasMes =
-                        getInteger(row, 18);
-
-                Chegadas chegada = new Chegadas(
-                        paisOrigem,
-                        viaAcesso,
-                        qtdChegadas,
-                        dataChegada,
-                        qtdChegadasMes,
-                        1
-                );
-
-                chegadasDAO.salvar(chegada);
-
-
                 Double valorGasto =
-                        getDouble(row, 20);
+                        getDouble(row, 3);
 
-                if (valorGasto != null) {
+                if (valorGasto != null || tipo == null) {
 
                     Gasto gasto = new Gasto(
-                            "Turista",
+                            tipo,
                             valorGasto
                     );
 
                     gastoDAO.salvar(gasto);
                 }
+            }
 
+
+            for (int i = 43; i <= 45; i++) {
+
+                Row row = sheet.getRow(i);
+
+                String tipo =
+                        getString(row, 1);
 
                 Integer qtdDias =
-                        getInteger(row, 21);
+                        getInteger(row, 3);
 
                 if (qtdDias != null) {
 
                     Permanencia permanencia =
                             new Permanencia(
-                                    "Média",
+                                    tipo,
                                     qtdDias
                             );
 
@@ -212,47 +187,114 @@ public class LeitorExcel {
                             permanencia
                     );
                 }
+            }
+
+            logDao.salvar(
+                    "INFO",
+                    "Demanda turística processada"
+            );
+
+        } catch (Exception e) {
+
+            logDao.salvar(
+                    "ERROR",
+                    "Erro ao processar demanda: "
+                            + e.getMessage()
+            );
+
+            e.printStackTrace();
+        }
+    }
+
+    public void extrairChegadas() {
+
+        LogDao logDao = new LogDao();
+
+        ChegadasDAO chegadasDAO =
+                new ChegadasDAO();
+
+        ChegadasLocalidadeDAO chegadasLocalidadeDAO =
+                new ChegadasLocalidadeDAO();
+
+        ChegadasMesDAO chegadasMesDAO =
+                new ChegadasMesDAO();
 
 
-                String uf =
-                        getString(row, 22);
+        try (
 
-                String cidade =
-                        getString(row, 23);
+                InputStream arquivo = lerDoS3(
+                        AmbienteConfig.BUCKET,
+                        AmbienteConfig.CHEGADASTURISTAS
+                );
 
-                if (uf != null && cidade != null) {
+                Workbook workbook =
+                        new XSSFWorkbook(arquivo)
 
-                    Localizacao localizacao =
-                            new Localizacao(
-                                    uf,
-                                    cidade
-                            );
+        ) {
 
-                    localizacaoDAO.salvar(
-                            localizacao
+            Sheet sheet = workbook.getSheet(
+                    "SÍNTESE BRASIL_3.1-3.2"
+            );
+
+
+
+            for (int i = 3; i <= 5; i++) {
+                Row rowAno = sheet.getRow(9);
+
+                Integer ano =
+                        getInteger(rowAno, i);
+
+                if (ano != null) {
+                    Chegadas chegadas = new Chegadas(
+                            ano
                     );
+
+                    chegadasDAO.salvar(chegadas);
                 }
+            }
 
+            for (int i = 12; i <= 29; i++) {
 
-                Integer qtdPacotes =
-                        getInteger(row, 24);
+                Row row = sheet.getRow(i);
 
-                if (qtdPacotes != null) {
+                Integer qtdChegadaLocalidade =
+                        getInteger(row, 3);
 
-                    Pacotes pacotes =
-                            new Pacotes(
-                                    "Pacote Turístico",
-                                    qtdPacotes,
-                                    1,
-                                    1,
-                                    1,
-                                    LocalDate.now(),
-                                    LocalDate.now()
-                            );
+                String localidade =
+                        getString(row, 1);
 
-                    pacotesDAO.salvar(
-                            pacotes
+                if (qtdChegadaLocalidade != null && localidade == null) {
+                    ChegadasLocalidade chegadasLocalidade = new ChegadasLocalidade(
+                            2019,
+                            qtdChegadaLocalidade,
+                            localidade,
+                            1
                     );
+
+                    chegadasLocalidadeDAO.salvar(chegadasLocalidade);
+                }
+            }
+
+            for (int i = 46; i <= 57; i++) {
+
+                Row row = sheet.getRow(i);
+
+                Integer qtdChegadasMes =
+                        getInteger(row, 3);
+
+                String mes =
+                        getString(row, 1);
+
+                if (qtdChegadasMes != null && mes == null) {
+
+                    ChegadasMes chegadasMes = new ChegadasMes(
+                            2019,
+                            qtdChegadasMes,
+                            mes,
+                            1
+                    );
+
+                    chegadasMesDAO.salvar(chegadasMes);
                 }
             }
 

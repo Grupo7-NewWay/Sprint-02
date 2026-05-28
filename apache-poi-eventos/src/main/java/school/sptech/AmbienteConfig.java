@@ -31,4 +31,7 @@ public class AmbienteConfig {
         public static final String DEMANDA =
             "demanda_turistica_2021.xlsx";
 
+        public static final String CHEGADASTURISTAS =
+            "chegada_turistas.xlsx";
+
 }

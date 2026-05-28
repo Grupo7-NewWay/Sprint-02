@@ -5,7 +5,7 @@ public class MotivoLazer {
     private Integer porcentagem;
     private Integer fk_lazer_motivo;
 
-    public MotivoLazer(String tipoMotivoLazer, Integer porcentagem, Integer fk_lazer_motivo) {
+    public MotivoLazer(Tipo tipo, Integer porcentagem, Integer fk_lazer_motivo) {
         this.tipo = tipo;
         this.porcentagem = porcentagem;
         this.fk_lazer_motivo = fk_lazer_motivo;
