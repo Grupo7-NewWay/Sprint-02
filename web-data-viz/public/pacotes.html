@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pacotes - New Way</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/pacotes.css" />
+    <link rel="icon" type="image/x-icon" href="assets/imgs/logoNeway.png" />
+</head>
+
+<body onload="carregarPacotes()">
+    <!--NAVBAR -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="dashboard.html">DASHBOARD</a>
+            <a href="#" class="active">PACOTES</a>
+            <a href="perfil.html">PERFIL</a>
+            <a href="login.html">SAIR</a>
+            <a href="index.html" class="navbar-logo"><img src="assets/imgs/logoNeway.png" alt="New Way" height="32"
+                    style="display: block" /></a>
+        </nav>
+    </header>
+
+    <section class="pacotes">
+        <div class="pacotesTitulo">
+            <h1>Gestão de <b>Pacotes turísticos</b></h1>
+        </div>
+
+        <div class="conteudoPacotes">
+
+            <div class="listaPacotes" id="listaPacotes">
+            </div>
+
+
+            <div class="formPacote">
+                <h2 id="tituloCriarPacote">Criar Novo <b>Pacote</b></h2>
+
+                <div class="inputs">
+                    <input id="ipt_nomePacote" type="text" placeholder="Nome do pacote" />
+
+                    <div class="linha">
+                        <input id="ipt_categoria" type="text" placeholder="Categoria" />
+                        <input id="ipt_destino" class="destino" type="text" placeholder="Destino" />
+                    </div>
+
+                    <div class="linha">
+                        <input id="ipt_duracao" type="number" placeholder="Duração (dias)" />
+                        <input id="ipt_preco" type="number" placeholder="Preço" />
+                    </div>
+
+                    <input id="ipt_descricao" placeholder="Descrição"></input>
+
+                    <div class="linha">
+                        <input id="ipt_vagas" type="number" placeholder="Vagas" />
+                        <input id="ipt_dataInicio" type="date" placeholder="Data de início" />
+                    </div>
+
+                    <button id="btnPublicar" class="btnPublicar" onclick="salvarPacote()">Publicar pacote</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+<script src="./js/pacotes.js"></script>
