@@ -10,20 +10,21 @@ cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-
 
 # 2. Subir Docker Compose
 cd /home/ubuntu/Sprint-02
-docker-compose up -d
+docker compose up -d
 
-echo "Aguardando container java ficar pronto..."
-until docker-compose ps java | grep -q "Up"; do
+# 3. Aguardar container jar-processor ficar pronto
+echo "Aguardando container jar-processor ficar pronto..."
+until docker compose ps jar-processor | grep -q "running"; do
   sleep 2
 done
 echo "Container pronto!"
 
-# 3. Configurar CRON
-DOCKER_BIN=$(which docker-compose)
+# 4. Configurar CRON
+DOCKER_BIN=$(which docker)
 COMPOSE_DIR="/home/ubuntu/Sprint-02"
 LOG_PATH="/home/ubuntu/log-projeto.log"
 
-CRON_JOB="*/5 * * * * cd $COMPOSE_DIR && $DOCKER_BIN compose run --rm java >> $LOG_PATH 2>&1"
+CRON_JOB="*/5 * * * * cd $COMPOSE_DIR && $DOCKER_BIN compose run --rm jar-processor >> $LOG_PATH 2>&1"
 
 (crontab -l 2>/dev/null | grep -qF "$COMPOSE_DIR") \
   && echo "CRON já configurado, pulando." \
