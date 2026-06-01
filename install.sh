@@ -33,18 +33,25 @@ sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 
-# 6. Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64" \
+# 6. Docker Compose v2 (standalone, compatível com docker-compose)
+# Remove plugin v2 do apt para evitar conflito
+sudo apt-get remove -y docker-compose-plugin 2>/dev/null || true
+
+sudo curl -fsSL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64" \
   -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-docker-compose --version
 
-# 7. Garantir CRON instalado e ativo  ← ADICIONADO
+# Verifica instalação
+docker-compose --version || { echo "ERRO: docker-compose não instalado corretamente"; exit 1; }
+
+# 7. CRON
 sudo apt install cron -y
 sudo systemctl enable cron
 sudo systemctl start cron
 
 echo "--------------------------------------------"
 echo "Instalação concluída!"
+echo "ATENÇÃO: Faça logout e login novamente para"
+echo "         aplicar as permissões do Docker."
 echo "Quando estiver pronto, execute: bash start.sh"
 echo "--------------------------------------------"
