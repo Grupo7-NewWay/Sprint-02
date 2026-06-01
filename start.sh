@@ -12,9 +12,9 @@ cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-
 cd /home/ubuntu/Sprint-02
 docker-compose up -d
 
-# 3. Aguarda só o MySQL ficar pronto
+# 3. Aguarda MySQL ficar pronto
 echo "Aguardando MySQL ficar pronto..."
-until docker-compose ps mysql | grep -q "running"; do
+until docker exec mysql mysqladmin ping -u root -purubu100 --silent 2>/dev/null; do
   sleep 2
 done
 echo "MySQL pronto!"
