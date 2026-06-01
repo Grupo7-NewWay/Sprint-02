@@ -1,0 +1,123 @@
+version: '3.9'
+
+services:
+
+  msyql:
+    
+    image: mysql:8
+
+    container_name: mysql
+
+    restart: always
+
+    environment:
+
+    # ========================================
+    # SENHA ROOT MYSQL
+    # ========================================
+
+    MYSQL_ROOT_PASSWORD: urubu100
+
+    # ========================================
+    # NOME DO BANCO
+    # ========================================
+
+    MYSQL_DATABASE: newway
+
+    # ========================================
+    # USUARIO
+    # ========================================
+
+    MYSQL_USER: adminnewway
+
+    # ========================================
+    # SENHA DO USUARIO DA APLICACAO
+    # ========================================
+
+    MYSQL_PASSWORD: urubu100
+  
+  volumes:
+    - mysql_data:/var/lib/mysql
+    - ./mysql/init.sql:/docker-entrypoint-initdb.d/init-sql
+
+  networks:
+    - newway-network
+
+web-data-viz:
+
+  build: ./web-data-viz
+
+  container_name: web-data-viz
+  
+  restart: always
+
+  depends_on:
+    - mysql
+
+  ports:
+
+    # ========================================
+    # PORTA 80 EXTERNA
+    # PORTA 3000 INTERNA (NODE)
+    # ========================================
+
+  environment:
+
+    # ========================================
+    # MYSQL
+    # ========================================
+
+    DB_HOST: mysql
+    DB_PORT: 3306
+    
+    DB_NAME: newway
+
+    DB_USER: adminnewway
+
+    DB_PASSWORD: urubu100
+
+  networks:
+    - newway-network
+
+jar-processor:
+
+  build: ./java
+ 
+  container_name: java
+
+  restart: always
+
+  depends_on:
+    - mysql
+
+  environment:
+
+    # ========================================
+    # MYSQL
+    # ========================================
+
+    DB_HOST: mysql
+    DB_PORT: 3306
+
+    DB_NAME: newway
+
+    DB_USER: adminnewway
+
+    DB_PASSWORD: urubu100
+
+    # ========================================
+    # AWS
+    # ========================================
+
+    AWS_REGION: us-east-1
+    
+    S3_BUCKET: bucket-newway
+
+  networks:
+    - newway-network
+
+networks:
+  newway-network:
+
+volumes:
+  mysql_data:
