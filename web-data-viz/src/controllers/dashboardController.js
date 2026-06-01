@@ -110,25 +110,17 @@ function buscarTotalMensalVisitas(req, res) {
 }
 
 function buscarHistoricoVisitas(req, res) {
-    console.log("Recuperando histórico de visitas dos últimos 6 meses");
+    console.log("Recuperando histórico de visitas");
 
     var mesesPt = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
 
-    var agora = new Date();
-    var ultimos6 = [];
-    for (var i = 5; i >= 0; i--) {
-        var d = new Date(agora.getFullYear(), agora.getMonth() - i, 1);
-        ultimos6.push({ ano: d.getFullYear(), mes: d.getMonth() + 1 });
-    }
-
     dashboardModel.buscarHistoricoVisitas().then(function (resultado) {
-        var mapa = {};
-        resultado.forEach(function (r) {
-            mapa[r.ano + "-" + r.numeroMes] = r.totalVisitas;
-        });
+        if (!resultado || resultado.length === 0) {
+            return res.status(204).send("Nenhum resultado encontrado!");
+        }
 
-        var labels = ultimos6.map(function (m) { return mesesPt[m.mes - 1]; });
-        var data   = ultimos6.map(function (m) { return mapa[m.ano + "-" + m.mes] || 0; });
+        var labels = resultado.map(function (r) { return mesesPt[r.numeroMes - 1]; });
+        var data   = resultado.map(function (r) { return r.totalVisitas; });
 
         res.status(200).json({ labels: labels, data: data });
     }).catch(function (erro) {

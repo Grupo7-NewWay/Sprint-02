@@ -104,17 +104,20 @@ function carregarVisitasPorEstado() {
       return res.json();
     })
     .then(function (dados) {
-      if (!dados) return;
-      Object.keys(STATE_DATA).forEach(function (id) {
-        if (dados[id] !== undefined) {
-          STATE_DATA[id].sales = dados[id];
-        }
-      });
+      if (dados) {
+        Object.keys(STATE_DATA).forEach(function (id) {
+          if (dados[id] !== undefined) {
+            STATE_DATA[id].sales = dados[id];
+          }
+        });
+      }
       colorMapByData();
       bindMapInteractions();
     })
     .catch(function (erro) {
       console.error("Erro ao carregar mapa:", erro);
+      colorMapByData();
+      bindMapInteractions();
     });
 }
 
@@ -223,7 +226,6 @@ function criarGraficoLinha(labels, data) {
     },
   });
 }
-/*
 function atualizarGraficoLinha() {
   fetch("/dashboard/historico-visitas")
     .then(function (res) {
@@ -243,7 +245,6 @@ function atualizarGraficoLinha() {
       criarGraficoLinha(HISTORICO_VISITAS_FALLBACK.labels, HISTORICO_VISITAS_FALLBACK.data);
     });
 }
-*/
 function agendarProximaAtualizacaoSemestral() {
   var agora = new Date();
   var ano   = agora.getFullYear();
@@ -353,7 +354,10 @@ function carregarTotalMensalVisitas() {
 }
 
 function initDashboard() {
+  colorMapByData();
+  bindMapInteractions();
   carregarVisitasPorEstado();
+  criarGraficoLinha(HISTORICO_VISITAS_FALLBACK.labels, HISTORICO_VISITAS_FALLBACK.data);
   renderMonthlySalesChart();
   carregarTopRegiao();
   carregarPermanenciaMedia();

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil — Newway</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.10);
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 36px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: #4A154B;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .logo-text { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+
+    h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 6px; }
+    .subtitle { font-size: 14px; color: #666; margin-bottom: 28px; }
+
+    /* Passo 1 — botão Slack */
+    .step { margin-bottom: 28px; }
+    .step-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4A154B;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 10px;
+    }
+    .step-desc { font-size: 13px; color: #555; margin-bottom: 14px; line-height: 1.5; }
+
+    .btn-slack {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #4A154B;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-slack:hover { background: #611b62; }
+
+    .slack-logo { width: 20px; height: 20px; }
+
+    /* Dica como achar o ID */
+    .tip-box {
+      background: #f8f4ff;
+      border-left: 3px solid #4A154B;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .tip-box strong { color: #4A154B; }
+
+    /* Formulário */
+    label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #222;
+      transition: border-color .2s;
+      outline: none;
+    }
+    input:focus { border-color: #4A154B; }
+
+    .form-group { margin-bottom: 16px; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: #4A154B;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background .2s;
+    }
+    .btn-submit:hover { background: #611b62; }
+
+    /* Mensagem de feedback */
+    #mensagem {
+      margin-top: 14px;
+      font-size: 14px;
+      text-align: center;
+      min-height: 22px;
+    }
+    .success { color: #2e7d32; }
+    .error   { color: #c62828; }
+
+    /* Lista de cadastrados */
+    .users-section { margin-top: 32px; border-top: 1px solid #eee; padding-top: 24px; }
+    .users-section h3 { font-size: 15px; color: #333; margin-bottom: 14px; }
+    #lista-usuarios { list-style: none; }
+    #lista-usuarios li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    #lista-usuarios li .user-info { display: flex; flex-direction: column; gap: 2px; }
+    #lista-usuarios li .user-nome { font-weight: 600; color: #222; }
+    #lista-usuarios li .user-id   { font-size: 12px; color: #888; }
+    .btn-remover {
+      background: none;
+      border: 1px solid #e53935;
+      color: #e53935;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-remover:hover { background: #fff0f0; }
+    .empty { font-size: 13px; color: #aaa; text-align: center; padding: 12px 0; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Cabeçalho -->
+  <div class="logo">
+    <div class="logo-icon">N</div>
+    <span class="logo-text">Newway</span>
+  </div>
+
+  <h2>Notificações pelo Slack</h2>
+  <p class="subtitle">Receba alertas em tempo real direto no seu Slack quando o sistema ligar, desligar ou ler arquivos.</p>
+
+  <!-- Passo 1: entrar no workspace -->
+  <div class="step">
+    <div class="step-label">Passo 1 — Entre no nosso Slack</div>
+    <p class="step-desc">Clique no botão abaixo para entrar no workspace do Newway no Slack. Crie sua conta, se ainda não tiver.</p>
+    <a class="btn-slack"
+       href="https://join.slack.com/t/SEU-WORKSPACE/shared_invite/SUBSTITUA-PELO-LINK-REAL"
+       target="_blank"
+       rel="noopener">
+      <!-- Ícone Slack simplificado via SVG inline -->
+      <svg class="slack-logo" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.7 33.3a4.4 4.4 0 01-4.4 4.4 4.4 4.4 0 01-4.4-4.4 4.4 4.4 0 014.4-4.4h4.4v4.4z" fill="#fff"/>
+        <path d="M22 33.3a4.4 4.4 0 014.4-4.4 4.4 4.4 0 014.4 4.4v11a4.4 4.4 0 01-4.4 4.4 4.4 4.4 0 01-4.4-4.4v-11z" fill="#fff"/>
+        <path d="M26.4 19.7a4.4 4.4 0 01-4.4-4.4 4.4 4.4 0 014.4-4.4 4.4 4.4 0 014.4 4.4v4.4h-4.4z" fill="#fff"/>
+        <path d="M26.4 22a4.4 4.4 0 014.4 4.4 4.4 4.4 0 01-4.4 4.4h-11a4.4 4.4 0 01-4.4-4.4A4.4 4.4 0 0115.4 22h11z" fill="#fff"/>
+      </svg>
+      Entrar no Slack do Newway
+    </a>
+  </div>
+
+  <!-- Passo 2: obter o ID -->
+  <div class="step">
+    <div class="step-label">Passo 2 — Descubra seu ID no Slack</div>
+    <div class="tip-box">
+      <strong>Como encontrar seu Member ID:</strong><br>
+      1. Abra o Slack e clique na sua foto de perfil (canto superior direito).<br>
+      2. Clique em <strong>Perfil</strong>.<br>
+      3. Clique em <strong>···</strong> (três pontinhos) no canto do perfil.<br>
+      4. Clique em <strong>Copiar ID do membro</strong>.<br>
+      O ID tem o formato <strong>U0123ABCD</strong>.
+    </div>
+  </div>
+
+  <!-- Passo 3: cadastrar -->
+  <div class="step">
+    <div class="step-label">Passo 3 — Cadastre seus dados</div>
+    <form id="form-usuario">
+      <div class="form-group">
+        <label for="nome">Seu nome</label>
+        <input id="nome" type="text" placeholder="Ex: Pedro" required />
+      </div>
+      <div class="form-group">
+        <label for="slackId">Seu Member ID do Slack</label>
+        <input id="slackId" type="text" placeholder="Ex: U0123ABCD" required />
+      </div>
+      <button class="btn-submit" type="submit">Quero receber notificações</button>
+    </form>
+    <div id="mensagem"></div>
+  </div>
+
+  <!-- Lista de usuários cadastrados -->
+  <div class="users-section">
+    <h3>Usuários cadastrados</h3>
+    <ul id="lista-usuarios">
+      <li class="empty">Carregando...</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  const API = 'http://localhost:8080/api/usuarios';
+
+  async function carregarUsuarios() {
+    try {
+      const res = await fetch(API);
+      const lista = await res.json();
+      const ul = document.getElementById('lista-usuarios');
+      ul.innerHTML = '';
+      if (!lista.length) {
+        ul.innerHTML = '<li class="empty">Nenhum usuário cadastrado ainda.</li>';
+        return;
+      }
+      lista.forEach(u => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div class="user-info">
+            <span class="user-nome">${u.nome}</span>
+            <span class="user-id">${u.slackId}</span>
+          </div>
+          <button class="btn-remover" data-id="${u.slackId}">Remover</button>
+        `;
+        li.querySelector('.btn-remover').addEventListener('click', () => remover(u.slackId));
+        ul.appendChild(li);
+      });
+    } catch {
+      document.getElementById('lista-usuarios').innerHTML =
+        '<li class="empty">Não foi possível conectar ao servidor.</li>';
+    }
+  }
+
+  async function remover(slackId) {
+    await fetch(`${API}/${encodeURIComponent(slackId)}`, { method: 'DELETE' });
+    carregarUsuarios();
+  }
+
+  document.getElementById('form-usuario').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome    = document.getElementById('nome').value.trim();
+    const slackId = document.getElementById('slackId').value.trim();
+    const msg     = document.getElementById('mensagem');
+
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, slackId })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        msg.textContent = 'Cadastrado! Você já vai receber notificações.';
+        msg.className = 'success';
+        document.getElementById('nome').value = '';
+        document.getElementById('slackId').value = '';
+        carregarUsuarios();
+      } else {
+        msg.textContent = data.erro || 'Erro ao cadastrar.';
+        msg.className = 'error';
+      }
+    } catch {
+      msg.textContent = 'Não foi possível conectar ao servidor. Verifique se o sistema está rodando.';
+      msg.className = 'error';
+    }
+  });
+
+  carregarUsuarios();
+</script>
+
+</body>
+</html>

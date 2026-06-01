@@ -100,13 +100,30 @@ public class Main {
                             LeitorExcel leitorExcel =
                                     new LeitorExcel();
 
-                            leitorExcel.extrairEventos();
+                            try {
+                                    List<Eventos> eventos = leitorExcel.extrairEventos();
+                                    NotificadorSlack.arquivoLido(AmbienteConfig.EVENTOS, eventos.size(), 0);
+                            } catch (Exception e) {
+                                    NotificadorSlack.notificarErro(AmbienteConfig.EVENTOS, e.getMessage());
+                            }
 
-                            leitorExcel.extrairDemandaTuristica();
+                            try {
+                                    leitorExcel.extrairDemandaTuristica();
+                                    NotificadorSlack.arquivoLido(AmbienteConfig.DEMANDA);
+                            } catch (Exception e) {
+                                    NotificadorSlack.notificarErro(AmbienteConfig.DEMANDA, e.getMessage());
+                            }
 
-                            leitorExcel.extrairChegadas();
+                            try {
+                                    leitorExcel.extrairChegadas();
+                                    NotificadorSlack.arquivoLido(AmbienteConfig.CHEGADASTURISTAS);
+                            } catch (Exception e) {
+                                    NotificadorSlack.notificarErro(AmbienteConfig.CHEGADASTURISTAS, e.getMessage());
+                            }
 
                             s3Client.close();
+
+                            NotificadorSlack.processoFinalizado();
 
                             System.out.println(
                                     "Processo finalizado com sucesso!"
