@@ -69,6 +69,9 @@
             </div>
           </div>
         </div>
+        <button class="btn-notif" id="btnNotif" onclick="openNotifModal()" title="Configurar notificações Slack">
+          <i class="ph ph-bell" id="btnNotifIcon"></i>
+        </button>
       </div>
 
       <div class="form-card">
@@ -205,6 +208,51 @@
         </div>
       </div>
     </main>
+
+    <!-- Modal notificações Slack -->
+    <div class="modal-overlay" id="notifModal">
+      <div class="modal modal--slack">
+        <div class="modal-icon modal-icon--accent"><i class="ph ph-slack-logo"></i></div>
+        <h2 class="modal-title">Notificações via Slack</h2>
+        <p class="modal-desc">Configure suas informações para receber notificações no seu Slack.</p>
+
+        <div class="notif-toggle-wrap">
+          <span class="notif-toggle-label">Notificações</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notifToggle" />
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="notif-toggle-status" id="notifStatus">Desligado</span>
+        </div>
+
+        <div class="notif-fields">
+          <div class="form-group">
+            <label class="form-label">Link do grupo Slack</label>
+            <a class="slack-link" href="https://newwaysede.slack.com/archives/C0B4F984WCB" target="_blank" rel="noopener">
+              <i class="ph ph-slack-logo"></i>
+              <span>Abrir grupo no Slack</span>
+              <i class="ph ph-arrow-square-out slack-link-icon"></i>
+            </a>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="slackNome">Seu nome no Slack</label>
+            <input class="form-input" id="slackNome" type="text" placeholder="Nome de usuário" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="slackId">Seu ID no Slack</label>
+            <input class="form-input" id="slackId" type="text" placeholder="U0123456789" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeNotifModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveNotifSettings()">
+            <i class="ph ph-floppy-disk"></i>
+            Salvar
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal excluir conta -->
     <div class="modal-overlay" id="deleteModal">

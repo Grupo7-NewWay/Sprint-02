@@ -411,6 +411,93 @@ document.getElementById("deleteModal").addEventListener("click", function (e) {
   if (e.target === this) closeDeleteModal();
 });
 
+// ── Notificações Slack
+var SLACK_API = "/api/usuarios";
+
+function openNotifModal() {
+  var saved = JSON.parse(localStorage.getItem("slackNotif") || "{}");
+  document.getElementById("notifToggle").checked = !!saved.ativo;
+  document.getElementById("slackNome").value = saved.nome || document.getElementById("displayName").textContent || "";
+  document.getElementById("slackId").value   = saved.id   || "";
+  atualizarStatusToggle(!!saved.ativo);
+  document.getElementById("notifModal").classList.add("open");
+}
+
+function closeNotifModal() {
+  document.getElementById("notifModal").classList.remove("open");
+}
+
+function atualizarStatusToggle(ativo) {
+  var status = document.getElementById("notifStatus");
+  status.textContent = ativo ? "Ligado" : "Desligado";
+  status.classList.toggle("on", ativo);
+  var btn = document.getElementById("btnNotif");
+  btn.classList.toggle("active", ativo);
+  document.getElementById("btnNotifIcon").className = ativo ? "ph ph-bell-ringing" : "ph ph-bell";
+}
+
+document.getElementById("notifToggle").addEventListener("change", function () {
+  atualizarStatusToggle(this.checked);
+});
+
+async function saveNotifSettings() {
+  var ativo = document.getElementById("notifToggle").checked;
+  var nome  = document.getElementById("slackNome").value.trim();
+  var id    = document.getElementById("slackId").value.trim();
+
+  if (ativo && !nome) {
+    showToast("Preencha seu nome no Slack.", true);
+    document.getElementById("slackNome").focus();
+    return;
+  }
+  if (ativo && !id) {
+    showToast("Preencha seu ID no Slack.", true);
+    document.getElementById("slackId").focus();
+    return;
+  }
+
+  var btnSalvar = document.querySelector("#notifModal .btn-save");
+  btnSalvar.disabled = true;
+
+  try {
+    if (ativo) {
+      var res = await fetch(SLACK_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome: nome, slackId: id })
+      });
+      if (!res.ok) {
+        var err = await res.json().catch(function () { return {}; });
+        throw new Error(err.erro || "Erro ao registrar no servidor Slack.");
+      }
+    } else {
+      var savedId = (JSON.parse(localStorage.getItem("slackNotif") || "{}")).id || id;
+      if (savedId) {
+        await fetch(SLACK_API + "/" + encodeURIComponent(savedId), { method: "DELETE" });
+      }
+    }
+
+    localStorage.setItem("slackNotif", JSON.stringify({ ativo: ativo, nome: nome, id: id }));
+    atualizarStatusToggle(ativo);
+    closeNotifModal();
+    showToast(ativo ? "Notificações Slack ativadas!" : "Notificações Slack desativadas.", false);
+  } catch (err) {
+    showToast("Erro: " + err.message, true);
+  } finally {
+    btnSalvar.disabled = false;
+  }
+}
+
+document.getElementById("notifModal").addEventListener("click", function (e) {
+  if (e.target === this) closeNotifModal();
+});
+
+// ── Restaura estado do botão de notificação ao carregar
+(function () {
+  var saved = JSON.parse(localStorage.getItem("slackNotif") || "{}");
+  if (saved.ativo) atualizarStatusToggle(true);
+})();
+
 // ── Máscara do telefone
 document.getElementById("telefone").addEventListener("input", function () {
   let v = this.value.replace(/\D/g, "").slice(0, 11);

@@ -152,6 +152,18 @@ create table pacote(
             references agencia(idAgencia)
 );
 
+-- Tabela de analytics de eventos turísticos (populada pelo LeitorExcel)
+create table if not exists eventos(
+    idEventos       int primary key auto_increment,
+    nomeEvento      varchar(255) not null,
+    municipio       varchar(255),
+    dtInicial       date,
+    dtTermino       date,
+    tipoEvento      varchar(100),
+    publicoEsperado int,
+    uf              char(2)
+);
+
 INSERT INTO agencia (nome, telefone, email, codigoAcesso) VALUES
 ('Quickly Travel','11987654321','contato@quicklytravel.com','QT123'),
 ('Horizonte Turismo','11991234567','atendimento@horizonteturismo.com','HZ456');

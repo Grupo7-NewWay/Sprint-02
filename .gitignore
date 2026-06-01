@@ -1,1 +1,9 @@
 node_modules/
+
+# Variáveis de ambiente — nunca commitar
+.env
+.env.*
+!.env.example
+
+# Usuários Slack
+usuarios.json
