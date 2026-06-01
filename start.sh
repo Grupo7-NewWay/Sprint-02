@@ -12,12 +12,12 @@ cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-
 cd /home/ubuntu/Sprint-02
 docker-compose up -d
 
-# 3. Aguardar container jar-processor ficar pronto
-echo "Aguardando container jar-processor ficar pronto..."
-until docker-compose ps jar-processor | grep -q "Up"; do
+# 3. Aguarda só o MySQL ficar pronto
+echo "Aguardando MySQL ficar pronto..."
+until docker-compose ps mysql | grep -q "running"; do
   sleep 2
 done
-echo "Container pronto!"
+echo "MySQL pronto!"
 
 # 4. Configurar CRON
 COMPOSE_DIR="/home/ubuntu/Sprint-02"
