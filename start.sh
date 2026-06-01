@@ -5,7 +5,7 @@ echo "Iniciando ambiente: $(date)"
 echo "============================================"
 
 # 1. Copiar o .jar compilado para a pasta do Docker
-cp /home/ubuntu/Sprint-02/apache-poi-eventos/target/apache-poi-eventos-1.0-SNAPSHOT.jar \
+cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-SNAPSHOT.jar \
    /home/ubuntu/Sprint-02/java/app.jar
 
 # 2. Subir Docker Compose
