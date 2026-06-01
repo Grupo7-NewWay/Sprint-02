@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
 
-  msyql:
-    
+  mysql:
+
     image: mysql:8
 
     container_name: mysql
@@ -12,109 +12,111 @@ services:
 
     environment:
 
-    # ========================================
-    # SENHA ROOT MYSQL
-    # ========================================
+      # ========================================
+      # SENHA ROOT MYSQL
+      # ========================================
 
-    MYSQL_ROOT_PASSWORD: urubu100
+      MYSQL_ROOT_PASSWORD: urubu100
 
-    # ========================================
-    # NOME DO BANCO
-    # ========================================
+      # ========================================
+      # NOME DO BANCO
+      # ========================================
 
-    MYSQL_DATABASE: newway
+      MYSQL_DATABASE: newway
 
-    # ========================================
-    # USUARIO
-    # ========================================
+      # ========================================
+      # USUARIO
+      # ========================================
 
-    MYSQL_USER: adminnewway
+      MYSQL_USER: adminnewway
 
-    # ========================================
-    # SENHA DO USUARIO DA APLICACAO
-    # ========================================
+      # ========================================
+      # SENHA DO USUARIO DA APLICACAO
+      # ========================================
 
-    MYSQL_PASSWORD: urubu100
-  
-  volumes:
-    - mysql_data:/var/lib/mysql
-    - ./mysql/init.sql:/docker-entrypoint-initdb.d/init-sql
+      MYSQL_PASSWORD: urubu100
 
-  networks:
-    - newway-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-web-data-viz:
+    networks:
+      - newway-network
 
-  build: ./web-data-viz
+  web-data-viz:
 
-  container_name: web-data-viz
-  
-  restart: always
+    build: ./web-data-viz
 
-  depends_on:
-    - mysql
+    container_name: web-data-viz
 
-  ports:
+    restart: always
 
-    # ========================================
-    # PORTA 80 EXTERNA
-    # PORTA 3000 INTERNA (NODE)
-    # ========================================
+    depends_on:
+      - mysql
 
-  environment:
+    ports:
 
-    # ========================================
-    # MYSQL
-    # ========================================
+      # ========================================
+      # PORTA 80 EXTERNA
+      # PORTA 3000 INTERNA (NODE)
+      # ========================================
 
-    DB_HOST: mysql
-    DB_PORT: 3306
-    
-    DB_NAME: newway
+      - "80:3000"
 
-    DB_USER: adminnewway
+    environment:
 
-    DB_PASSWORD: urubu100
+      # ========================================
+      # MYSQL
+      # ========================================
 
-  networks:
-    - newway-network
+      DB_HOST: mysql
+      DB_PORT: 3306
 
-jar-processor:
+      DB_NAME: newway
 
-  build: ./java
- 
-  container_name: java
+      DB_USER: adminnewway
 
-  restart: always
+      DB_PASSWORD: urubu100
 
-  depends_on:
-    - mysql
+    networks:
+      - newway-network
 
-  environment:
+  jar-processor:
 
-    # ========================================
-    # MYSQL
-    # ========================================
+    build: ./java
 
-    DB_HOST: mysql
-    DB_PORT: 3306
+    container_name: java
 
-    DB_NAME: newway
+    restart: always
 
-    DB_USER: adminnewway
+    depends_on:
+      - mysql
 
-    DB_PASSWORD: urubu100
+    environment:
 
-    # ========================================
-    # AWS
-    # ========================================
+      # ========================================
+      # MYSQL
+      # ========================================
 
-    AWS_REGION: us-east-1
-    
-    S3_BUCKET: bucket-newway
+      DB_HOST: mysql
+      DB_PORT: 3306
 
-  networks:
-    - newway-network
+      DB_NAME: newway
+
+      DB_USER: adminnewway
+
+      DB_PASSWORD: urubu100
+
+      # ========================================
+      # AWS
+      # ========================================
+
+      AWS_REGION: us-east-1
+
+      S3_BUCKET: bucket-newway
+
+    networks:
+      - newway-network
 
 networks:
   newway-network:
