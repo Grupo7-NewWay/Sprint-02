@@ -76,6 +76,12 @@ services:
 
       DB_PASSWORD: urubu100
 
+      # ========================================
+      # SLACK
+      # ========================================
+
+      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/SEU/WEBHOOK/AQUI
+
     networks:
       - newway-network
 
