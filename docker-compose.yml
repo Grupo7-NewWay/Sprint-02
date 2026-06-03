@@ -59,7 +59,7 @@ services:
       # PORTA 3000 INTERNA (NODE)
       # ========================================
 
-      - "80:3000"
+      - "80:8080"
 
     environment:
 
@@ -75,12 +75,6 @@ services:
       DB_USER: adminnewway
 
       DB_PASSWORD: urubu100
-
-      # ========================================
-      # SLACK
-      # ========================================
-
-      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/SEU/WEBHOOK/AQUI
 
     networks:
       - newway-network

@@ -23,7 +23,7 @@ public class AmbienteConfig {
         }
 
         public static final String BUCKET =
-            "bucket-new-way ";
+            "new-way-s3";
 
         public static final String EVENTOS =
             "eventos_2026.xlsx";

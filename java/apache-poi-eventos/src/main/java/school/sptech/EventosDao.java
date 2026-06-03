@@ -9,7 +9,7 @@ public class EventosDao {
         String sql = "CREATE TABLE IF NOT EXISTS eventos" +
                 "(idEvento int primary key auto_increment," +
                 "nomeEvento varchar(255) not null," +
-                "municipio varchar(255) not null," +
+                "localidade varchar(255) not null," +
                 "dtInicial date not null," +
                 "dtTermino date not null," +
                 "tipoEvento varchar(255) not null," +
@@ -38,7 +38,7 @@ public class EventosDao {
 
         String sql = """
             INSERT INTO eventos
-            (nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado)
+            (nomeEvento, localidade, dtInicial, dtTermino, tipoEvento, publicoEsperado)
             VALUES (?, ?, ?, ?, ?, ?)
         """
 
@@ -49,7 +49,7 @@ public class EventosDao {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, e.getNomeEvento());
-            ps.setString(2, e.getMunicipio());
+            ps.setString(2, e.getlocalidade());
             ps.setObject(3, e.getDtInicial());
             ps.setObject(4, e.getDtTermino());
             ps.setString(5, e.getTipoEvento());
