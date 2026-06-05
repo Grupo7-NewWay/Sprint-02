@@ -27,16 +27,19 @@ npm -v
 sudo apt install default-jre -y
 java -version
 
-# 5. Docker
+# 5. Maven
+sudo apt install maven -y
+mvn -version
+
+# 6. Docker
 sudo apt install docker.io -y
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 
-# 6. Docker Compose v2 (standalone, compatível com docker-compose)
+# 7. Docker Compose v2 (standalone, compatível com docker-compose)
 # Remove plugin v2 do apt para evitar conflito
 sudo apt-get remove -y docker-compose-plugin 2>/dev/null || true
-
 sudo curl -fsSL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64" \
   -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
@@ -44,7 +47,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Verifica instalação
 docker-compose --version || { echo "ERRO: docker-compose não instalado corretamente"; exit 1; }
 
-# 7. CRON
+# 8. CRON
 sudo apt install cron -y
 sudo systemctl enable cron
 sudo systemctl start cron

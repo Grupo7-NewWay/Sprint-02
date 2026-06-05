@@ -9,24 +9,20 @@ public class EventosDao {
         String sql = "CREATE TABLE IF NOT EXISTS eventos" +
                 "(idEvento int primary key auto_increment," +
                 "nomeEvento varchar(255) not null," +
-                "localidade varchar(255) not null," +
-                "dtInicial date not null," +
-                "dtTermino date not null," +
-                "tipoEvento varchar(255) not null," +
-                "publicoEsperado int not null" +
+                "municipio varchar(255)," +
+                "dtInicial date," +
+                "dtTermino date," +
+                "tipoEvento varchar(255)," +
+                "publicoEsperado int" +
                 ")";
 
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             System.out.println("Tabela criada com sucesso!");
-
             ps.execute();
-
         } catch (SQLException ex) {
-            System.out.println("ERRO ao criar a tabelas de evento no banco: " + ex.getMessage());
+            System.out.println("ERRO ao criar a tabela de eventos no banco: " + ex.getMessage());
         }
-
     }
 
     public void salvar(Eventos e) {
@@ -38,12 +34,9 @@ public class EventosDao {
 
         String sql = """
             INSERT INTO eventos
-            (nomeEvento, localidade, dtInicial, dtTermino, tipoEvento, publicoEsperado)
+            (nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado)
             VALUES (?, ?, ?, ?, ?, ?)
-        """
-
-                ;
-
+        """;
 
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
