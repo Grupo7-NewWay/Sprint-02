@@ -4,22 +4,27 @@ echo "============================================"
 echo "Iniciando ambiente: $(date)"
 echo "============================================"
 
-# 1. Copiar o .jar compilado para a pasta do Docker
+# 1. Compilar o projeto Java
+echo "Compilando projeto Java..."
+cd /home/ubuntu/Sprint-02/java/apache-poi-eventos
+mvn package -DskipTests
+
+# 2. Copiar o .jar compilado para a pasta do Docker
 cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-SNAPSHOT.jar \
    /home/ubuntu/Sprint-02/java/app.jar
 
-# 2. Subir Docker Compose
+# 3. Subir Docker Compose
 cd /home/ubuntu/Sprint-02
 docker-compose up -d
 
-# 3. Aguarda MySQL ficar pronto
+# 4. Aguarda MySQL ficar pronto
 echo "Aguardando MySQL ficar pronto..."
 until docker exec mysql mysqladmin ping -u root -purubu100 --silent 2>/dev/null; do
   sleep 2
 done
 echo "MySQL pronto!"
 
-# 4. Configurar CRON
+# 5. Configurar CRON
 COMPOSE_DIR="/home/ubuntu/Sprint-02"
 LOG_PATH="/home/ubuntu/log-projeto.log"
 
