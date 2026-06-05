@@ -92,13 +92,10 @@ services:
     depends_on:
       - mysql
 
-    volumes:
-    - /home/ubuntu/Sprint-02/java/apache-poi-eventos:/app/arquivos
-
     command:
-      - /app/arquivos/eventos_2026.xlsx
-      - /app/arquivos/chegada_turistas.xlsx
-      - /app/arquivos/demanda_turistica_2021.xlsx
+      - eventos_2026.xlsx
+      - chegada_turistas.xlsx
+      - demanda_turistica_2021.xlsx
 
     environment:
 
