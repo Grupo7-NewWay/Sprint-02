@@ -23,7 +23,7 @@ echo "MySQL pronto!"
 COMPOSE_DIR="/home/ubuntu/Sprint-02"
 LOG_PATH="/home/ubuntu/log-projeto.log"
 
-CRON_JOB="*/5 * * * * cd $COMPOSE_DIR && docker-compose run --rm jar-processor >> $LOG_PATH 2>&1"
+CRON_JOB="*/5 * * * * cd $COMPOSE_DIR && /usr/local/bin/docker-compose run --rm jar-processor >> $LOG_PATH 2>&1"
 
 (crontab -l 2>/dev/null | grep -qF "$COMPOSE_DIR") \
   && echo "CRON já configurado, pulando." \
