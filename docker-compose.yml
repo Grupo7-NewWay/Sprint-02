@@ -92,6 +92,11 @@ services:
     depends_on:
       - mysql
 
+    command:
+      - eventos_2026.xlsx
+      - chegada_turistas.xlsx
+      - demanda_turistica_2021.xlsx
+
     environment:
 
       # ========================================
@@ -113,10 +118,10 @@ services:
 
       AWS_REGION: us-east-1
 
-      S3_BUCKET: bucket-newway
+      S3_BUCKET: new-way-s3
 
     networks:
-      - new-way-s3
+      - newway-network
 
 networks:
   newway-network:
