@@ -92,11 +92,6 @@ services:
     depends_on:
       - mysql
 
-    command:
-      - eventos_2026.xlsx
-      - chegada_turistas.xlsx
-      - demanda_turistica_2021.xlsx
-
     environment:
 
       # ========================================
