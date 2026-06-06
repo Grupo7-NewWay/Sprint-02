@@ -11,7 +11,7 @@ public class PermanenciaDAO {
         String sql = "create table permanencia" +
                 "    (idPermanencia int primary key auto_increment," +
                 "    tipo varchar(255) not null," +
-                "    qtd_dias int not null" +
+                "    qtdDias int not null" +
                 ")";
 
         try (Connection con = ConexaoBD.conectar();
@@ -30,7 +30,7 @@ public class PermanenciaDAO {
 
         String sql = """
             INSERT INTO permanencia
-            (tipo, qtd_dias)
+            (tipo, qtdDias)
             VALUES (?, ?)
         """
 

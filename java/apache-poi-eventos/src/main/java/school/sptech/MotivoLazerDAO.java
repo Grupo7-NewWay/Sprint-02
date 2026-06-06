@@ -11,9 +11,9 @@ public class MotivoLazerDAO {
                 "    (idMotivoLazer int primary key auto_increment," +
                 "    tipoMotivoLazer varchar(255) not null," +
                 "    porcentagem int not null," +
-                "    idMotivo int not null," +
-                "    constraint fk_lazer_motivo" +
-                "        foreign key (idMotivo)" +
+                "    fkMotivo int not null," +
+                "    constraint fk_motivoLazer_motivo" +
+                "        foreign key (fkMotivo)" +
                 "            references motivo(idMotivo)" +
                 ")";
 
@@ -34,7 +34,7 @@ public class MotivoLazerDAO {
 
         String sql = """
             INSERT INTO lazer
-            (tipoMotivoLazer, porcentagem, fk_lazer_motivo)
+            (tipoMotivoLazer, porcentagem, fkMotivo)
             VALUES (?, ?, ?)
         """
 

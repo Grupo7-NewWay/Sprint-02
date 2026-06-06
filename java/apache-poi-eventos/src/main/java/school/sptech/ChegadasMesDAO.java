@@ -8,13 +8,13 @@ public class ChegadasMesDAO {
     public void criarTabela(){
 
         String sql = "create table chegada_mes" +
-                "    (id_chegada_mes int primary key auto_increment," +
-                "    qtd_chegada_mes int not null," +
+                "    (idChegadaMes int primary key auto_increment," +
+                "    qtdChegadaMes int not null," +
                 "    mes varchar(255) not null," +
-                "    id_chegada int not null," +
-                "    constraint fk_chegada_mes" +
-                "        foreign key (id_chegada)" +
-                "            references chegada(id_chegada)" +
+                "    fkChegada int not null," +
+                "    constraint fk_chegada_mes_chegada" +
+                "        foreign key (fkChegada)" +
+                "            references chegada(idChegada)" +
                 ")";
 
         try (Connection con = ConexaoBD.conectar();
@@ -33,7 +33,7 @@ public class ChegadasMesDAO {
 
         String sql = """
             INSERT INTO chegada_mes
-            (qtd_chegadas_mes, mes, fk_chegada_mes)
+            (qtdChegadaMes, mes, fkChegada)
             VALUES (?, ?, ?)
         """
 
