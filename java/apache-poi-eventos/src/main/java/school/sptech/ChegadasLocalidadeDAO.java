@@ -45,7 +45,7 @@ public class ChegadasLocalidadeDAO {
 
             ps.setObject(1, cl.getQtdChegadaLocalidade());
             ps.setString(2, cl.getLocalidade());
-            ps.setObject(3, cl.getQtdChegadaLocalidade());
+            ps.setObject(3, cl.getFk_chegada_localizacao());
             ps.executeUpdate();
 
         } catch (Exception ex) {

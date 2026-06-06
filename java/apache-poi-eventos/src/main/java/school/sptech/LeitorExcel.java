@@ -171,41 +171,31 @@ public class LeitorExcel {
                 Integer ano = getInteger(rowAno, i);
 
                 if (ano != null) {
-                    chegadasDAO.salvar(new Chegadas(ano));
-                }
-            }
+                    int idChegada = chegadasDAO.salvar(new Chegadas(ano)); // ← captura o id
 
-            for (int i = 12; i <= 29; i++) {
+                    for (int j = 12; j <= 29; j++) {
+                        Row row = sheet.getRow(j);
+                        Integer qtd = getInteger(row, 3);
+                        String localidade = getString(row, 1);
 
-                Row row = sheet.getRow(i);
-                Integer qtdChegadaLocalidade = getInteger(row, 3);
-                String localidade = getString(row, 1);
+                        if (qtd != null && localidade != null) {
+                            chegadasLocalidadeDAO.salvar(
+                                    new ChegadasLocalidade(ano, qtd, localidade, idChegada)
+                            );
+                        }
+                    }
 
-                if (qtdChegadaLocalidade != null && localidade != null) {
-                    ChegadasLocalidade chegadasLocalidade = new ChegadasLocalidade(
-                            2019,
-                            qtdChegadaLocalidade,
-                            localidade,
-                            1
-                    );
-                    chegadasLocalidadeDAO.salvar(chegadasLocalidade);
-                }
-            }
+                    for (int j = 46; j <= 57; j++) {
+                        Row row = sheet.getRow(j);
+                        Integer qtdMes = getInteger(row, 3);
+                        String mes = getString(row, 1);
 
-            for (int i = 46; i <= 57; i++) {
-
-                Row row = sheet.getRow(i);
-                Integer qtdChegadasMes = getInteger(row, 3);
-                String mes = getString(row, 1);
-
-                if (qtdChegadasMes != null && mes != null) {
-                    ChegadasMes chegadasMes = new ChegadasMes(
-                            2019,
-                            qtdChegadasMes,
-                            mes,
-                            1
-                    );
-                    chegadasMesDAO.salvar(chegadasMes);
+                        if (qtdMes != null && mes != null) {
+                            chegadasMesDAO.salvar(
+                                    new ChegadasMes(ano, qtdMes, mes, idChegada)
+                            );
+                        }
+                    }
                 }
             }
 

@@ -25,26 +25,24 @@ public class ChegadasDAO {
         }
     }
 
-    public void salvar(Chegadas c) {
-
-        String sql = """
-            INSERT INTO chegada
-            (ano)
-            VALUES (?)
-        """
-
-                ;
-
+    public int salvar(Chegadas c) {
+        String sql = "INSERT INTO chegada (ano) VALUES (?)";
 
         try (Connection con = ConexaoBD.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setObject(1, c.getAno());
             ps.executeUpdate();
 
+            var rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
         } catch (Exception ex) {
             System.out.println("ERRO ao salvar chegadas no banco: " + ex.getMessage());
         }
+        return -1;
     }
 
 }

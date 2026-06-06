@@ -33,7 +33,7 @@ public class MotivoLazerDAO {
     public void salvar(MotivoLazer ml) {
 
         String sql = """
-            INSERT INTO lazer
+            INSERT INTO motivoLazer
             (tipoMotivoLazer, porcentagem, fkMotivo)
             VALUES (?, ?, ?)
         """
