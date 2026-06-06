@@ -71,12 +71,19 @@ services:
       DB_PORT: 3306
 
       DB_NAME: newway
+      DB_DATABASE: newway
 
       DB_USER: adminnewway
 
       DB_PASSWORD: urubu100
 
-      SLACK_WEBHOOK_URL:
+      APP_PORT: 3000
+
+      APP_HOST: 3.219.123.208
+
+      AMBIENTE_PROCESSO: producao
+
+      SLACK_WEBHOOK_URL: # WEBHOOK AQUI
 
     networks:
       - newway-network
@@ -91,11 +98,6 @@ services:
 
     depends_on:
       - mysql
-
-    command:
-      - eventos_2026.xlsx
-      - chegada_turistas.xlsx
-      - demanda_turistica_2021.xlsx
 
     environment:
 
