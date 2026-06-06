@@ -106,6 +106,7 @@ public class LeitorExcel {
         LogDao logDao = new LogDao();
         GastoDAO gastoDAO = new GastoDAO();
         PermanenciaDAO permanenciaDAO = new PermanenciaDAO();
+        MotivoDAO motivoDAO = new MotivoDAO();
 
         try (
                 InputStream arquivo = lerDoS3(
@@ -138,6 +139,18 @@ public class LeitorExcel {
                 if (qtdDias != null) {
                     Permanencia permanencia = new Permanencia(tipo, qtdDias);
                     permanenciaDAO.salvar(permanencia);
+                }
+            }
+
+            for (int i = 9; i <= 11; i++) {
+
+                Row row = sheet.getRow(i);
+                String tipo = getString(row, 1);
+                Integer porcentagem = getInteger(row, 11);
+
+                if (tipo != null && porcentagem != null) {
+                    Motivo motivo = new Motivo(porcentagem, tipo);
+                    motivoDAO.salvar(motivo);
                 }
             }
 
