@@ -88,6 +88,26 @@ services:
     networks:
       - newway-network
 
+  angular:
+
+    build: ./web-data-viz/frontend-angular
+
+    container_name: angular
+
+    restart: always
+
+    ports:
+
+      # ========================================
+      # PORTA 4200 EXTERNA
+      # PORTA 4200 INTERNA (ANGULAR)
+      # ========================================
+
+      - "4200:4200"
+
+    networks:
+      - newway-network
+
   jar-processor:
 
     build: ./java
