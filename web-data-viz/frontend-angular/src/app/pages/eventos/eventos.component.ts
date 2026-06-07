@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Evento } from '../../models/evento.model';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-eventos',
@@ -26,7 +25,8 @@ export class EventosComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
   idAgencia!: number;
@@ -36,23 +36,23 @@ export class EventosComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.idAgencia = Number(params['idAgencia']);
       console.log('ID Agencia:', this.idAgencia);
+      this.carregarEventos();
     });
-
-    this.carregarEventos();
   }
 
   inicializarFormulario(): Evento {
     return { nome: '', localidade: '', data: '' };
   }
 
-  carregarEventos(): void {
+carregarEventos(): void {
 
     this.http.get<Evento[]>(`${this.API}/eventos/carregarEventos`)
       .subscribe({
         next: (resposta) => {
           console.log("EVENTOS DO BANCO:");
           console.log(resposta);
-          this.listaEventos = resposta;
+          this.listaEventos = [...resposta];
+          this.cdr.detectChanges();
         },
         error: (erro) => {
           console.error(erro);
