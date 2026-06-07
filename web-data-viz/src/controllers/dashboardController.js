@@ -167,19 +167,26 @@ function buscarVisitasPorEstado(req, res) {
     console.log("Recuperando visitas por estado");
 
     dashboardModel.buscarVisitasPorEstado().then(function (resultado) {
+        console.log("[mapa] linhas retornadas do banco:", resultado.length);
         if (resultado.length > 0) {
             var mapa = {};
             resultado.forEach(function (r) {
                 if (!r.estado) return;
-                var id = ESTADO_LOOKUP[normalizarTexto(r.estado)];
-                if (id) mapa[id] = r.totalVisitas;
-                else console.warn("Estado não reconhecido:", r.estado);
+                var chave = normalizarTexto(r.estado);
+                var id = ESTADO_LOOKUP[chave];
+                if (id) {
+                    mapa[id] = Number(r.totalVisitas) || 0;
+                } else {
+                    console.warn("[mapa] estado não reconhecido — valor no banco: '" + r.estado + "' | normalizado: '" + chave + "'");
+                }
             });
+            console.log("[mapa] estados mapeados com sucesso:", Object.keys(mapa).length, Object.keys(mapa));
             if (Object.keys(mapa).length === 0) {
                 return res.status(204).send("Nenhum estado reconhecido!");
             }
             res.status(200).json(mapa);
         } else {
+            console.warn("[mapa] tabela 'eventos' sem registros com estado preenchido — retornando 204");
             res.status(204).send("Nenhum resultado encontrado!");
         }
     }).catch(function (erro) {

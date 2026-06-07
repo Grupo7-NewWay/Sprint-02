@@ -1,32 +1,32 @@
 /* === DATA === */
 var STATE_DATA = {
-  BRAC: { name: "Acre",                uf: "AC", sales:  320 },
-  BRAL: { name: "Alagoas",             uf: "AL", sales:  870 },
-  BRAP: { name: "Amapá",               uf: "AP", sales:  210 },
-  BRAM: { name: "Amazonas",            uf: "AM", sales:  540 },
-  BRBA: { name: "Bahia",               uf: "BA", sales: 2100 },
-  BRCE: { name: "Ceará",               uf: "CE", sales: 1650 },
-  BRDF: { name: "Distrito Federal",    uf: "DF", sales: 1980 },
-  BRES: { name: "Espírito Santo",      uf: "ES", sales:  890 },
-  BRGO: { name: "Goiás",               uf: "GO", sales: 1120 },
-  BRMA: { name: "Maranhão",            uf: "MA", sales:  760 },
-  BRMT: { name: "Mato Grosso",         uf: "MT", sales:  680 },
-  BRMS: { name: "Mato Grosso do Sul",  uf: "MS", sales:  590 },
-  BRMG: { name: "Minas Gerais",        uf: "MG", sales: 3400 },
-  BRPA: { name: "Pará",                uf: "PA", sales:  950 },
-  BRPB: { name: "Paraíba",             uf: "PB", sales:  740 },
-  BRPR: { name: "Paraná",              uf: "PR", sales: 2200 },
-  BRPE: { name: "Pernambuco",          uf: "PE", sales: 1430 },
-  BRPI: { name: "Piauí",               uf: "PI", sales:  410 },
-  BRRJ: { name: "Rio de Janeiro",      uf: "RJ", sales: 3100 },
-  BRRN: { name: "Rio Grande do Norte", uf: "RN", sales:  690 },
-  BRRS: { name: "Rio Grande do Sul",   uf: "RS", sales: 2050 },
-  BRRO: { name: "Rondônia",            uf: "RO", sales:  380 },
-  BRRR: { name: "Roraima",             uf: "RR", sales:  180 },
-  BRSC: { name: "Santa Catarina",      uf: "SC", sales: 1760 },
-  BRSP: { name: "São Paulo",           uf: "SP", sales: 5800 },
-  BRSE: { name: "Sergipe",             uf: "SE", sales:  430 },
-  BRTO: { name: "Tocantins",           uf: "TO", sales:  350 },
+  BRAC: { name: "Acre",                uf: "AC", sales: 0 },
+  BRAL: { name: "Alagoas",             uf: "AL", sales: 0 },
+  BRAP: { name: "Amapá",               uf: "AP", sales: 0 },
+  BRAM: { name: "Amazonas",            uf: "AM", sales: 0 },
+  BRBA: { name: "Bahia",               uf: "BA", sales: 0 },
+  BRCE: { name: "Ceará",               uf: "CE", sales: 0 },
+  BRDF: { name: "Distrito Federal",    uf: "DF", sales: 0 },
+  BRES: { name: "Espírito Santo",      uf: "ES", sales: 0 },
+  BRGO: { name: "Goiás",               uf: "GO", sales: 0 },
+  BRMA: { name: "Maranhão",            uf: "MA", sales: 0 },
+  BRMT: { name: "Mato Grosso",         uf: "MT", sales: 0 },
+  BRMS: { name: "Mato Grosso do Sul",  uf: "MS", sales: 0 },
+  BRMG: { name: "Minas Gerais",        uf: "MG", sales: 0 },
+  BRPA: { name: "Pará",                uf: "PA", sales: 0 },
+  BRPB: { name: "Paraíba",             uf: "PB", sales: 0 },
+  BRPR: { name: "Paraná",              uf: "PR", sales: 0 },
+  BRPE: { name: "Pernambuco",          uf: "PE", sales: 0 },
+  BRPI: { name: "Piauí",               uf: "PI", sales: 0 },
+  BRRJ: { name: "Rio de Janeiro",      uf: "RJ", sales: 0 },
+  BRRN: { name: "Rio Grande do Norte", uf: "RN", sales: 0 },
+  BRRS: { name: "Rio Grande do Sul",   uf: "RS", sales: 0 },
+  BRRO: { name: "Rondônia",            uf: "RO", sales: 0 },
+  BRRR: { name: "Roraima",             uf: "RR", sales: 0 },
+  BRSC: { name: "Santa Catarina",      uf: "SC", sales: 0 },
+  BRSP: { name: "São Paulo",           uf: "SP", sales: 0 },
+  BRSE: { name: "Sergipe",             uf: "SE", sales: 0 },
+  BRTO: { name: "Tocantins",           uf: "TO", sales: 0 },
 };
 
 var HISTORICO_VISITAS_FALLBACK = (function () {
@@ -104,10 +104,11 @@ function carregarVisitasPorEstado() {
       return res.json();
     })
     .then(function (dados) {
+      Object.keys(STATE_DATA).forEach(function (id) { STATE_DATA[id].sales = 0; });
       if (dados) {
-        Object.keys(STATE_DATA).forEach(function (id) {
-          if (dados[id] !== undefined) {
-            STATE_DATA[id].sales = dados[id];
+        Object.keys(dados).forEach(function (id) {
+          if (STATE_DATA[id]) {
+            STATE_DATA[id].sales = Number(dados[id]) || 0;
           }
         });
       }
