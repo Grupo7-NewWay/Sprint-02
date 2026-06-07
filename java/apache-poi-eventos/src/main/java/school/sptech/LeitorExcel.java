@@ -225,6 +225,8 @@ public class LeitorExcel {
                 Row rowAno = sheet.getRow(9);
                 Integer ano = getInteger(rowAno, cIdx);
 
+                System.out.println("DEBUG ano lido: " + ano + " | cIdx=" + cIdx);
+
                 if (ano != null) {
                     int idChegada = chegadasDAO.salvar(new Chegadas(ano));
 
@@ -233,6 +235,7 @@ public class LeitorExcel {
                         Row row = sheet.getRow(j);
                         String localidade = getString(row, 0);
                         Integer qtd = getInteger(row, cIdx);
+                        System.out.println("DEBUG estado j=" + j + " localidade=" + localidade + " qtd=" + qtd);
 
                         if (qtd != null && localidade != null && !localidade.isBlank()) {
                             chegadasLocalidadeDAO.salvar(
@@ -246,6 +249,7 @@ public class LeitorExcel {
                         Row row = sheet.getRow(j);
                         String mes = getString(row, 0);
                         Integer qtdMes = getInteger(row, cIdx);
+                        System.out.println("DEBUG mes j=" + j + " mes=" + mes + " qtdMes=" + qtdMes);
 
                         if (qtdMes != null && mes != null && !mes.isBlank()) {
                             chegadasMesDAO.salvar(
