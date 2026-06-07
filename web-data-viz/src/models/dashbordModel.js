@@ -105,14 +105,13 @@ function buscarHistoricoVisitas() {
     return database.executar(instrucaoSql);
 }
 
-// Visitas por estado — usa tabela eventos (populada pelo LeitorExcel)
-// Retorna 204 se vazia; o frontend mantém os dados de fallback
+// Visitas por estado — usa chegada_localidade (chegadas internacionais por UF)
 function buscarVisitasPorEstado() {
     var instrucaoSql = `
-        SELECT estado, SUM(publicoEsperado) AS totalVisitas
-        FROM eventos
-        WHERE estado IS NOT NULL AND estado != ''
-        GROUP BY estado
+        SELECT cl.localidade AS estado, cl.qtdChegadaLocalidade AS totalVisitas
+        FROM chegada_localidade cl
+        JOIN chegada c ON c.idChegada = cl.fkChegada
+        WHERE c.ano = (SELECT MAX(ano) FROM chegada)
         ORDER BY totalVisitas DESC
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);

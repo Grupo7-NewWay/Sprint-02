@@ -218,31 +218,36 @@ public class LeitorExcel {
 
             Sheet sheet = workbook.getSheet("SÍNTESE BRASIL_3.1-3.2");
 
-            for (int i = 3; i <= 5; i++) {
+            // Anos estão na linha 9, colunas 2 (2019) e 4 (2020)
+            int[] colunasDados = {2, 4};
+
+            for (int cIdx : colunasDados) {
                 Row rowAno = sheet.getRow(9);
-                Integer ano = getInteger(rowAno, i);
+                Integer ano = getInteger(rowAno, cIdx);
 
                 if (ano != null) {
-                    int idChegada = chegadasDAO.salvar(new Chegadas(ano)); // ← captura o id
+                    int idChegada = chegadasDAO.salvar(new Chegadas(ano));
 
-                    for (int j = 12; j <= 29; j++) {
+                    // Estados: linhas 12-28 — coluna 0 = nome do estado
+                    for (int j = 12; j <= 28; j++) {
                         Row row = sheet.getRow(j);
-                        Integer qtd = getInteger(row, 3);
-                        String localidade = getString(row, 1);
+                        String localidade = getString(row, 0);
+                        Integer qtd = getInteger(row, cIdx);
 
-                        if (qtd != null && localidade != null) {
+                        if (qtd != null && localidade != null && !localidade.isBlank()) {
                             chegadasLocalidadeDAO.salvar(
                                     new ChegadasLocalidade(ano, qtd, localidade, idChegada)
                             );
                         }
                     }
 
+                    // Meses: linhas 46-57 — coluna 0 = nome do mês
                     for (int j = 46; j <= 57; j++) {
                         Row row = sheet.getRow(j);
-                        Integer qtdMes = getInteger(row, 3);
-                        String mes = getString(row, 1);
+                        String mes = getString(row, 0);
+                        Integer qtdMes = getInteger(row, cIdx);
 
-                        if (qtdMes != null && mes != null) {
+                        if (qtdMes != null && mes != null && !mes.isBlank()) {
                             chegadasMesDAO.salvar(
                                     new ChegadasMes(ano, qtdMes, mes, idChegada)
                             );

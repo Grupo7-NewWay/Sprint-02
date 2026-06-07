@@ -66,12 +66,12 @@ INSERT INTO chegada_localidade (qtdChegadaLocalidade, localidade, fkChegada) VAL
 ( 9800, 'Brasília',        3);
 
 -- ── Gastos turísticos ─────────────────────────────────────────
-INSERT INTO gasto (tipo, porcentagem) VALUES
-('Alimentação',           35),
-('Hospedagem',            28),
-('Transporte',            18),
-('Lazer e entretenimento',12),
-('Compras',                7);
+INSERT INTO gasto (tipo, valor) VALUES
+('Alimentação',           35.00),
+('Hospedagem',            28.00),
+('Transporte',            18.00),
+('Lazer e entretenimento',12.00),
+('Compras',                7.00);
 
 -- ── Tempo de permanência ──────────────────────────────────────
 INSERT INTO permanencia (tipo, qtdDias) VALUES
@@ -103,19 +103,20 @@ INSERT INTO evento (nomeEvento, localidade, dataEvento, fkAgencia) VALUES
 ('Oktoberfest',             'Blumenau - SC',        '2026-10-02', 1);
 
 -- ── Analytics por estado (mapa) — populado pelo LeitorExcel ──
-INSERT INTO eventos (nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado, uf) VALUES
-('Carnaval SP',          'São Paulo',        '2025-02-28', '2025-03-05', 'Cultural',   580000, 'SP'),
-('Réveillon RJ',         'Rio de Janeiro',   '2024-12-31', '2025-01-02', 'Cultural',   310000, 'RJ'),
-('Festival de Inverno',  'Campos do Jordão', '2025-07-01', '2025-07-31', 'Cultura',    220000, 'SP'),
-('Oktoberfest',          'Blumenau',         '2025-10-03', '2025-10-19', 'Cultural',   176000, 'SC'),
-('Festival de Gramado',  'Gramado',          '2025-08-15', '2025-08-25', 'Cinema',     140000, 'RS'),
-('Fortal',               'Fortaleza',        '2025-07-25', '2025-07-28', 'Musical',    165000, 'CE'),
-('Carnival Salvador',    'Salvador',         '2025-02-27', '2025-03-04', 'Cultural',   210000, 'BA'),
-('Festejo Junino',       'Campina Grande',   '2025-06-01', '2025-06-30', 'Cultural',    74000, 'PB'),
-('Semana Tech BH',       'Belo Horizonte',   '2025-09-10', '2025-09-12', 'Tecnologia', 340000, 'MG'),
-('Fórum Negócios DF',    'Brasília',         '2025-11-05', '2025-11-07', 'Negócios',   198000, 'DF'),
-('ExpoPR',               'Curitiba',         '2025-04-14', '2025-04-20', 'Exposição',  220000, 'PR'),
-('Amazon Summit',        'Manaus',           '2025-06-20', '2025-06-22', 'Negócios',    54000, 'AM'),
-('Festa do Peão',        'Barretos',         '2025-08-21', '2025-08-31', 'Rodeio',     143000, 'SP'),
-('Carnival Recife',      'Recife',           '2025-02-28', '2025-03-04', 'Cultural',   143000, 'PE'),
-('Festival Literário',   'Paraty',           '2025-07-09', '2025-07-13', 'Literatura',  89000, 'RJ');
+-- Seed de fallback: usado apenas se o LeitorExcel não popular a tabela eventos
+INSERT INTO eventos (nomeEvento, municipio, estado, dtInicial, dtTermino, tipoEvento, publicoEsperado) VALUES
+('Carnaval SP',          'São Paulo',        'São Paulo',            '2025-02-28', '2025-03-05', 'Cultural',    580000),
+('Réveillon RJ',         'Rio de Janeiro',   'Rio de Janeiro',       '2024-12-31', '2025-01-02', 'Cultural',    310000),
+('Festival de Inverno',  'Campos do Jordão', 'São Paulo',            '2025-07-01', '2025-07-31', 'Cultural',    220000),
+('Oktoberfest',          'Blumenau',         'Santa Catarina',       '2025-10-03', '2025-10-19', 'Cultural',    176000),
+('Festival de Gramado',  'Gramado',          'Rio Grande do Sul',    '2025-08-15', '2025-08-25', 'Cultural',    140000),
+('Fortal',               'Fortaleza',        'Ceará',                '2025-07-25', '2025-07-28', 'Musical',     165000),
+('Carnival Salvador',    'Salvador',         'Bahia',                '2025-02-27', '2025-03-04', 'Cultural',    210000),
+('Festejo Junino',       'Campina Grande',   'Paraíba',              '2025-06-01', '2025-06-30', 'Cultural',     74000),
+('Semana Tech BH',       'Belo Horizonte',   'Minas Gerais',         '2025-09-10', '2025-09-12', 'Tecnologia',  340000),
+('Fórum Negócios DF',    'Brasília',         'Distrito Federal',     '2025-11-05', '2025-11-07', 'Negócios',    198000),
+('ExpoPR',               'Curitiba',         'Paraná',               '2025-04-14', '2025-04-20', 'Exposição',   220000),
+('Amazon Summit',        'Manaus',           'Amazonas',             '2025-06-20', '2025-06-22', 'Negócios',     54000),
+('Festa do Peão',        'Barretos',         'São Paulo',            '2025-08-21', '2025-08-31', 'Rodeio',      143000),
+('Carnival Recife',      'Recife',           'Pernambuco',           '2025-02-28', '2025-03-04', 'Cultural',    143000),
+('Festival Literário',   'Paraty',           'Rio de Janeiro',       '2025-07-09', '2025-07-13', 'Literatura',   89000);
