@@ -38,7 +38,7 @@ create table chegada_localidade(
 create table gasto(
     idGasto int primary key auto_increment,
     tipo varchar(255) not null,
-    porcentagem int not null
+    valor decimal(10,2) not null
 );
  
 create table permanencia(

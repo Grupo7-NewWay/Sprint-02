@@ -28,8 +28,8 @@ public class EventosDao {
 
     public void salvar(Eventos e) {
 
-        if (e.getDtInicial() == null || e.getDtTermino() == null) {
-            System.out.println("Data de início e término do evento não definidas");
+        if (e.getDtInicial() == null) {
+            System.out.println("Data de início do evento não definida — linha ignorada");
             return;
         }
 

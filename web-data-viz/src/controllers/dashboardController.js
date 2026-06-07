@@ -67,7 +67,7 @@ function buscarMediaPublicoEvento(req, res) {
     console.log("Recuperando media de publico por evento");
 
     dashboardModel.buscarMediaPublicoEvento().then(function (resultado) {
-        if (resultado.length > 0 && resultado[0].gastoMedio !== null) {
+        if (resultado.length > 0 && resultado[0].gastoMedio !== null && resultado[0].gastoMedio > 0) {
             res.status(200).json(resultado[0]);
         } else {
             res.status(204).send("Nenhum resultado encontrado!");
@@ -130,7 +130,8 @@ function buscarHistoricoVisitas(req, res) {
     });
 }
 
-var ESTADO_PARA_ID = {
+var ESTADOS_RAW = {
+    // Nomes completos
     "Acre": "BRAC", "Alagoas": "BRAL", "Amapá": "BRAP", "Amazonas": "BRAM",
     "Bahia": "BRBA", "Ceará": "BRCE", "Distrito Federal": "BRDF",
     "Espírito Santo": "BRES", "Goiás": "BRGO", "Maranhão": "BRMA",
@@ -139,8 +140,28 @@ var ESTADO_PARA_ID = {
     "Piauí": "BRPI", "Rio de Janeiro": "BRRJ", "Rio Grande do Norte": "BRRN",
     "Rio Grande do Sul": "BRRS", "Rondônia": "BRRO", "Roraima": "BRRR",
     "Santa Catarina": "BRSC", "São Paulo": "BRSP", "Sergipe": "BRSE",
-    "Tocantins": "BRTO"
+    "Tocantins": "BRTO",
+    // Siglas — caso o Excel use abreviação
+    "AC": "BRAC", "AL": "BRAL", "AP": "BRAP", "AM": "BRAM",
+    "BA": "BRBA", "CE": "BRCE", "DF": "BRDF", "ES": "BRES",
+    "GO": "BRGO", "MA": "BRMA", "MT": "BRMT", "MS": "BRMS",
+    "MG": "BRMG", "PA": "BRPA", "PB": "BRPB", "PR": "BRPR",
+    "PE": "BRPE", "PI": "BRPI", "RJ": "BRRJ", "RN": "BRRN",
+    "RS": "BRRS", "RO": "BRRO", "RR": "BRRR", "SC": "BRSC",
+    "SP": "BRSP", "SE": "BRSE", "TO": "BRTO"
 };
+
+function normalizarTexto(str) {
+    return str.trim()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .toLowerCase();
+}
+
+var ESTADO_LOOKUP = {};
+Object.keys(ESTADOS_RAW).forEach(function (k) {
+    ESTADO_LOOKUP[normalizarTexto(k)] = ESTADOS_RAW[k];
+});
 
 function buscarVisitasPorEstado(req, res) {
     console.log("Recuperando visitas por estado");
@@ -149,8 +170,10 @@ function buscarVisitasPorEstado(req, res) {
         if (resultado.length > 0) {
             var mapa = {};
             resultado.forEach(function (r) {
-                var id = ESTADO_PARA_ID[r.estado];
+                if (!r.estado) return;
+                var id = ESTADO_LOOKUP[normalizarTexto(r.estado)];
                 if (id) mapa[id] = r.totalVisitas;
+                else console.warn("Estado não reconhecido:", r.estado);
             });
             if (Object.keys(mapa).length === 0) {
                 return res.status(204).send("Nenhum estado reconhecido!");

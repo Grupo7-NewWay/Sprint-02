@@ -10,7 +10,7 @@ public class GastoDAO {
         String sql = "create table gasto" +
                 "    (idGasto int primary key auto_increment," +
                 "    tipo varchar(255) not null," +
-                "    porcentagem int not null" +
+                "    valor decimal(10,2) not null" +
                 ")";
 
         try (Connection con = ConexaoBD.conectar();
@@ -29,7 +29,7 @@ public class GastoDAO {
 
         String sql = """
             INSERT INTO gasto
-            (tipo, porcentagem)
+            (tipo, valor)
             VALUES (?, ?)
         """
 

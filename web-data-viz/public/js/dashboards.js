@@ -112,12 +112,10 @@ function carregarVisitasPorEstado() {
         });
       }
       colorMapByData();
-      bindMapInteractions();
     })
     .catch(function (erro) {
       console.error("Erro ao carregar mapa:", erro);
       colorMapByData();
-      bindMapInteractions();
     });
 }
 
@@ -129,17 +127,16 @@ function buildTooltipHTML(state, rank) {
 }
 
 function bindMapInteractions() {
-  var tooltip      = document.getElementById("map-tooltip");
-  var sortedStates = getSortedStates();
+  var tooltip = document.getElementById("map-tooltip");
 
   Object.entries(STATE_DATA).forEach(function(entry) {
     var id    = entry[0];
     var state = entry[1];
     var el    = document.getElementById(id);
     if (!el) return;
-    var rank = sortedStates.findIndex(function(s) { return s[0] === id; }) + 1;
 
     el.addEventListener("mousemove", function(e) {
+      var rank = getSortedStates().findIndex(function(s) { return s[0] === id; }) + 1;
       tooltip.style.display = "block";
       tooltip.style.left    = (e.clientX + 14) + "px";
       tooltip.style.top     = (e.clientY - 70) + "px";
@@ -366,7 +363,7 @@ function carregarGastoMedio() {
     .then(function (dados) {
       if (!dados) return;
       var el = document.getElementById("kpi-gasto-medio");
-      if (el) el.textContent = dados.gastoMedio + " (" + dados.porcentagem + "%)";
+      if (el) el.textContent = "R$ " + dados.gastoMedio.toLocaleString("pt-BR");
     })
     .catch(function (erro) {
       console.error("Erro ao carregar gasto predominante:", erro);

@@ -14,12 +14,12 @@ function buscarTopRegiao() {
     return database.executar(instrucaoSql);
 }
 
-// Tipos de gasto turístico (percentual)
+// Tipos de gasto turístico por valor
 function buscarEventosPorTipo() {
     var instrucaoSql = `
-        SELECT tipo AS tipoEvento, porcentagem AS totalEventos
+        SELECT tipo AS tipoEvento, valor AS totalEventos
         FROM gasto
-        ORDER BY porcentagem DESC
+        ORDER BY valor DESC
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -51,13 +51,11 @@ function buscarDuracaoMediaEvento() {
     return database.executar(instrucaoSql);
 }
 
-// Categoria de gasto com maior percentual de turistas
+// Gasto médio do turista — soma dos valores por categoria extraídos do Excel
 function buscarMediaPublicoEvento() {
     var instrucaoSql = `
-        SELECT tipo AS gastoMedio, porcentagem
+        SELECT ROUND(SUM(valor)) AS gastoMedio
         FROM gasto
-        ORDER BY porcentagem DESC
-        LIMIT 1
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

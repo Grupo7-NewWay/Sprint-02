@@ -61,6 +61,10 @@ public class LeitorExcel {
                     warns.add("Público inválido");
                 }
 
+                if (estado == null || estado.isBlank()) {
+                    warns.add("Estado não identificado (coluna 2 vazia) — evento não contabilizado no mapa");
+                }
+
                 LocalDate dtInicial = getData(row.getCell(9));
                 LocalDate dtTermino = getData(row.getCell(10));
 
