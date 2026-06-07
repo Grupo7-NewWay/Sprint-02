@@ -15,7 +15,8 @@ cp /home/ubuntu/Sprint-02/java/apache-poi-eventos/target/apache-poi-eventos-1.0-
 
 # 3. Subir Docker Compose
 cd /home/ubuntu/Sprint-02
-docker-compose up -d --build --no-cache
+docker-compose build --no-cache
+docker-compose up -d
 
 # 4. Aguarda MySQL ficar pronto
 echo "Aguardando MySQL ficar pronto..."
