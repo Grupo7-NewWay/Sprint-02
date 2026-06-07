@@ -1,5 +1,5 @@
-@import url('../../../../../public/css/pacotes.css'); 
-@import url('../../../../../public/css/dashboard.css');
+@import url('../../../public/css/pacotes.css');
+@import url('../../../public/css/dashboard.css');
 
 .cardPacote button {
     font-family: 'DM Sans', sans-serif;
