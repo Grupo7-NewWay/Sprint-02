@@ -218,8 +218,8 @@ public class LeitorExcel {
 
             Sheet sheet = workbook.getSheet("SÍNTESE BRASIL_3.1-3.2");
 
-            // Anos estão na linha 9, colunas 2 (2019) e 4 (2020)
-            int[] colunasDados = {2, 4};
+            // Anos estão na linha 9, colunas 3 (2019) e 5 (2020)
+            int[] colunasDados = {3, 5};
 
             for (int cIdx : colunasDados) {
                 Row rowAno = sheet.getRow(9);
