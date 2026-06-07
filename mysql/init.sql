@@ -12,7 +12,7 @@ create table logs(
  
 create table chegada(
     idChegada int primary key auto_increment,
-    ano year not null
+    ano int not null
 );
  
 create table chegada_mes(

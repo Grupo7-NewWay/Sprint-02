@@ -31,7 +31,7 @@ public class ChegadasDAO {
         try (Connection con = ConexaoBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            ps.setObject(1, c.getAno());
+            ps.setInt(1, c.getAno());
             ps.executeUpdate();
 
             var rs = ps.getGeneratedKeys();
