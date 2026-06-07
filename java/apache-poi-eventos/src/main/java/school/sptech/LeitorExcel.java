@@ -9,10 +9,43 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LeitorExcel {
     private final DataFormatter formatter = new DataFormatter();
+
+    private static final Map<String, String> IBGE_ESTADOS = new HashMap<>();
+    static {
+        IBGE_ESTADOS.put("11", "Rondônia");
+        IBGE_ESTADOS.put("12", "Acre");
+        IBGE_ESTADOS.put("13", "Amazonas");
+        IBGE_ESTADOS.put("14", "Roraima");
+        IBGE_ESTADOS.put("15", "Pará");
+        IBGE_ESTADOS.put("16", "Amapá");
+        IBGE_ESTADOS.put("17", "Tocantins");
+        IBGE_ESTADOS.put("21", "Maranhão");
+        IBGE_ESTADOS.put("22", "Piauí");
+        IBGE_ESTADOS.put("23", "Ceará");
+        IBGE_ESTADOS.put("24", "Rio Grande do Norte");
+        IBGE_ESTADOS.put("25", "Paraíba");
+        IBGE_ESTADOS.put("26", "Pernambuco");
+        IBGE_ESTADOS.put("27", "Alagoas");
+        IBGE_ESTADOS.put("28", "Sergipe");
+        IBGE_ESTADOS.put("29", "Bahia");
+        IBGE_ESTADOS.put("31", "Minas Gerais");
+        IBGE_ESTADOS.put("32", "Espírito Santo");
+        IBGE_ESTADOS.put("33", "Rio de Janeiro");
+        IBGE_ESTADOS.put("35", "São Paulo");
+        IBGE_ESTADOS.put("41", "Paraná");
+        IBGE_ESTADOS.put("42", "Santa Catarina");
+        IBGE_ESTADOS.put("43", "Rio Grande do Sul");
+        IBGE_ESTADOS.put("50", "Mato Grosso do Sul");
+        IBGE_ESTADOS.put("51", "Mato Grosso");
+        IBGE_ESTADOS.put("52", "Goiás");
+        IBGE_ESTADOS.put("53", "Distrito Federal");
+    }
 
     public List<Eventos> extrairEventos() {
 
@@ -40,7 +73,7 @@ public class LeitorExcel {
                 boolean erroCritico = false;
 
                 String municipio = getString(row, 1);
-                String estado = getString(row, 2);
+                String estado = getEstadoPorGeocodigo(row, 32);
                 String nomeEvento = getString(row, 3);
                 String tipoEvento = getString(row, 13);
                 Integer publico = getInteger(row, 18);
@@ -223,6 +256,19 @@ public class LeitorExcel {
         } catch (Exception e) {
             logDao.salvar("ERROR", "Erro ao processar chegadas: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private String getEstadoPorGeocodigo(Row row, int index) {
+        try {
+            Cell cell = row.getCell(index);
+            if (cell == null) return null;
+            long codigo = (long) cell.getNumericCellValue();
+            String codigoStr = String.valueOf(codigo);
+            if (codigoStr.length() < 2) return null;
+            return IBGE_ESTADOS.get(codigoStr.substring(0, 2));
+        } catch (Exception e) {
+            return null;
         }
     }
 
