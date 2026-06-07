@@ -285,7 +285,12 @@ public class LeitorExcel {
     private Integer getInteger(Row row, int index) {
         try {
             Cell cell = row.getCell(index);
-            return cell == null ? null : (int) cell.getNumericCellValue();
+            if (cell == null) return null;
+            if (cell.getCellType() == CellType.NUMERIC) {
+                return (int) cell.getNumericCellValue();
+            }
+            String val = formatter.formatCellValue(cell).replaceAll("[^\\d-]", "").trim();
+            return val.isEmpty() ? null : Integer.parseInt(val);
         } catch (Exception e) {
             return null;
         }
