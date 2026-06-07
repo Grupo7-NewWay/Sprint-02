@@ -230,10 +230,10 @@ public class LeitorExcel {
                 if (ano != null) {
                     int idChegada = chegadasDAO.salvar(new Chegadas(ano));
 
-                    // Estados: linhas 12-28 — coluna 0 = nome do estado
+                    // Estados: linhas 12-28 — coluna 1 = nome do estado
                     for (int j = 12; j <= 28; j++) {
                         Row row = sheet.getRow(j);
-                        String localidade = getString(row, 0);
+                        String localidade = getString(row, 1);
                         Integer qtd = getInteger(row, cIdx);
                         System.out.println("DEBUG estado j=" + j + " localidade=" + localidade + " qtd=" + qtd);
 
@@ -244,10 +244,10 @@ public class LeitorExcel {
                         }
                     }
 
-                    // Meses: linhas 46-57 — coluna 0 = nome do mês
+                    // Meses: linhas 46-57 — coluna 1 = nome do mês
                     for (int j = 46; j <= 57; j++) {
                         Row row = sheet.getRow(j);
-                        String mes = getString(row, 0);
+                        String mes = getString(row, 1);
                         Integer qtdMes = getInteger(row, cIdx);
                         System.out.println("DEBUG mes j=" + j + " mes=" + mes + " qtdMes=" + qtdMes);
 
