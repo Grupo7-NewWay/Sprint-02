@@ -7,6 +7,9 @@ RUN npm install
 
 COPY . .
 
+RUN npx ng build
+RUN npm install -g http-server
+
 EXPOSE 4200
 
-CMD ["npm", "start", "--", "--host", "0.0.0.0", "--port", "4200", "--allowed-hosts=all"]
+CMD ["http-server", "dist/frontend-angular/browser", "-p", "4200"]

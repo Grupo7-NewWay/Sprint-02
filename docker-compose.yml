@@ -105,6 +105,10 @@ services:
 
       - "4200:4200"
 
+    enviroment:
+      - NG_CLI_ANALYTICS=false
+      - ALLOWED_HOSTS=all
+
     networks:
       - newway-network
 
