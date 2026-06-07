@@ -4,6 +4,10 @@ var router = express.Router();
 
 var eventosController = require("../controllers/eventosController");
 
+router.get("/listarDashboard/:fkAgencia", function(req, res) {
+    eventosController.listarDashboard(req, res);
+});
+
 router.post("/publicarEvento", function (req, res) {
     eventosController.publicarEvento(req, res);
 });

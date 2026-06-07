@@ -161,6 +161,60 @@ function bindMapInteractions() {
   });
 }
 
+function carregarEventosDashboard() {
+
+    const idAgencia = sessionStorage.ID_AGENCIA;
+
+    fetch(`/eventos/listarDashboard/${idAgencia}`)
+
+        .then(function(resposta) {
+
+            if (!resposta.ok) {
+                throw new Error("Erro ao buscar eventos");
+            }
+
+            return resposta.json();
+        })
+
+        .then(function(eventos) {
+
+            const container =
+                document.getElementById("lista-eventos-dashboard");
+
+            container.innerHTML = "";
+
+            eventos.forEach(function(evento) {
+
+                const hoje = new Date();
+
+                const dataEvento = new Date(evento.dataEvento);
+
+                const diferencaMs =
+                    dataEvento.getTime() - hoje.getTime();
+
+                const dias =
+                    Math.ceil(diferencaMs / (1000 * 60 * 60 * 24));
+
+                container.innerHTML += `
+                    <div class="event-item">
+                        <p class="event-item__name">
+                            ${evento.nomeEvento} — ${evento.localidade}
+                        </p>
+                        <span class="event-item__date">
+                            em ${dias} dias
+                        </span>
+                    </div>
+                `;
+            });
+
+        })
+
+        .catch(function(erro) {
+            console.error("Erro ao carregar eventos:", erro);
+        });
+
+}
+
 /* === LINE CHART === */
 var lineChartInstance = null;
 
@@ -364,6 +418,7 @@ function initDashboard() {
   carregarGastoMedio();
   carregarTaxaConversao();
   carregarTotalMensalVisitas();
+  carregarEventosDashboard();
 }
 
 initDashboard();

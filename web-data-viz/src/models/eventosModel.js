@@ -1,5 +1,24 @@
 var database = require("../database/config");
 
+function listarDashboard(fkAgencia) {
+
+    var sql = `
+        SELECT
+            idEvento,
+            nomeEvento,
+            localidade,
+            dataEvento
+        FROM evento
+        WHERE fkAgencia = ${fkAgencia}
+        ORDER BY dataEvento ASC
+        LIMIT 5;
+    `;
+
+    console.log(sql);
+
+    return database.executar(sql);
+}
+
 function publicarEvento(
 
     nome,
@@ -88,6 +107,7 @@ module.exports = {
     publicarEvento,
     carregarEventos,
     atualizarEvento,
-    deletarEvento
+    deletarEvento,
+    listarDashboard
 
 };

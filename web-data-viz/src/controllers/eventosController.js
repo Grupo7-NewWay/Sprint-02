@@ -10,6 +10,22 @@ function normalizarData(data) {
     return data;
 }
 
+function listarDashboard(req, res) {
+
+    var fkAgencia = req.params.fkAgencia;
+
+    eventosModel.listarDashboard(fkAgencia)
+
+        .then(function(resultado) {
+            res.json(resultado);
+        })
+
+        .catch(function(erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 function publicarEvento(req, res) {
 
     console.log(req.body);
@@ -151,6 +167,7 @@ module.exports = {
     publicarEvento,
     carregarEventos,
     atualizarEvento,
-    deletarEvento
+    deletarEvento,
+    listarDashboard
 
 };
