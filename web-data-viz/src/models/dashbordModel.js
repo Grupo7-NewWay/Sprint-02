@@ -51,11 +51,13 @@ function buscarDuracaoMediaEvento() {
     return database.executar(instrucaoSql);
 }
 
-// Média mensal de chegadas (usado como "público médio")
+// Categoria de gasto com maior percentual de turistas
 function buscarMediaPublicoEvento() {
     var instrucaoSql = `
-        SELECT ROUND(AVG(qtdChegadaMes)) AS mediaPublico
-        FROM chegada_mes
+        SELECT tipo AS gastoMedio, porcentagem
+        FROM gasto
+        ORDER BY porcentagem DESC
+        LIMIT 1
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -85,30 +87,18 @@ function buscarTotalMensalVisitas() {
     return database.executar(instrucaoSql);
 }
 
-// Últimos 6 registros mensais disponíveis no banco
+// Últimos 6 meses com público de eventos cadastrados
 function buscarHistoricoVisitas() {
     var instrucaoSql = `
         SELECT ano, numeroMes, totalVisitas FROM (
             SELECT
-                c.ano,
-                CASE cm.mes
-                    WHEN 'Janeiro'   THEN 1
-                    WHEN 'Fevereiro' THEN 2
-                    WHEN 'Março'     THEN 3
-                    WHEN 'Abril'     THEN 4
-                    WHEN 'Maio'      THEN 5
-                    WHEN 'Junho'     THEN 6
-                    WHEN 'Julho'     THEN 7
-                    WHEN 'Agosto'    THEN 8
-                    WHEN 'Setembro'  THEN 9
-                    WHEN 'Outubro'   THEN 10
-                    WHEN 'Novembro'  THEN 11
-                    WHEN 'Dezembro'  THEN 12
-                END AS numeroMes,
-                cm.qtdChegadaMes AS totalVisitas
-            FROM chegada_mes cm
-            JOIN chegada c ON c.idChegada = cm.fkChegada
-            ORDER BY c.ano DESC, numeroMes DESC
+                YEAR(dtInicial) AS ano,
+                MONTH(dtInicial) AS numeroMes,
+                SUM(publicoEsperado) AS totalVisitas
+            FROM eventos
+            WHERE dtInicial IS NOT NULL
+            GROUP BY YEAR(dtInicial), MONTH(dtInicial)
+            ORDER BY ano DESC, numeroMes DESC
             LIMIT 6
         ) AS sub
         ORDER BY ano ASC, numeroMes ASC
@@ -117,13 +107,14 @@ function buscarHistoricoVisitas() {
     return database.executar(instrucaoSql);
 }
 
-// Visitas por UF — usa tabela eventos (populada pelo LeitorExcel)
+// Visitas por estado — usa tabela eventos (populada pelo LeitorExcel)
 // Retorna 204 se vazia; o frontend mantém os dados de fallback
 function buscarVisitasPorEstado() {
     var instrucaoSql = `
-        SELECT uf, SUM(publicoEsperado) AS totalVisitas
+        SELECT estado, SUM(publicoEsperado) AS totalVisitas
         FROM eventos
-        GROUP BY uf
+        WHERE estado IS NOT NULL AND estado != ''
+        GROUP BY estado
         ORDER BY totalVisitas DESC
     `;
     console.log("Executando a instrucao SQL: \n" + instrucaoSql);

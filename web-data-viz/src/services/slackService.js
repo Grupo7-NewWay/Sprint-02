@@ -41,6 +41,10 @@ function agora() {
 }
 
 function enviar(texto) {
+    if (!WEBHOOK_URL) {
+        console.warn("SLACK_WEBHOOK_URL não configurada — notificação ignorada.");
+        return Promise.resolve();
+    }
     var mencoes = buildMencoes();
     var mensagem = mencoes ? mencoes + " " + texto : texto;
     var body = JSON.stringify({ text: mensagem });
@@ -76,6 +80,10 @@ function notificarErro(titulo, msg)  { return enviar(":x: *ERRO: " + titulo + "*
 function alertaDados(descricao)      { return enviar(":warning: *Alerta de Dados:* " + descricao + " — " + agora()); }
 
 function usuarioCadastrado(nome, slackId) {
+    if (!WEBHOOK_URL) {
+        console.warn("SLACK_WEBHOOK_URL não configurada — notificação ignorada.");
+        return Promise.resolve();
+    }
     var texto = ":bell: <@" + slackId + "> Olá, *" + nome + "*! Você foi adicionado às notificações do sistema NewWay. — " + agora();
     var body = JSON.stringify({ text: texto });
     var url = new URL(WEBHOOK_URL);

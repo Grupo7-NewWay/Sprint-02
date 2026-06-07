@@ -157,11 +157,11 @@ create table if not exists eventos(
     idEventos       int primary key auto_increment,
     nomeEvento      varchar(255) not null,
     municipio       varchar(255),
+    estado          varchar(100),
     dtInicial       date,
     dtTermino       date,
     tipoEvento      varchar(100),
-    publicoEsperado int,
-    uf              char(2)
+    publicoEsperado int
 );
 
 INSERT INTO agencia (nome, telefone, email, codigoAcesso) VALUES

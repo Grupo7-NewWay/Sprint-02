@@ -67,7 +67,7 @@ function buscarMediaPublicoEvento(req, res) {
     console.log("Recuperando media de publico por evento");
 
     dashboardModel.buscarMediaPublicoEvento().then(function (resultado) {
-        if (resultado.length > 0 && resultado[0].mediaPublico !== null) {
+        if (resultado.length > 0 && resultado[0].gastoMedio !== null) {
             res.status(200).json(resultado[0]);
         } else {
             res.status(204).send("Nenhum resultado encontrado!");
@@ -130,6 +130,18 @@ function buscarHistoricoVisitas(req, res) {
     });
 }
 
+var ESTADO_PARA_ID = {
+    "Acre": "BRAC", "Alagoas": "BRAL", "Amapá": "BRAP", "Amazonas": "BRAM",
+    "Bahia": "BRBA", "Ceará": "BRCE", "Distrito Federal": "BRDF",
+    "Espírito Santo": "BRES", "Goiás": "BRGO", "Maranhão": "BRMA",
+    "Mato Grosso": "BRMT", "Mato Grosso do Sul": "BRMS", "Minas Gerais": "BRMG",
+    "Pará": "BRPA", "Paraíba": "BRPB", "Paraná": "BRPR", "Pernambuco": "BRPE",
+    "Piauí": "BRPI", "Rio de Janeiro": "BRRJ", "Rio Grande do Norte": "BRRN",
+    "Rio Grande do Sul": "BRRS", "Rondônia": "BRRO", "Roraima": "BRRR",
+    "Santa Catarina": "BRSC", "São Paulo": "BRSP", "Sergipe": "BRSE",
+    "Tocantins": "BRTO"
+};
+
 function buscarVisitasPorEstado(req, res) {
     console.log("Recuperando visitas por estado");
 
@@ -137,8 +149,12 @@ function buscarVisitasPorEstado(req, res) {
         if (resultado.length > 0) {
             var mapa = {};
             resultado.forEach(function (r) {
-                mapa["BR" + r.uf] = r.totalVisitas;
+                var id = ESTADO_PARA_ID[r.estado];
+                if (id) mapa[id] = r.totalVisitas;
             });
+            if (Object.keys(mapa).length === 0) {
+                return res.status(204).send("Nenhum estado reconhecido!");
+            }
             res.status(200).json(mapa);
         } else {
             res.status(204).send("Nenhum resultado encontrado!");

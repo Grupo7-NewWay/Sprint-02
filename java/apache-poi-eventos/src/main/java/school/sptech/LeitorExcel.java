@@ -40,6 +40,7 @@ public class LeitorExcel {
                 boolean erroCritico = false;
 
                 String municipio = getString(row, 1);
+                String estado = getString(row, 2);
                 String nomeEvento = getString(row, 3);
                 String tipoEvento = getString(row, 13);
                 Integer publico = getInteger(row, 18);
@@ -74,6 +75,7 @@ public class LeitorExcel {
                 Eventos evento = new Eventos(
                         nomeEvento,
                         municipio,
+                        estado,
                         dtInicial,
                         dtTermino,
                         tipoEvento,
@@ -121,10 +123,10 @@ public class LeitorExcel {
             for (int i = 38; i <= 40; i++) {
 
                 Row row = sheet.getRow(i);
-                String tipo = getString(row, 3);
+                String tipo = getString(row, 1);
                 Double valorGasto = getDouble(row, 3);
 
-                if (valorGasto != null && tipo != null) {
+                if (valorGasto != null && tipo != null && !tipo.isBlank()) {
                     Gasto gasto = new Gasto(tipo, valorGasto);
                     gastoDAO.salvar(gasto);
                 }

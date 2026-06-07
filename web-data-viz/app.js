@@ -68,14 +68,26 @@ app.post("/api/slack/notificar", function (req, res) {
     res.status(200).json({ ok: true });
 });
 
-function encerrar(sinal) {
+var encerrando = false;
+
+function encerrar() {
+    if (encerrando) return;
+    encerrando = true;
+
+    var forceSair = setTimeout(function () {
+        console.warn("Timeout ao notificar Slack — encerrando mesmo assim.");
+        process.exit(0);
+    }, 5000);
+
     slackService.sistemaDesligado().then(function () {
+        clearTimeout(forceSair);
         process.exit(0);
     });
 }
 
-process.on("SIGINT",  encerrar);
-process.on("SIGTERM", encerrar);
+process.on("SIGINT",   encerrar);
+process.on("SIGTERM",  encerrar);
+process.on("SIGBREAK", encerrar);
 
 app.listen(PORTA_APP, function () {
     slackService.sistemaLigado();

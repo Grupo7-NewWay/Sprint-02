@@ -10,6 +10,7 @@ public class EventosDao {
                 "(idEvento int primary key auto_increment," +
                 "nomeEvento varchar(255) not null," +
                 "municipio varchar(255)," +
+                "estado varchar(100)," +
                 "dtInicial date," +
                 "dtTermino date," +
                 "tipoEvento varchar(255)," +
@@ -34,8 +35,8 @@ public class EventosDao {
 
         String sql = """
             INSERT INTO eventos
-            (nomeEvento, municipio, dtInicial, dtTermino, tipoEvento, publicoEsperado)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (nomeEvento, municipio, estado, dtInicial, dtTermino, tipoEvento, publicoEsperado)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
 
         try (Connection con = ConexaoBD.conectar();
@@ -43,10 +44,11 @@ public class EventosDao {
 
             ps.setString(1, e.getNomeEvento());
             ps.setString(2, e.getlocalidade());
-            ps.setObject(3, e.getDtInicial());
-            ps.setObject(4, e.getDtTermino());
-            ps.setString(5, e.getTipoEvento());
-            ps.setObject(6, e.getPublicoEsperado());
+            ps.setString(3, e.getEstado());
+            ps.setObject(4, e.getDtInicial());
+            ps.setObject(5, e.getDtTermino());
+            ps.setString(6, e.getTipoEvento());
+            ps.setObject(7, e.getPublicoEsperado());
 
             ps.executeUpdate();
 

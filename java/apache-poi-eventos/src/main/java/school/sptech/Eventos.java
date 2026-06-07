@@ -7,14 +7,16 @@ public class Eventos {
 
     private String nomeEvento;
     private String localidade;
+    private String estado;
     private LocalDate dtInicial;
     private LocalDate dtTermino;
     private String tipoEvento;
     private Integer publicoEsperado;
 
-    public Eventos(String nomeEvento, String localidade, LocalDate dtInicial, LocalDate dtTermino, String tipoEvento, Integer publicoEsperado) {
+    public Eventos(String nomeEvento, String localidade, String estado, LocalDate dtInicial, LocalDate dtTermino, String tipoEvento, Integer publicoEsperado) {
         this.nomeEvento = nomeEvento;
         this.localidade = localidade;
+        this.estado = estado;
         this.dtInicial = dtInicial;
         this.dtTermino = dtTermino;
         this.tipoEvento = tipoEvento;
@@ -27,6 +29,14 @@ public class Eventos {
 
     public void setlocalidade(String localidade) {
         this.localidade = localidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getNomeEvento() {
@@ -73,6 +83,7 @@ public class Eventos {
     public String toString() {
         return "Eventos{" +
                 "localidade='" + localidade + '\'' +
+                ", estado='" + estado + '\'' +
                 ", nomeEvento='" + nomeEvento + '\'' +
                 ", dtInicial=" + dtInicial +
                 ", dtTermino=" + dtTermino +

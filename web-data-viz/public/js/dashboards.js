@@ -360,16 +360,16 @@ function carregarGastoMedio() {
   fetch("/dashboard/media-publico-evento")
     .then(function (res) {
       if (res.status === 204) return null;
-      if (!res.ok) throw new Error("Erro ao buscar media de publico");
+      if (!res.ok) throw new Error("Erro ao buscar gasto predominante");
       return res.json();
     })
     .then(function (dados) {
       if (!dados) return;
       var el = document.getElementById("kpi-gasto-medio");
-      if (el) el.textContent = dados.mediaPublico.toLocaleString("pt-BR");
+      if (el) el.textContent = dados.gastoMedio + " (" + dados.porcentagem + "%)";
     })
     .catch(function (erro) {
-      console.error("Erro ao carregar media de publico:", erro);
+      console.error("Erro ao carregar gasto predominante:", erro);
     });
 }
 
